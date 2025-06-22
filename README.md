@@ -7,7 +7,7 @@
 ![Testing: pytest](https://img.shields.io/badge/testing-pytest-green)
 ![Coverage](https://img.shields.io/badge/coverage-21%25-red)
 ![Security: bandit](https://img.shields.io/badge/security-bandit-yellow)
-![License: MIT](https://img.shields.io/badge/license-MIT-blue)
+![License: GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue)
 
 A modern Python HTTP server with embedded Django integration, featuring modular architecture, comprehensive testing, and best practices.
 
@@ -427,4 +427,4 @@ See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes, new features
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the GPL v3 License - see the [LICENSE](LICENSE) file for details.

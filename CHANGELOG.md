@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **License updated from MIT to GPL v3.0** - All source files now include GPL license headers
+- **Project metadata updated** - pyproject.toml and documentation reflect GPL v3.0 licensing
+
 ## [0.1.1] - 2025-06-22
 
 ### Added

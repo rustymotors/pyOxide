@@ -17,6 +17,29 @@ This is a Python project using modern development practices. When working on thi
 - Use `pyproject.toml` for project configuration
 - Follow the existing module structure
 
+## License Compliance (GPL v3.0)
+- **This project is licensed under GPL v3.0** - ensure all contributions comply
+- **Add GPL license headers** to all new Python source files using this template:
+  ```python
+  # Copyright (C) 2025 rustymotors
+  #
+  # This program is free software: you can redistribute it and/or modify
+  # it under the terms of the GNU General Public License as published by
+  # the Free Software Foundation, either version 3 of the License, or
+  # (at your option) any later version.
+  #
+  # This program is distributed in the hope that it will be useful,
+  # but WITHOUT ANY WARRANTY; without even the implied warranty of
+  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  # GNU General Public License for more details.
+  #
+  # You should have received a copy of the GNU General Public License
+  # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ```
+- **Update project metadata** when license-related changes are made
+- **Document license changes** in CHANGELOG.md under appropriate sections
+- **Ensure compatibility** with GPL v3.0 for any new dependencies
+
 ## Development Tools
 - Use pytest for testing
 - Use mypy for type checking
@@ -29,6 +52,9 @@ This is a Python project using modern development practices. When working on thi
 - Use meaningful variable and function names
 - Add appropriate error handling
 - Document complex logic with comments
+- **Include GPL license header** in all new Python source files (see License Compliance section)
+- **Update copyright years** when making substantial changes to existing files
+- **Maintain GPL compliance** when adding new dependencies or external code
 
 ## HTML/CSS Templates
 - **NEVER mix HTML/CSS directly in Python code**
