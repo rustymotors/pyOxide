@@ -148,14 +148,23 @@ User.objects.create_superuser('newuser', 'email@example.com', 'password123')
 # Run all tests
 pytest
 
-# Run with coverage
-pytest --cov=src
+# Run with coverage (HTML + XML + terminal output)
+pytest --cov=src --cov-report=html --cov-report=xml --cov-report=term-missing
 
 # Run specific test file
 pytest tests/test_http_handler.py
 
 # Run with verbose output
 pytest -v
+
+# Run coverage on existing .coverage data
+coverage report
+
+# Generate HTML coverage report only
+coverage html
+
+# Generate XML coverage report only
+coverage xml
 ```
 
 ### Code Quality
@@ -196,7 +205,10 @@ Use the integrated VS Code tasks for development:
 
 - **Ctrl+Shift+P** → "Tasks: Run Task"
   - `Run Python Application` - Start the server
-  - `Run Tests` - Execute all tests
+  - `Run Tests` - Execute all tests (no coverage)
+  - `Run Tests with Coverage` - Execute tests with HTML/XML coverage reports
+  - `Coverage Report Only` - Generate coverage report from existing data
+  - `Open Coverage HTML Report` - Run tests with coverage and open HTML report
   - `Format Code` - Black formatting
   - `Type Check` - MyPy type checking
   - `Lint Code` - Flake8 linting

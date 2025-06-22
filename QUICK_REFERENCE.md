@@ -48,6 +48,15 @@ curl -s http://localhost:3000/status | jq
 # Run tests
 pytest
 
+# Run tests with coverage
+pytest --cov=src --cov-report=html --cov-report=xml --cov-report=term-missing
+
+# Generate coverage report only
+coverage report
+
+# Open HTML coverage report
+open htmlcov/index.html
+
 # Format code
 black src/ tests/
 
