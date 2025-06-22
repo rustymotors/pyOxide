@@ -1,9 +1,10 @@
 """URL configuration for embedded Django app."""
 
-from django.contrib import admin
-from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path
+
 from . import views
 
 urlpatterns = [
@@ -17,8 +18,9 @@ urlpatterns = [
 # Serve static files during development
 if settings.DEBUG:
     # Serve Django admin static files
-    import django
     import os
+
+    import django
 
     admin_static_root = os.path.join(django.__path__[0], "contrib", "admin", "static")
     urlpatterns += static("/static/", document_root=admin_static_root)

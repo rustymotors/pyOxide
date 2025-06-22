@@ -1,6 +1,7 @@
 """Command handling module for pyOxide application."""
 
-from typing import Dict, Callable
+from typing import Callable, Dict
+
 from .server_manager import ServerManager
 
 

@@ -107,8 +107,11 @@
 		{
 			"label": "Format Code",
 			"type": "shell",
-			"command": "${workspaceFolder}/.venv/bin/python",
-			"args": ["-m", "black", "src/", "tests/"],
+			"command": "bash",
+			"args": [
+				"-c",
+				"${workspaceFolder}/.venv/bin/python -m isort src/ tests/ && ${workspaceFolder}/.venv/bin/python -m black src/ tests/"
+			],
 			"group": "build",
 			"presentation": {
 				"echo": true,

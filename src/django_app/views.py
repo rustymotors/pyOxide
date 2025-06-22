@@ -1,11 +1,12 @@
 """Django views for pyOxide admin interface."""
 
 import json
-from django.http import JsonResponse, HttpResponse
+from typing import Any
+
 from django.contrib.auth.models import User
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from typing import Any
 
 
 def api_info(request: Any) -> JsonResponse:
@@ -89,8 +90,9 @@ def user_management(request: Any) -> JsonResponse:
 
 def dashboard(request: Any) -> HttpResponse:
     """Render the admin dashboard using Jinja2 template."""
-    from jinja2 import Environment, FileSystemLoader
     import os
+
+    from jinja2 import Environment, FileSystemLoader
 
     # Set up Jinja2 environment
     template_dir = os.path.join(

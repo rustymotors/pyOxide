@@ -1,7 +1,8 @@
 """Admin configuration for pyOxide models."""
 
 from django.contrib import admin
-from .models import ServerLog, APIRequest, Configuration
+
+from .models import APIRequest, Configuration, ServerLog
 
 
 @admin.register(ServerLog)

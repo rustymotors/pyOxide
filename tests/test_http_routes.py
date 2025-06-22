@@ -2,8 +2,8 @@
 
 import json
 from io import BytesIO
-from unittest.mock import Mock, patch
 from typing import Any, Dict, Optional
+from unittest.mock import Mock, patch
 
 from src.http_handler import PyOxideHTTPHandler
 

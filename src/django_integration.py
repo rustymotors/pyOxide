@@ -1,14 +1,14 @@
 """Django WSGI integration for pyOxide HTTP server."""
 
+import io
 import os
 import sys
-import io
-from typing import Any, Dict, List, Tuple, Callable
+from typing import Any, Callable, Dict, List, Tuple
 from urllib.parse import unquote
 
 import django
-from django.core.wsgi import get_wsgi_application
 from django.conf import settings
+from django.core.wsgi import get_wsgi_application
 
 
 class DjangoWSGIIntegration:

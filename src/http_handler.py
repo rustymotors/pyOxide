@@ -8,6 +8,7 @@ from typing import Any, Callable, Dict
 from urllib.parse import urlparse
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+
 from .django_integration import DjangoWSGIIntegration
 
 
