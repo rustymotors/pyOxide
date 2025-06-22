@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 pyOxide HTTP Handler - Custom HTTP request handling with Django integration.

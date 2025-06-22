@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 pyOxide Django Integration - WSGI application wrapper for Django integration.

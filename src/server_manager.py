@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 pyOxide Server Manager - HTTP and TCP server lifecycle management.
