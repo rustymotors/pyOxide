@@ -4,7 +4,7 @@ import json
 import os
 import time
 from http.server import BaseHTTPRequestHandler
-from typing import Any, Dict
+from typing import Any, Callable, Dict
 from urllib.parse import urlparse
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -23,36 +23,44 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             loader=FileSystemLoader(template_dir),
             autoescape=select_autoescape(["html", "xml"]),
         )
+
+        # Define route mappings
+        self.get_routes: Dict[str, Callable[[], None]] = {
+            "/": self.route_home,
+            "/status": self.route_status,
+            "/api/info": self.route_api_info,
+            "/health": self.route_health,
+        }
+
+        self.post_routes: Dict[str, Callable[[], None]] = {
+            "/api/echo": self.route_api_echo,
+        }
+
         super().__init__(*args, **kwargs)
 
     def do_GET(self) -> None:
-        """Handle GET requests."""
+        """Handle GET requests using route mapping."""
         parsed_path = urlparse(self.path)
         path = parsed_path.path
 
-        if path == "/":
-            self._handle_root()
-        elif path == "/status":
-            self._handle_status()
-        elif path == "/api/info":
-            self._handle_api_info()
-        elif path == "/health":
-            self._handle_health()
+        if path in self.get_routes:
+            self.get_routes[path]()
         else:
-            self._handle_not_found()
+            self.route_not_found()
 
     def do_POST(self) -> None:
-        """Handle POST requests."""
+        """Handle POST requests using route mapping."""
         parsed_path = urlparse(self.path)
         path = parsed_path.path
 
-        if path == "/api/echo":
-            self._handle_api_echo()
+        if path in self.post_routes:
+            self.post_routes[path]()
         else:
-            self._handle_method_not_allowed()
+            self.route_method_not_allowed()
 
-    def _handle_root(self) -> None:
-        """Handle root path requests."""
+    # Route handlers
+    def route_home(self) -> None:
+        """Handle home page route (/)."""
         template = self.jinja_env.get_template("home.html")
 
         endpoints = [
@@ -88,8 +96,8 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
 
         self._send_html_response(html_content)
 
-    def _handle_status(self) -> None:
-        """Handle status requests."""
+    def route_status(self) -> None:
+        """Handle status route (/status)."""
         status_data: Dict[str, Any] = {
             "server": "pyOxide HTTP Server",
             "status": "running",
@@ -113,8 +121,8 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         }
         self._send_json_response(status_data)
 
-    def _handle_health(self) -> None:
-        """Handle health check requests."""
+    def route_health(self) -> None:
+        """Handle health check route (/health)."""
         health_data = {
             "status": "healthy",
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -122,8 +130,8 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         }
         self._send_json_response(health_data)
 
-    def _handle_api_info(self) -> None:
-        """Handle API info requests."""
+    def route_api_info(self) -> None:
+        """Handle API info route (/api/info)."""
         api_info: Dict[str, Any] = {
             "name": "pyOxide API",
             "version": "0.1.0",
@@ -138,8 +146,8 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         }
         self._send_json_response(api_info)
 
-    def _handle_api_echo(self) -> None:
-        """Handle API echo requests."""
+    def route_api_echo(self) -> None:
+        """Handle API echo route (POST /api/echo)."""
         try:
             content_length = int(self.headers.get("Content-Length", 0))
             post_data = self.rfile.read(content_length).decode("utf-8")
@@ -157,14 +165,14 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         except Exception as e:
             self._send_error_response(500, f"Server error: {str(e)}")
 
-    def _handle_not_found(self) -> None:
-        """Handle 404 not found responses."""
+    def route_not_found(self) -> None:
+        """Handle 404 not found route."""
         template = self.jinja_env.get_template("404.html")
         error_html = template.render(requested_path=self.path)
         self._send_html_response(error_html, status_code=404)
 
-    def _handle_method_not_allowed(self) -> None:
-        """Handle 405 method not allowed responses."""
+    def route_method_not_allowed(self) -> None:
+        """Handle 405 method not allowed route."""
         self._send_error_response(405, "Method not allowed")
 
     def _send_html_response(self, content: str, status_code: int = 200) -> None:
