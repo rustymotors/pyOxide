@@ -8,6 +8,7 @@ from typing import Any, Callable, Dict
 from urllib.parse import urlparse
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from .django_integration import DjangoWSGIIntegration
 
 
 class PyOxideHTTPHandler(BaseHTTPRequestHandler):
@@ -24,6 +25,13 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             autoescape=select_autoescape(["html", "xml"]),
         )
 
+        # Initialize Django integration
+        try:
+            self.django_integration = DjangoWSGIIntegration()
+        except Exception as e:
+            print(f"Warning: Django integration failed: {e}")
+            self.django_integration = None
+
         # Define route mappings
         self.get_routes: Dict[str, Callable[[], None]] = {
             "/": self.route_home,
@@ -31,6 +39,7 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             "/api/info": self.route_api_info,
             "/health": self.route_health,
             "/AuthLogin": self.route_auth_login,
+            "/test": self.route_test_pages,
         }
 
         self.post_routes: Dict[str, Callable[[], None]] = {
@@ -40,24 +49,53 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         super().__init__(*args, **kwargs)
 
     def do_GET(self) -> None:
-        """Handle GET requests using route mapping."""
+        """Handle GET requests using route mapping or Django."""
         parsed_path = urlparse(self.path)
         path = parsed_path.path
 
+        # Check if this should be handled by Django
+        if self.django_integration and self.django_integration.is_django_path(path):
+            self._handle_django_request("GET")
+            return
+
+        # Handle with our custom routes
         if path in self.get_routes:
             self.get_routes[path]()
         else:
             self.route_not_found()
 
     def do_POST(self) -> None:
-        """Handle POST requests using route mapping."""
+        """Handle POST requests using route mapping or Django."""
         parsed_path = urlparse(self.path)
         path = parsed_path.path
 
+        # Check if this should be handled by Django
+        if self.django_integration and self.django_integration.is_django_path(path):
+            self._handle_django_request("POST")
+            return
+
+        # Handle with our custom routes
         if path in self.post_routes:
             self.post_routes[path]()
         else:
             self.route_method_not_allowed()
+
+    def do_HEAD(self) -> None:
+        """Handle HEAD requests (same as GET but without body)."""
+        parsed_path = urlparse(self.path)
+        path = parsed_path.path
+
+        # Check if this should be handled by Django
+        if self.django_integration and self.django_integration.is_django_path(path):
+            self._handle_django_request("HEAD")
+            return
+
+        # Handle with our custom routes (HEAD same as GET but no body)
+        if path in self.get_routes:
+            # For HEAD requests, we send headers but no body
+            self.get_routes[path]()
+        else:
+            self.route_not_found()
 
     # Route handlers
     def route_home(self) -> None:
@@ -66,6 +104,11 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
 
         endpoints = [
             {"method": "GET", "path": "/", "description": "This page"},
+            {
+                "method": "GET", 
+                "path": "/test", 
+                "description": "🧪 **Interactive test page for all routes**"
+            },
             {
                 "method": "GET",
                 "path": "/status",
@@ -85,6 +128,21 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
                 "method": "GET",
                 "path": "/AuthLogin",
                 "description": "Authentication login page",
+            },
+            {
+                "method": "GET",
+                "path": "/admin/",
+                "description": "Django admin interface",
+            },
+            {
+                "method": "GET",
+                "path": "/dashboard/",
+                "description": "Admin dashboard",
+            },
+            {
+                "method": "GET",
+                "path": "/api/django/",
+                "description": "Django API information",
             },
             {
                 "method": "POST",
@@ -182,6 +240,12 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         html_content = template.render(route_path="/AuthLogin")
         self._send_html_response(html_content)
 
+    def route_test_pages(self) -> None:
+        """Handle test pages route (GET /test)."""
+        template = self.jinja_env.get_template("test_pages.html")
+        html_content = template.render()
+        self._send_html_response(html_content)
+
     def route_not_found(self) -> None:
         """Handle 404 not found route."""
         template = self.jinja_env.get_template("404.html")
@@ -218,6 +282,42 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         }
         self._send_json_response(error_data, status_code)
+
+    def _handle_django_request(self, method: str) -> None:
+        """Handle request through Django WSGI application."""
+        if not self.django_integration:
+            self._send_error_response(500, "Django integration not available")
+            return
+
+        try:
+            # Read request body
+            content_length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(content_length) if content_length > 0 else b""
+
+            # Prepare headers dict
+            headers = {}
+            for header_name in self.headers:
+                headers[header_name.lower()] = self.headers[header_name]
+
+            # Call Django integration
+            status_code, response_headers, response_body = (
+                self.django_integration.handle_request(method, self.path, headers, body)
+            )
+
+            # Send response
+            self.send_response(status_code)
+            for header_name, header_value in response_headers.items():
+                self.send_header(header_name, header_value)
+            
+            # Ensure Content-Length is set
+            if 'Content-Length' not in response_headers:
+                self.send_header('Content-Length', str(len(response_body)))
+            
+            self.end_headers()
+            self.wfile.write(response_body)
+
+        except Exception as e:
+            self._send_error_response(500, f"Django error: {str(e)}")
 
     def log_message(self, format: str, *args: Any) -> None:
         """Override log message to provide custom logging."""

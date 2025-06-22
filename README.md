@@ -1,73 +1,348 @@
 # pyOxide
 
-A modern Python project template with best practices and development tools.
+A modern Python HTTP server with embedded Django integration, featuring modular architecture, comprehensive testing, and best practices.
 
 ## Features
 
-- Modern Python project structure using `pyproject.toml`
-- Development tools integration (Black, Flake8, MyPy, isort)
-- Testing with pytest
-- Virtual environment support
-- VS Code integration
+- **Modern Python Architecture**: Modular design with separate concerns for HTTP handling, server management, and command processing
+- **Embedded Django Integration**: Full Django admin interface and API endpoints integrated into the custom HTTP server
+- **Jinja2 Templating**: All HTML responses use templates (no inline HTML in Python code)
+- **Development Tools**: Black, Flake8, MyPy, isort, pytest integration
+- **VS Code Integration**: Tasks, debugging, and extension support
+- **Multiple Server Support**: HTTP server with multiple TCP servers
+- **Static File Serving**: Django admin CSS/JS files served correctly
+- **Comprehensive Testing**: Unit tests and integration testing
 
-## Installation
+## Quick Start
 
-1. Create and activate a virtual environment:
+1. **Create and activate a virtual environment:**
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-2. Install the project in development mode:
+2. **Install the project in development mode:**
 ```bash
 pip install -e ".[dev]"
 ```
 
-## Usage
-
-Run the main application:
+3. **Run the application:**
 ```bash
 python -m src.main
+```
+
+4. **Test the application:**
+   - Open your browser to: `http://localhost:3000/test`
+   - Or use the terminal: `firefox http://localhost:3000/test &`
+
+## Usage
+
+### Starting the Server
+
+```bash
+python -m src.main
+```
+
+This starts:
+- HTTP server on port 3000
+- Multiple TCP servers on various ports
+- Embedded Django application
+- Command-line interface
+
+### Available Endpoints
+
+#### pyOxide Routes
+- `/` - Home page with endpoint listing
+- `/status` - Server status (JSON)
+- `/health` - Health check (JSON)
+- `/api/info` - API information (JSON)
+- `/AuthLogin` - Custom authentication page
+- `/test` - **Interactive test page for all routes**
+
+#### Django Routes
+- `/admin/` - Django admin interface
+- `/admin/login/` - Django admin login
+- `/dashboard/` - Custom admin dashboard
+- `/api/django/` - Django API information
+- `/static/` - Static files (CSS, JS, images)
+
+### Testing the Application
+
+#### 🎯 **Primary Method: Interactive Test Page**
+```bash
+# Start the server
+python -m src.main
+
+# Open the test page in your browser
+firefox http://localhost:3000/test &
+```
+
+The test page (`/test`) provides:
+- ✅ Visual status indicators
+- 🔗 Working links to all endpoints
+- 🔑 Login credentials
+- 💡 Alternative testing methods
+- 🎨 Beautiful, responsive design
+
+#### 🌐 **Browser Testing**
+```bash
+# Firefox (recommended)
+firefox http://localhost:3000/admin/ &
+
+# Chrome
+google-chrome http://localhost:3000/admin/ &
+
+# VS Code Simple Browser
+# Navigate to: http://localhost:3000/test
+```
+
+#### 📝 **Text Browser Testing**
+```bash
+# Install w3m (if not already installed)
+sudo apt install w3m
+
+# Interactive browsing
+w3m http://localhost:3000/test
+
+# Quick content check
+w3m -dump http://localhost:3000/admin/login/
+```
+
+#### 🔧 **Command Line Testing**
+```bash
+# Check Django admin login page
+curl -s http://localhost:3000/admin/login/ | grep -o '<title>.*</title>'
+
+# Test static files
+curl -I http://localhost:3000/static/admin/css/base.css
+
+# Test API endpoints
+curl -s http://localhost:3000/api/django/ | jq
+
+# Test server status
+curl -s http://localhost:3000/status | jq
+```
+
+### Django Admin Access
+
+**Default Credentials:**
+- **Username:** `admin`
+- **Password:** `admin123`
+
+**Creating Additional Users:**
+```bash
+# In the pyOxide directory
+python -c "
+import os, django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.django_app.settings')
+django.setup()
+from django.contrib.auth.models import User
+User.objects.create_superuser('newuser', 'email@example.com', 'password123')
+"
 ```
 
 ## Development
 
 ### Running Tests
 ```bash
+# Run all tests
 pytest
+
+# Run with coverage
+pytest --cov=src
+
+# Run specific test file
+pytest tests/test_http_handler.py
+
+# Run with verbose output
+pytest -v
 ```
 
-### Code Formatting
+### Code Quality
+
+#### **Code Formatting**
 ```bash
+# Format code
 black src/ tests/
+
+# Sort imports
 isort src/ tests/
+
+# Format and sort (combined)
+python -m black src/ tests/ && python -m isort src/ tests/
 ```
 
-### Type Checking
+#### **Type Checking**
 ```bash
+# Check types
 mypy src/
+
+# Check specific file
+mypy src/http_handler.py
 ```
 
-### Linting
+#### **Linting**
 ```bash
+# Lint code
 flake8 src/ tests/
+
+# Lint with specific rules
+flake8 --max-line-length=88 src/ tests/
+```
+
+### VS Code Tasks
+
+Use the integrated VS Code tasks for development:
+
+- **Ctrl+Shift+P** → "Tasks: Run Task"
+  - `Run Python Application` - Start the server
+  - `Run Tests` - Execute all tests
+  - `Format Code` - Black formatting
+  - `Type Check` - MyPy type checking
+  - `Lint Code` - Flake8 linting
+
+### Debugging
+
+#### **Server Logs**
+The server provides detailed logging:
+```bash
+python -m src.main
+# Watch for HTTP request logs: [timestamp] HTTP: "METHOD /path HTTP/1.1" status -
+```
+
+#### **Django Debug Mode**
+Django debug mode is enabled by default in development:
+- Detailed error pages
+- Debug toolbar available
+- SQL query logging
+
+#### **Common Issues**
+
+**Static Files Not Loading:**
+```bash
+# Check static file serving
+curl -I http://localhost:3000/static/admin/css/base.css
+# Should return: HTTP/1.0 200 OK
+```
+
+**Django Admin Blank Pages:**
+- Use Firefox/Chrome instead of VS Code Simple Browser
+- Check browser console for JavaScript errors
+- Verify static files are loading (see above)
+
+**Port Already in Use:**
+```bash
+# Kill existing processes
+pkill -f "python -m src.main"
+
+# Check what's using port 3000
+lsof -i :3000
 ```
 
 ## Project Structure
 
 ```
-pyoxide/
-├── src/
+pyOxide/
+├── src/                          # Source code
 │   ├── __init__.py
-│   └── main.py
-├── tests/
+│   ├── main.py                   # Application entry point
+│   ├── server_manager.py         # Server lifecycle management
+│   ├── command_handler.py        # Command-line interface
+│   ├── http_handler.py           # HTTP request handling
+│   ├── django_integration.py     # Django WSGI integration
+│   └── django_app/               # Embedded Django application
+│       ├── settings.py           # Django configuration
+│       ├── urls.py               # URL routing
+│       ├── views.py              # Django views
+│       ├── wsgi.py               # WSGI application
+│       └── pyoxide_admin/        # Django app for admin
+│           ├── __init__.py
+│           ├── admin.py          # Admin interface config
+│           ├── apps.py           # App configuration
+│           ├── models.py         # Data models
+│           └── migrations/       # Database migrations
+│               └── 0001_initial.py
+├── templates/                    # Jinja2 templates
+│   ├── base.html                # Base template
+│   ├── home.html                # Home page
+│   ├── 404.html                 # Error page
+│   ├── auth_login.html          # Custom login
+│   └── test_pages.html          # Testing interface
+├── tests/                       # Test suite
 │   ├── __init__.py
-│   └── test_main.py
+│   ├── test_main.py             # Main module tests
+│   ├── test_server_manager.py   # Server tests
+│   ├── test_command_handler.py  # Command tests
+│   ├── test_http_handler.py     # HTTP handler tests
+│   └── test_http_routes.py      # Route integration tests
 ├── .github/
-│   └── copilot-instructions.md
+│   └── copilot-instructions.md  # AI coding guidelines
 ├── .vscode/
-│   └── tasks.json
-├── pyproject.toml
-├── requirements.txt
-└── README.md
+│   └── tasks.json               # VS Code tasks
+├── .gitignore                   # Git ignore rules
+├── pyproject.toml               # Project configuration
+├── requirements.txt             # Dependencies
+├── db.sqlite3                   # Django database
+└── README.md                    # This file
 ```
+
+## Architecture
+
+### Core Components
+
+1. **ServerManager** (`server_manager.py`)
+   - Manages HTTP and TCP server lifecycles
+   - Handles graceful shutdown
+   - Thread-safe server state management
+
+2. **PyOxideHTTPHandler** (`http_handler.py`)
+   - Custom HTTP request handler
+   - Route mapping and dispatching
+   - Jinja2 template rendering
+   - Django integration routing
+
+3. **DjangoWSGIIntegration** (`django_integration.py`)
+   - WSGI application wrapper
+   - Request/response translation
+   - Static file serving
+   - Path routing logic
+
+4. **CommandHandler** (`command_handler.py`)
+   - Interactive command-line interface
+   - Server control commands
+   - Status reporting
+
+### Request Flow
+
+```
+Browser Request → HTTP Handler → Route Check → Django/pyOxide Handler → Response
+                                     ↓
+                              Static Files / Templates
+```
+
+1. **HTTP Handler** receives request
+2. **Route Check** determines handler (Django vs pyOxide)
+3. **Django Integration** handles Django routes via WSGI
+4. **pyOxide Routes** use Jinja2 templates
+5. **Static Files** served directly by Django
+6. **Response** sent back to browser
+
+### Key Design Decisions
+
+- **No inline HTML**: All HTML uses Jinja2 templates
+- **Single server**: Django and pyOxide routes on same port (3000)
+- **Modular architecture**: Separate concerns for maintainability
+- **Type safety**: Full type hints throughout codebase
+- **Template inheritance**: Consistent styling via base templates
+
+## Contributing
+
+1. **Code Style**: Follow PEP 8 and use the provided tools
+2. **Testing**: Write tests for new functionality
+3. **Documentation**: Update README and docstrings
+4. **Templates**: Use Jinja2 templates, never inline HTML
+5. **Type Hints**: Add type annotations to all functions
+
+## License
+
+This project is licensed under the MIT License.

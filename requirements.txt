@@ -1,5 +1,7 @@
 # Production Requirements
 Jinja2>=3.0
+Django>=4.2
+requests>=2.25
 
 # Development Requirements
 pytest>=7.0
