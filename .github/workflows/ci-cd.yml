@@ -28,7 +28,7 @@ jobs:
         python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
 
     - name: Cache pip dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-quality-${{ hashFiles('**/pyproject.toml') }}
@@ -84,7 +84,7 @@ jobs:
         echo "::endgroup::"
 
     - name: Upload security reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: security-reports
@@ -113,7 +113,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Cache pip dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-test-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml') }}
@@ -146,7 +146,7 @@ jobs:
         echo "::endgroup::"
 
     - name: Upload HTML coverage report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: coverage-html-python${{ matrix.python-version }}
@@ -154,7 +154,7 @@ jobs:
         retention-days: 30
 
     - name: Upload XML coverage report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: coverage-xml-python${{ matrix.python-version }}
@@ -162,7 +162,7 @@ jobs:
         retention-days: 30
 
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: pytest-results-python${{ matrix.python-version }}
@@ -203,7 +203,7 @@ jobs:
         pytest --cov=src --cov-report=xml --cov-report=html
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         file: ./coverage.xml
         flags: unittests
