@@ -37,6 +37,7 @@ repos:
     rev: 7.0.0
     hooks:
       - id: flake8
+        exclude: ^(scripts/|test_.*\.py$)
 
   # MyPy - Static type checking
   - repo: https://github.com/pre-commit/mirrors-mypy
@@ -45,6 +46,7 @@ repos:
       - id: mypy
         additional_dependencies: [django-stubs, types-requests]
         args: [--ignore-missing-imports]
+        exclude: ^(scripts/|test_.*\.py$)
 
   # Bandit - Security linting
   - repo: https://github.com/pycqa/bandit

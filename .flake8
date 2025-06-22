@@ -10,5 +10,5 @@ exclude =
     build,
     dist,
     *.egg-info,
-    scripts/,
+    scripts,
     test_*.py
