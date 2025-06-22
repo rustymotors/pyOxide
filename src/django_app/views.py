@@ -101,7 +101,10 @@ def dashboard(request: Any) -> HttpResponse:
     template_dir = os.path.join(
         os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "templates"
     )
-    env = Environment(loader=FileSystemLoader(template_dir))
+    env = Environment(
+        loader=FileSystemLoader(template_dir),
+        autoescape=True,  # Enable autoescape for security
+    )
     template = env.get_template("django_dashboard.html")
 
     context = {
