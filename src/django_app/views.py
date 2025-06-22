@@ -63,13 +63,16 @@ def data_management(request: Any) -> JsonResponse:
                 {"error": "Invalid JSON data", "status": "error"}, status=400
             )
 
+    # Default return for any other method (should not reach here due to decorator)
+    return JsonResponse({"error": "Method not allowed"}, status=405)
+
 
 def user_management(request: Any) -> JsonResponse:
     """Handle user management operations."""
     users = User.objects.all()
     user_data = [
         {
-            "id": user.id,
+            "id": getattr(user, "id", None),  # type: ignore[attr-defined]
             "username": user.username,
             "email": user.email,
             "is_staff": user.is_staff,

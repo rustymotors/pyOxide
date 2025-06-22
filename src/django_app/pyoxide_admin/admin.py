@@ -1,12 +1,14 @@
 """Admin configuration for pyOxide models."""
 
+from typing import Any
+
 from django.contrib import admin
 
-from .models import APIRequest, Configuration, ServerLog
+from .models import APIRequest, Configuration, ServerStatus
 
 
-@admin.register(ServerLog)
-class ServerLogAdmin(admin.ModelAdmin):
+@admin.register(ServerStatus)
+class ServerStatusAdmin(admin.ModelAdmin):
     """Admin interface for server logs."""
 
     list_display = ("timestamp", "level", "source", "message_short")
@@ -14,11 +16,11 @@ class ServerLogAdmin(admin.ModelAdmin):
     search_fields = ("message", "source")
     readonly_fields = ("timestamp",)
 
-    def message_short(self, obj: ServerLog) -> str:
+    def message_short(self, obj: Any) -> str:
         """Return shortened message for list display."""
         return obj.message[:50] + "..." if len(obj.message) > 50 else obj.message
 
-    message_short.short_description = "Message"
+    message_short.short_description = "Message"  # type: ignore[attr-defined]
 
 
 @admin.register(APIRequest)
@@ -46,8 +48,8 @@ class ConfigurationAdmin(admin.ModelAdmin):
     search_fields = ("key", "description")
     readonly_fields = ("created_at", "updated_at")
 
-    def value_short(self, obj: Configuration) -> str:
+    def value_short(self, obj: Any) -> str:
         """Return shortened value for list display."""
         return obj.value[:30] + "..." if len(obj.value) > 30 else obj.value
 
-    value_short.short_description = "Value"
+    value_short.short_description = "Value"  # type: ignore[attr-defined]

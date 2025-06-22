@@ -37,6 +37,7 @@ dev = [
     "mypy>=0.950",
     "isort>=5.10",
     "django-stubs>=4.2",
+    "django-stubs[compatible-mypy]>=4.2",
     "types-requests>=2.28",
     "pre-commit>=3.0",
 ]
@@ -62,10 +63,33 @@ python_version = "3.8"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
+plugins = ["mypy_django_plugin.main"]
+
+[[tool.mypy.overrides]]
+module = "src.django_app.*"
+disallow_untyped_defs = false
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "src.django_app.pyoxide_admin.*"
+disallow_untyped_defs = false
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "src.django_app.views"
+disallow_untyped_defs = false
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "*.migrations.*"
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = "src.django_app.settings"
 
 [tool.flake8]
 max-line-length = 88
-extend-ignore = ["E203", "W503"]
+extend-ignore = "E203,W503"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
