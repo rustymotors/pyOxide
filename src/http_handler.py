@@ -30,6 +30,7 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             "/status": self.route_status,
             "/api/info": self.route_api_info,
             "/health": self.route_health,
+            "/AuthLogin": self.route_auth_login,
         }
 
         self.post_routes: Dict[str, Callable[[], None]] = {
@@ -81,6 +82,11 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
                 "description": "JSON API information",
             },
             {
+                "method": "GET",
+                "path": "/AuthLogin",
+                "description": "Authentication login page",
+            },
+            {
                 "method": "POST",
                 "path": "/api/echo",
                 "description": "Echo back JSON data",
@@ -111,6 +117,11 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
                     "method": "GET",
                     "path": "/api/info",
                     "description": "API information",
+                },
+                {
+                    "method": "GET",
+                    "path": "/AuthLogin",
+                    "description": "Authentication login",
                 },
                 {
                     "method": "POST",
@@ -164,6 +175,12 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
                 self._send_error_response(400, "Invalid JSON data")
         except Exception as e:
             self._send_error_response(500, f"Server error: {str(e)}")
+
+    def route_auth_login(self) -> None:
+        """Handle authentication login route (GET /AuthLogin)."""
+        template = self.jinja_env.get_template("auth_login.html")
+        html_content = template.render(route_path="/AuthLogin")
+        self._send_html_response(html_content)
 
     def route_not_found(self) -> None:
         """Handle 404 not found route."""

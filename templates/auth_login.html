@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}pyOxide - Authentication Login{% endblock %}
+
+{% block header_title %}🔐 pyOxide Login{% endblock %}
+
+{% block extra_styles %}
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+.login-header p {
+    color: #666;
+    margin-top: 10px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+}
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+.form-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.login-button:hover {
+    background: #2980b9;
+}
+.info-text {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    font-size: 14px;
+}
+.back-link {
+    text-align: center;
+    margin-top: 20px;
+}
+.back-link a {
+    color: #3498db;
+    text-decoration: none;
+}
+.back-link a:hover {
+    text-decoration: underline;
+}
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-header">
+        <p>Authentication Required</p>
+    </div>
+    <form action="/api/auth" method="post">
+        <div class="form-group">
+            <label class="form-label" for="username">Username:</label>
+            <input type="text" id="username" name="username" 
+                   class="form-input" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="password">Password:</label>
+            <input type="password" id="password" name="password" 
+                   class="form-input" required>
+        </div>
+        <button type="submit" class="login-button">Login</button>
+    </form>
+    <div class="info-text">
+        This is a demo login form for the pyOxide server.<br>
+        Route: <code>{{ route_path }}</code> (case-sensitive)
+    </div>
+    <div class="back-link">
+        <a href="/">← Back to Home</a>
+    </div>
+</div>
+{% endblock %}

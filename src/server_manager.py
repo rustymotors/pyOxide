@@ -25,7 +25,7 @@ class ServerManager:
         """Start HTTP server in a separate thread."""
         try:
             self.http_server = HTTPServer(
-                ("localhost", self.http_port), PyOxideHTTPHandler
+                ("0.0.0.0", self.http_port), PyOxideHTTPHandler
             )
             print(f"HTTP server starting on port {self.http_port}")
             self.http_server.serve_forever()
@@ -37,7 +37,7 @@ class ServerManager:
         try:
             server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            server_socket.bind(("localhost", port))
+            server_socket.bind(("0.0.0.0", port))
             server_socket.listen(5)
             self.tcp_servers.append(server_socket)
             print(f"TCP server starting on port {port}")

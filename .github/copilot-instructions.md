@@ -29,3 +29,11 @@ This is a Python project using modern development practices. When working on thi
 - Use meaningful variable and function names
 - Add appropriate error handling
 - Document complex logic with comments
+
+## HTML/CSS Templates
+- **NEVER mix HTML/CSS directly in Python code**
+- Always use Jinja2 templates for HTML responses
+- Create template files in the `templates/` directory
+- Use template inheritance (extend `base.html`) for consistent styling
+- Keep Python route handlers clean and focused on logic, not presentation
+- Pass dynamic data to templates via `template.render()` parameters

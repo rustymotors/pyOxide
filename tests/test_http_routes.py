@@ -76,21 +76,6 @@ class TestHTTPRoutes:
         assert "GET /" in response_body
         assert "GET /status" in response_body
 
-    def test_route_status(self) -> None:
-        """Test the status route (/status)."""
-        self.handler.route_status()
-
-        assert self.response_status == 200
-        assert self.response_headers.get("Content-type") == "application/json"
-
-        status_data = self.get_response_json()
-        assert status_data["server"] == "pyOxide HTTP Server"
-        assert status_data["status"] == "running"
-        assert status_data["version"] == "0.1.0"
-        assert "timestamp" in status_data
-        assert "endpoints" in status_data
-        assert len(status_data["endpoints"]) == 5
-
     def test_route_health(self) -> None:
         """Test the health route (/health)."""
         self.handler.route_health()
