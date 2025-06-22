@@ -179,6 +179,38 @@ With pre-commit hooks properly set up:
 - **Better collaboration**: Standardized code style across team
 - **Security**: Automatic vulnerability scanning
 
+## 🔧 GitHub CLI Configuration
+
+### **Disable Pager (Recommended):**
+
+```bash
+# Option 1: Global configuration (recommended)
+gh config set pager ""
+
+# Option 2: Environment variable per session
+export GH_PAGER=""
+
+# Option 3: Inline for single commands
+GH_PAGER="" gh run list --limit 5
+GH_PAGER="" gh run view <run-id>
+```
+
+### **Common Commands:**
+
+```bash
+# Check CI status without pager
+GH_PAGER="" gh run list --limit 5
+
+# View failed run logs
+GH_PAGER="" gh run view <run-id> --log-failed
+
+# Check workflow status
+GH_PAGER="" gh workflow list
+
+# Alternative: Pipe to cat
+gh run list --limit 5 | cat
+```
+
 ---
 
 **Next Steps:** Run `pre-commit install` and start developing with confidence! 🚀

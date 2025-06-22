@@ -53,6 +53,22 @@ This is a Python project using modern development practices. When working on thi
 - **Check GitHub Marketplace for latest versions** before using any action
 - **Update action versions immediately** if workflows fail due to deprecated versions
 
+## GitHub CLI and Automation
+- **ALWAYS use `GH_PAGER=""` environment variable** to disable pager for GitHub CLI commands
+- **Use `GH_PAGER="" gh run list --limit 5`** instead of `gh run list --limit 5` 
+- **Use `GH_PAGER="" gh run view <id>`** to avoid pressing 'q' to quit
+- **Use `| cat` for other commands** that might use pagers (git, less, man, etc.)
+- **Batch operations when possible**: Combine multiple steps into single requests
+- **Use specific, actionable requests**: "Fix all CI issues and commit" vs. step-by-step
+- **Prefer automated workflows**: Let tools handle repetitive tasks without manual intervention
+
+## Command Execution Preferences
+- **Always set isBackground=false** for terminal commands unless explicitly starting servers
+- **Use descriptive explanation parameters** for all terminal commands
+- **Chain related commands** with `&&` when logical sequence is important
+- **Avoid interactive prompts**: Use command flags to bypass confirmations when safe
+- **Auto-fix when possible**: Let tools like pre-commit auto-correct issues before manual review
+
 ## Testing
 - **NEVER use background processes for testing** (e.g., isBackground=true in run_in_terminal)
 - All tests must run synchronously and complete before returning

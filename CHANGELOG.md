@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Development setup guide** (DEVELOPMENT.md) for complete environment setup
 - **VS Code tasks** for pre-commit hook management
 - **Automated code quality enforcement** before commits reach CI
+- **GitHub CLI pager configuration** - instructions to disable pager for smoother workflow
+- **Auto-continue preferences** - guidance for reducing manual intervention steps
 
 ### Changed
 - Updated repository URLs in pyproject.toml to reflect actual GitHub repository
@@ -32,6 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deprecated GitHub Actions versions that could cause workflow failures
 - Code quality issues in Django integration (complexity and formatting)
 - CI/CD pipeline failures due to flake8 linting violations
+- **MyPy type checking issues** in Django models, admin, and views
+- **Jinja2 autoescape security vulnerability** (B701) - enabled autoescape=True
+- **Python 3.8 compatibility** - disabled Django plugin for older Python versions
+- **All CI/CD pipeline type checking failures** - MyPy now passes on all Python versions
 
 ## [0.1.0] - 2025-06-22
 
