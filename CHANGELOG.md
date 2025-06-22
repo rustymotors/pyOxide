@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `actions/setup-python@v4` → `actions/setup-python@v5` (v4 and older deprecated)
   - `actions/upload-pages-artifact@v2` → `actions/upload-pages-artifact@v3`
   - `actions/deploy-pages@v2` → `actions/deploy-pages@v4`
+- **Added Bandit reports to .gitignore** - security scanner outputs are now ignored
 
 ### Fixed
 - Type annotation for django_integration attribute in HTTP handler

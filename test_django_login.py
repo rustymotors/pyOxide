@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Test script to verify Django admin login works properly."""
 
-import re
 from urllib.parse import urljoin
 
 import requests
@@ -9,7 +8,7 @@ import requests
 BASE_URL = "http://localhost:3000"
 
 
-def test_django_admin():
+def test_django_admin() -> None:
     """Test Django admin interface login."""
     session = requests.Session()
 

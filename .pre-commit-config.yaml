@@ -37,7 +37,6 @@ repos:
     rev: 7.0.0
     hooks:
       - id: flake8
-        args: [--max-line-length=88, --max-complexity=10, --extend-ignore=E203,W503]
 
   # MyPy - Static type checking
   - repo: https://github.com/pre-commit/mirrors-mypy
@@ -60,7 +59,7 @@ repos:
     hooks:
       - id: pytest
         name: pytest
-        entry: python -m pytest
+        entry: .venv/bin/python -m pytest
         language: system
         types: [python]
         pass_filenames: false
@@ -72,7 +71,7 @@ repos:
     hooks:
       - id: coverage-check
         name: coverage-check
-        entry: python -m pytest --cov=src --cov-fail-under=20
+        entry: .venv/bin/python -m pytest --cov=src --cov-fail-under=20
         language: system
         types: [python]
         pass_filenames: false

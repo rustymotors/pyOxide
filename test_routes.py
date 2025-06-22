@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Simple test script to verify all routes are working."""
 
-import json
 from time import sleep
 
 import requests
@@ -9,7 +8,7 @@ import requests
 BASE_URL = "http://localhost:3000"
 
 
-def test_route(method, path, description):
+def test_route(method: str, path: str, description: str) -> bool:
     """Test a single route."""
     try:
         if method == "GET":
@@ -26,7 +25,7 @@ def test_route(method, path, description):
         return False
 
 
-def main():
+def main() -> None:
     """Test all routes."""
     print("🧪 Testing pyOxide HTTP Routes with New Routing System")
     print("=" * 60)

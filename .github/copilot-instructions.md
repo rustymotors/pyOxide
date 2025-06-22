@@ -55,7 +55,7 @@ This is a Python project using modern development practices. When working on thi
 
 ## GitHub CLI and Automation
 - **ALWAYS use `GH_PAGER=""` environment variable** to disable pager for GitHub CLI commands
-- **Use `GH_PAGER="" gh run list --limit 5`** instead of `gh run list --limit 5` 
+- **Use `GH_PAGER="" gh run list --limit 5`** instead of `gh run list --limit 5`
 - **Use `GH_PAGER="" gh run view <id>`** to avoid pressing 'q' to quit
 - **Use `| cat` for other commands** that might use pagers (git, less, man, etc.)
 - **Batch operations when possible**: Combine multiple steps into single requests
