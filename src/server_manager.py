@@ -3,8 +3,10 @@
 import socket
 import threading
 import time
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import HTTPServer
 from typing import Any, Dict, List, Optional
+
+from .http_handler import PyOxideHTTPHandler
 
 
 class ServerManager:
@@ -22,8 +24,9 @@ class ServerManager:
     def start_http_server(self) -> None:
         """Start HTTP server in a separate thread."""
         try:
-            handler = SimpleHTTPRequestHandler
-            self.http_server = HTTPServer(("localhost", self.http_port), handler)
+            self.http_server = HTTPServer(
+                ("localhost", self.http_port), PyOxideHTTPHandler
+            )
             print(f"HTTP server starting on port {self.http_port}")
             self.http_server.serve_forever()
         except Exception as e:
