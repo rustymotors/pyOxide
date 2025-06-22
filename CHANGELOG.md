@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Jinja2 autoescape security vulnerability** (B701) - enabled autoescape=True
 - **Python 3.8 compatibility** - disabled Django plugin for older Python versions
 - **All CI/CD pipeline type checking failures** - MyPy now passes on all Python versions
+- **Bandit security false positives** - added nosec comments for development-safe warnings
+- **Pre-commit hook compatibility** - resolved security scanner conflicts for development use
 
 ## [0.1.0] - 2025-06-22
 
