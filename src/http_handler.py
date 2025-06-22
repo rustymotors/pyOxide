@@ -4,7 +4,7 @@ import json
 import os
 import time
 from http.server import BaseHTTPRequestHandler
-from typing import Any, Callable, Dict
+from typing import Any, Callable, Dict, Optional
 from urllib.parse import urlparse
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -27,6 +27,7 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         )
 
         # Initialize Django integration
+        self.django_integration: Optional[DjangoWSGIIntegration]
         try:
             self.django_integration = DjangoWSGIIntegration()
         except Exception as e:

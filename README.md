@@ -5,7 +5,7 @@
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 ![Type checking: mypy](https://img.shields.io/badge/type%20checking-mypy-blue)
 ![Testing: pytest](https://img.shields.io/badge/testing-pytest-green)
-![Coverage](https://img.shields.io/badge/coverage-64%25-yellowgreen)
+![Coverage](https://img.shields.io/badge/coverage-21%25-red)
 ![Security: bandit](https://img.shields.io/badge/security-bandit-yellow)
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue)
 
