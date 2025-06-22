@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2025-06-22
+
 ### Added
 - Enhanced coverage status script with organizational dashboard integration
 - Django type stubs for better MyPy support
@@ -41,6 +43,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **All CI/CD pipeline type checking failures** - MyPy now passes on all Python versions
 - **Bandit security false positives** - added nosec comments for development-safe warnings
 - **Pre-commit hook compatibility** - resolved security scanner conflicts for development use
+- **Pre-commit pytest hooks** - fixed to use virtual environment Python instead of system Python
+- **VS Code commit failures** - resolved "No module named pytest" errors during commits
+- **Pre-commit --all-files failures** - added proper exclude patterns for scripts and test files
+- **Invalid MyPy module patterns** - removed invalid test file exclusion syntax
 
 ## [0.1.0] - 2025-06-22
 
