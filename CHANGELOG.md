@@ -11,15 +11,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced coverage status script with organizational dashboard integration
 - Django type stubs for better MyPy support
 - Type annotations improvements for HTTP handler
+- Comprehensive GitHub Actions version guidelines for Copilot
 
 ### Changed
 - Updated repository URLs in pyproject.toml to reflect actual GitHub repository
 - Updated author information from placeholder to rustymotors
 - Coverage badge now reflects actual coverage percentage (21%)
+- **Updated all GitHub Actions to latest versions:**
+  - `actions/setup-python@v4` → `actions/setup-python@v5` (v4 and older deprecated)
+  - `actions/upload-pages-artifact@v2` → `actions/upload-pages-artifact@v3`
+  - `actions/deploy-pages@v2` → `actions/deploy-pages@v4`
 
 ### Fixed
 - Type annotation for django_integration attribute in HTTP handler
 - Repository metadata in pyproject.toml
+- Deprecated GitHub Actions versions that could cause workflow failures
 
 ## [0.1.0] - 2025-06-22
 

@@ -38,6 +38,21 @@ This is a Python project using modern development practices. When working on thi
 - Keep Python route handlers clean and focused on logic, not presentation
 - Pass dynamic data to templates via `template.render()` parameters
 
+## GitHub Actions Workflows
+- **ALWAYS use the latest versions of official GitHub Actions**
+- **NEVER use actions/setup-python@v3 or older** - it is deprecated and causes workflow failures
+- **Current required versions (as of June 2025):**
+  - `actions/checkout@v4` ✅
+  - `actions/setup-python@v5` ✅ (latest, v4 and older are deprecated)
+  - `actions/cache@v4` ✅
+  - `actions/upload-artifact@v4` ✅
+  - `actions/download-artifact@v4` ✅
+  - `actions/configure-pages@v4` ✅
+  - `actions/upload-pages-artifact@v3` ✅ (latest available)
+  - `actions/deploy-pages@v4` ✅
+- **Check GitHub Marketplace for latest versions** before using any action
+- **Update action versions immediately** if workflows fail due to deprecated versions
+
 ## Testing
 - **NEVER use background processes for testing** (e.g., isBackground=true in run_in_terminal)
 - All tests must run synchronously and complete before returning
