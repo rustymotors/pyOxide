@@ -1,0 +1,176 @@
+# Changelog
+
+All notable changes to pyOxide will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- Enhanced coverage status script with organizational dashboard integration
+- Django type stubs for better MyPy support
+- Type annotations improvements for HTTP handler
+
+### Changed
+- Updated repository URLs in pyproject.toml to reflect actual GitHub repository
+- Updated author information from placeholder to rustymotors
+- Coverage badge now reflects actual coverage percentage (21%)
+
+### Fixed
+- Type annotation for django_integration attribute in HTTP handler
+- Repository metadata in pyproject.toml
+
+## [0.1.0] - 2025-06-22
+
+### Added
+- **Core Architecture**
+  - Modular server architecture with separate concerns
+  - `ServerManager` class for HTTP and TCP server lifecycle management
+  - `CommandHandler` class for interactive command-line interface
+  - `PyOxideHTTPHandler` class for custom HTTP request handling
+  - `DjangoWSGIIntegration` class for seamless Django integration
+
+- **Django Integration**
+  - Embedded Django application within custom HTTP server
+  - Django admin interface accessible at `/admin/`
+  - Custom Django app (`pyoxide_admin`) with models and admin configuration
+  - Static file serving for Django admin CSS/JS files
+  - WSGI application wrapper for request/response translation
+  - Database models: `ServerLog` and `Configuration`
+
+- **Templating System**
+  - Jinja2 template engine integration
+  - Template inheritance with `base.html`
+  - HTML templates for all routes (no inline HTML in Python code)
+  - Templates: `home.html`, `404.html`, `auth_login.html`, `test_pages.html`
+
+- **HTTP Endpoints**
+  - **pyOxide Routes:**
+    - `/` - Home page with endpoint listing
+    - `/status` - Server status (JSON)
+    - `/health` - Health check (JSON)
+    - `/api/info` - API information (JSON)
+    - `/AuthLogin` - Custom authentication page
+    - `/test` - Interactive test page for all routes
+  - **Django Routes:**
+    - `/admin/` - Django admin interface
+    - `/admin/login/` - Django admin login
+    - `/dashboard/` - Custom admin dashboard
+    - `/api/django/` - Django API information
+    - `/static/` - Static files (CSS, JS, images)
+
+- **Testing Infrastructure**
+  - Comprehensive unit test suite with pytest
+  - Test files for all major components:
+    - `test_main.py` - Main module tests
+    - `test_server_manager.py` - Server lifecycle tests
+    - `test_command_handler.py` - Command interface tests
+    - `test_http_handler.py` - HTTP handler tests
+    - `test_http_routes.py` - Route integration tests
+  - Coverage reporting with pytest-cov
+  - HTML, XML, and terminal coverage reports
+  - Coverage status scripts for organizational dashboards
+
+- **Development Tools**
+  - Code formatting with Black (88 character line length)
+  - Import sorting with isort (Black profile)
+  - Type checking with MyPy
+  - Linting with Flake8
+  - VS Code integration with tasks for all development workflows
+
+- **VS Code Tasks**
+  - `Run Python Application` - Start the server
+  - `Run Tests` - Execute all tests
+  - `Run Tests with Coverage` - Execute tests with coverage reports
+  - `Coverage Report Only` - Generate coverage report from existing data
+  - `Coverage Status` - Display current coverage status
+  - `Open Coverage HTML Report` - Run tests and open HTML report
+  - `Format Code` - Black formatting and isort import sorting
+  - `Type Check` - MyPy type checking
+  - `Lint Code` - Flake8 linting
+
+- **GitHub Actions CI/CD**
+  - **Code Quality Workflow** (`.github/workflows/code-quality.yml`)
+    - Multi-Python version testing (3.8-3.12)
+    - Code formatting checks with Black
+    - Import sorting validation with isort
+    - Linting with Flake8
+    - Type checking with MyPy
+    - Security scanning with Bandit
+    - Dependency vulnerability checks with Safety
+  - **Test Coverage Workflow** (`.github/workflows/test-coverage.yml`)
+    - Automated test execution with coverage
+    - HTML and XML coverage report generation
+    - Codecov integration for coverage tracking
+    - PR comment integration for coverage reports
+    - Artifact storage for 30 days
+  - **Complete CI/CD Pipeline** (`.github/workflows/ci-cd.yml`)
+    - Parallel job execution for efficiency
+    - Build artifact collection
+    - Coverage badge generation
+    - Build summary reporting
+    - Scheduled weekly runs for dependency checks
+  - **Coverage Publishing** (`.github/workflows/publish-coverage.yml`)
+    - GitHub Pages integration for coverage reports
+    - Automated coverage report publishing
+
+- **Dependency Management**
+  - Dependabot configuration for automated dependency updates
+  - Comprehensive dependency specifications in pyproject.toml
+  - Development dependencies isolated from production
+
+- **Security & Configuration**
+  - Development SSL keys with proper documentation
+  - Security scanner exceptions for intentional key sharing
+  - Bandit and GitLeaks configuration
+  - Docker support with proper build context
+
+- **Documentation**
+  - Comprehensive README.md with setup, usage, and development guides
+  - Quick reference guide (QUICK_REFERENCE.md)
+  - Organizational publishing guide (ORG_PUBLISHING_GUIDE.md)
+  - GitHub Copilot instructions for development standards
+  - Inline code documentation with Google-style docstrings
+
+- **Project Configuration**
+  - Modern pyproject.toml configuration
+  - Black, isort, MyPy, Flake8, and pytest configuration
+  - Coverage reporting configuration
+  - Git ignore rules
+  - Requirements.txt for compatibility
+
+### Technical Architecture
+
+- **Request Flow**: Browser → HTTP Handler → Route Check → Django/pyOxide Handler → Response
+- **Modular Design**: Separate concerns for HTTP handling, server management, command processing
+- **Type Safety**: Comprehensive type hints throughout codebase
+- **Template Inheritance**: Consistent styling via base templates
+- **Single Port Architecture**: Django and pyOxide routes unified on port 3000
+
+### Key Design Decisions
+
+- **No Inline HTML**: All HTML responses use Jinja2 templates
+- **Single Server**: Django and pyOxide routes on same port for simplicity
+- **Modular Architecture**: Separate classes for different concerns
+- **Type Safety**: Full type annotations for better code quality
+- **Testing First**: Comprehensive test coverage from the start
+- **CI/CD Integration**: Automated quality checks and deployment
+
+### Default Configuration
+
+- **Server**: HTTP server on port 3000
+- **Database**: SQLite (`db.sqlite3`) for Django data
+- **Admin Credentials**: admin/admin123
+- **Templates**: Located in `templates/` directory
+- **Static Files**: Served via Django static file handling
+
+### Dependencies
+
+- **Core**: Python 3.8+, Django 4.2+, Jinja2 3.1+
+- **Development**: pytest, black, flake8, mypy, isort, coverage
+- **Type Checking**: django-stubs, types-requests
+
+---
+
+*This changelog follows the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.*

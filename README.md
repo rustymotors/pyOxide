@@ -330,6 +330,7 @@ pyOxide/
 ├── .gitignore                   # Git ignore rules
 ├── pyproject.toml               # Project configuration
 ├── requirements.txt             # Dependencies
+├── CHANGELOG.md                 # Version history and changes
 ├── db.sqlite3                   # Django database
 └── README.md                    # This file
 ```
@@ -390,6 +391,10 @@ Browser Request → HTTP Handler → Route Check → Django/pyOxide Handler → 
 3. **Documentation**: Update README and docstrings
 4. **Templates**: Use Jinja2 templates, never inline HTML
 5. **Type Hints**: Add type annotations to all functions
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes, new features, and improvements.
 
 ## License
 

@@ -154,6 +154,22 @@
 				"clear": false
 			},
 			"problemMatcher": []
+		},
+		{
+			"label": "View Changelog",
+			"type": "shell",
+			"command": "cat",
+			"args": ["${workspaceFolder}/CHANGELOG.md"],
+			"group": "build",
+			"presentation": {
+				"echo": false,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"problemMatcher": []
 		}
 	]
 }
