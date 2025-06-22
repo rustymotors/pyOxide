@@ -118,3 +118,21 @@ Browser → HTTP Handler → Route Check → Django/pyOxide → Template → Res
 4. **Background testing** is prohibited - tests must be synchronous
 5. **Firefox/Chrome** for full Django functionality
 6. **w3m** for quick text-based testing
+
+## 🔄 CI/CD Pipeline
+
+### GitHub Actions Workflows
+- **Code Quality**: Black, isort, flake8, mypy, bandit, safety
+- **Test Coverage**: pytest across Python 3.8-3.12, coverage reports
+- **Artifacts**: HTML/XML coverage, security reports, test results
+- **Integration**: Codecov, PR comments, automated badges
+
+### Status Badges
+```bash
+python scripts/generate_badges.py
+```
+
+### Dependencies
+- **Dependabot**: Weekly Python deps, monthly GitHub Actions
+- **Security**: Automated vulnerability scanning
+- **Quality**: Multi-version testing matrix

@@ -1,5 +1,14 @@
 # pyOxide
 
+<!-- Status Badges -->
+![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
+![Type checking: mypy](https://img.shields.io/badge/type%20checking-mypy-blue)
+![Testing: pytest](https://img.shields.io/badge/testing-pytest-green)
+![Coverage](https://img.shields.io/badge/coverage-64%25-yellowgreen)
+![Security: bandit](https://img.shields.io/badge/security-bandit-yellow)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue)
+
 A modern Python HTTP server with embedded Django integration, featuring modular architecture, comprehensive testing, and best practices.
 
 ## Features
@@ -142,6 +151,33 @@ User.objects.create_superuser('newuser', 'email@example.com', 'password123')
 ```
 
 ## Development
+
+### GitHub Actions CI/CD
+
+The project includes comprehensive GitHub Actions workflows:
+
+#### **Code Quality Workflow** (`.github/workflows/code-quality.yml`)
+- ✅ **Multi-Python testing**: Python 3.8-3.12
+- ✅ **Code formatting**: Black format checking
+- ✅ **Import sorting**: isort validation
+- ✅ **Linting**: Flake8 code quality checks
+- ✅ **Type checking**: MyPy static analysis
+- ✅ **Security scanning**: Bandit security analysis
+- ✅ **Dependency checks**: Safety vulnerability scanning
+
+#### **Test Coverage Workflow** (`.github/workflows/test-coverage.yml`)
+- ✅ **Test execution**: pytest with coverage across Python versions
+- ✅ **Coverage reports**: HTML and XML formats
+- ✅ **Codecov integration**: Automatic coverage reporting
+- ✅ **PR comments**: Coverage reports on pull requests
+- ✅ **Artifact storage**: Coverage reports saved for 30 days
+
+#### **Complete CI/CD Pipeline** (`.github/workflows/ci-cd.yml`)
+- ✅ **Parallel execution**: Code quality + test matrix
+- ✅ **Build artifacts**: Coverage reports, test results, security scans
+- ✅ **Coverage badges**: Automated coverage status
+- ✅ **Build summaries**: Comprehensive job status reporting
+- ✅ **Scheduled runs**: Weekly dependency/security checks
 
 ### Running Tests
 ```bash
