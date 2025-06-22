@@ -44,13 +44,13 @@ jobs:
         import xml.etree.ElementTree as ET
         import json
         from datetime import datetime
-        
+
         try:
             tree = ET.parse('coverage.xml')
             root = tree.getroot()
             line_rate = float(root.get('line-rate', 0))
             branch_rate = float(root.get('branch-rate', 0))
-            
+
             coverage_data = {
                 'project': 'pyOxide',
                 'timestamp': datetime.now().isoformat(),
@@ -65,10 +65,10 @@ jobs:
                     'xml': 'coverage.xml'
                 }
             }
-            
+
             with open('coverage-report.json', 'w') as f:
                 json.dump(coverage_data, f, indent=2)
-                
+
             print(f'Coverage: {line_rate * 100:.1f}%')
         except Exception as e:
             print(f'Error: {e}')

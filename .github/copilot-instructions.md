@@ -59,6 +59,14 @@ This is a Python project using modern development practices. When working on thi
 - Use the existing pytest configuration and test structure
 - Tests should be deterministic and not rely on external services or timing
 
+## Pre-commit Hooks and Code Quality
+- **ALWAYS set up pre-commit hooks** for new developers: `pre-commit install`
+- **Run pre-commit before committing**: Hooks automatically catch formatting, linting, and type issues
+- **Never commit without running code quality checks** - use VS Code tasks or pre-commit
+- **Pre-commit catches issues locally** instead of failing in CI
+- **Required tools**: Black, isort, Flake8, MyPy, pytest, Bandit
+- **If pre-commit fails**: Let it auto-fix issues, then `git add .` and commit again
+
 ## Manual Testing and Verification
 - **Primary method**: Use the integrated test page at `http://localhost:3000/test`
 - **Browser testing**: Use Firefox/Chrome for full functionality (`firefox http://localhost:3000/test &`)

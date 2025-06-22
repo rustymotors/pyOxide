@@ -38,6 +38,7 @@ dev = [
     "isort>=5.10",
     "django-stubs>=4.2",
     "types-requests>=2.28",
+    "pre-commit>=3.0",
 ]
 
 [project.urls]
@@ -120,7 +121,7 @@ skips = [
 # Paths to exclude from scanning
 exclude_dirs = [
     "tests",
-    ".venv", 
+    ".venv",
     "venv",
     ".git",
     "__pycache__",
@@ -130,4 +131,4 @@ exclude_dirs = [
 # Confidence levels: LOW, MEDIUM, HIGH
 confidence = "MEDIUM"
 
-# Severity levels: LOW, MEDIUM, HIGH  
+# Severity levels: LOW, MEDIUM, HIGH

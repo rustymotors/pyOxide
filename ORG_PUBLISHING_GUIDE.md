@@ -111,17 +111,17 @@ def update_org_dashboard():
     """Update organizational dashboard with latest coverage."""
     coverage_url = "https://YOUR_ORG.github.io/pyOxide/coverage-report.json"
     dashboard_api = "https://your-dashboard.com/api/metrics"
-    
+
     response = requests.get(coverage_url)
     coverage_data = response.json()
-    
+
     payload = {
         "project": coverage_data["project"],
         "coverage": coverage_data["overall"]["line_coverage"],
         "status": coverage_data["status"],
         "timestamp": coverage_data["timestamp"]
     }
-    
+
     requests.post(dashboard_api, json=payload)
 ```
 

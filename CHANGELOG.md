@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Django type stubs for better MyPy support
 - Type annotations improvements for HTTP handler
 - Comprehensive GitHub Actions version guidelines for Copilot
+- **Pre-commit hooks configuration** with comprehensive code quality checks
+- **Development setup guide** (DEVELOPMENT.md) for complete environment setup
+- **VS Code tasks** for pre-commit hook management
+- **Automated code quality enforcement** before commits reach CI
 
 ### Changed
 - Updated repository URLs in pyproject.toml to reflect actual GitHub repository
@@ -26,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Type annotation for django_integration attribute in HTTP handler
 - Repository metadata in pyproject.toml
 - Deprecated GitHub Actions versions that could cause workflow failures
+- Code quality issues in Django integration (complexity and formatting)
+- CI/CD pipeline failures due to flake8 linting violations
 
 ## [0.1.0] - 2025-06-22
 

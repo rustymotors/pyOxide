@@ -35,7 +35,12 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 ```
 
-3. **Run the application:**
+3. **Set up pre-commit hooks (recommended):**
+```bash
+pre-commit install
+```
+
+4. **Run the application:**
 ```bash
 python -m src.main
 ```
@@ -151,6 +156,28 @@ User.objects.create_superuser('newuser', 'email@example.com', 'password123')
 ```
 
 ## Development
+
+### Pre-commit Hooks (Recommended)
+
+**Set up pre-commit hooks to catch issues before CI:**
+
+```bash
+# Install pre-commit hooks (one-time setup)
+pre-commit install
+
+# Optional: Run on all files to test
+pre-commit run --all-files
+```
+
+The pre-commit hooks automatically run:
+- **Black** code formatting
+- **isort** import sorting
+- **Flake8** linting
+- **MyPy** type checking
+- **pytest** test execution
+- **Security scanning** with Bandit
+
+**📖 See [DEVELOPMENT.md](DEVELOPMENT.md) for complete setup guide**
 
 ### GitHub Actions CI/CD
 
@@ -327,10 +354,12 @@ pyOxide/
 │   └── copilot-instructions.md  # AI coding guidelines
 ├── .vscode/
 │   └── tasks.json               # VS Code tasks
+├── .pre-commit-config.yaml      # Pre-commit hooks configuration
 ├── .gitignore                   # Git ignore rules
 ├── pyproject.toml               # Project configuration
 ├── requirements.txt             # Dependencies
 ├── CHANGELOG.md                 # Version history and changes
+├── DEVELOPMENT.md               # Development setup guide
 ├── db.sqlite3                   # Django database
 └── README.md                    # This file
 ```

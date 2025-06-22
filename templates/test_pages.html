@@ -8,19 +8,19 @@
         body { font-family: Arial, sans-serif; margin: 40px; background: #f8f9fa; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .test-links { margin: 20px 0; }
-        .test-links a { 
-            display: block; 
-            margin: 10px 0; 
-            padding: 15px; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-            text-decoration: none; 
-            color: white; 
-            border-radius: 8px; 
+        .test-links a {
+            display: block;
+            margin: 10px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-decoration: none;
+            color: white;
+            border-radius: 8px;
             transition: transform 0.2s, box-shadow 0.2s;
             font-weight: 500;
         }
-        .test-links a:hover { 
-            transform: translateY(-2px); 
+        .test-links a:hover {
+            transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         .status { margin: 20px 0; padding: 15px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; color: #155724; }
@@ -34,15 +34,15 @@
 <body>
     <div class="container">
         <h1>🚀 pyOxide Django Page Tester</h1>
-        
+
         <div class="status">
             <strong>✅ Server Status:</strong> pyOxide HTTP Server is running on port 3000<br>
             <strong>🐍 Django Integration:</strong> Embedded Django app is active<br>
             <strong>🎨 Static Files:</strong> CSS and JavaScript are being served correctly
         </div>
-        
+
         <p>Click the links below to test Django pages. Since this page is served through pyOxide, all links should work correctly:</p>
-        
+
         <div class="test-links">
             <a href="/">🏠 pyOxide Home Page</a>
             <a href="/admin/">🔐 Django Admin Interface</a>
@@ -53,7 +53,7 @@
             <a href="/status">📈 Server Status (JSON)</a>
             <a href="/health">💚 Health Check (JSON)</a>
         </div>
-        
+
         <div class="credentials">
             <h3>🔑 Django Login Credentials:</h3>
             <ul>
@@ -61,7 +61,7 @@
                 <li><strong>Password:</strong> admin123</li>
             </ul>
         </div>
-        
+
         <div class="tips">
             <h3>💡 Alternative Testing Methods:</h3>
             <ul>
@@ -71,7 +71,7 @@
                 <li><strong>Static Files Test:</strong> <code>curl -I http://localhost:3000/static/admin/css/base.css</code></li>
             </ul>
         </div>
-        
+
         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666;">
             <small>Served by pyOxide HTTP Server • Django Integration Active • All Routes Working</small>
         </div>

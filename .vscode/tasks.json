@@ -170,6 +170,38 @@
 				"clear": true
 			},
 			"problemMatcher": []
+		},
+		{
+			"label": "Setup Pre-commit Hooks",
+			"type": "shell",
+			"command": "${workspaceFolder}/.venv/bin/pre-commit",
+			"args": ["install"],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Run Pre-commit on All Files",
+			"type": "shell",
+			"command": "${workspaceFolder}/.venv/bin/pre-commit",
+			"args": ["run", "--all-files"],
+			"group": "test",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": []
 		}
 	]
 }

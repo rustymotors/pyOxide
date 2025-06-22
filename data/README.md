@@ -7,7 +7,7 @@
 The files in this directory contain **development/testing SSL certificates and private keys** that are:
 
 - ✅ **Intentionally shared** in version control
-- ✅ **Safe for public repositories** 
+- ✅ **Safe for public repositories**
 - ✅ **Only used for local development**
 - ❌ **NEVER used in production environments**
 

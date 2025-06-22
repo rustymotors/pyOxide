@@ -23,11 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     # Only run on successful test completion or direct push to main
     if: github.event_name == 'push' || github.event.workflow_run.conclusion == 'success'
-    
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -55,7 +55,7 @@ jobs:
       run: |
         mkdir -p public
         cp -r htmlcov/* public/
-        
+
         # Create index page with project info
         cat > public/index.html << 'EOF'
         <!DOCTYPE html>
@@ -65,15 +65,15 @@ jobs:
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>pyOxide - Coverage Reports</title>
             <style>
-                body { 
+                body {
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-                    max-width: 1200px; 
-                    margin: 0 auto; 
+                    max-width: 1200px;
+                    margin: 0 auto;
                     padding: 20px;
                     line-height: 1.6;
                 }
-                .header { 
-                    text-align: center; 
+                .header {
+                    text-align: center;
                     margin-bottom: 2rem;
                     padding: 2rem;
                     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -93,9 +93,9 @@ jobs:
                     text-align: center;
                     border: 1px solid #e9ecef;
                 }
-                .stat-number { 
-                    font-size: 2rem; 
-                    font-weight: bold; 
+                .stat-number {
+                    font-size: 2rem;
+                    font-weight: bold;
                     color: #495057;
                 }
                 .links {
@@ -132,7 +132,7 @@ jobs:
                 <h1>🚀 pyOxide Coverage Reports</h1>
                 <p>Modern Python HTTP Server with Django Integration</p>
             </div>
-            
+
             <div class="stats">
                 <div class="stat-card">
                     <div class="stat-number" id="line-coverage">--%</div>
@@ -147,18 +147,18 @@ jobs:
                     <div>Last Updated</div>
                 </div>
             </div>
-            
+
             <div class="links">
                 <a href="./index.html" class="btn">📊 Detailed Coverage Report</a>
                 <a href="https://github.com/YOUR_ORG/pyOxide" class="btn btn-secondary">📂 Source Code</a>
                 <a href="https://github.com/YOUR_ORG/pyOxide/actions" class="btn btn-secondary">🔄 CI/CD Status</a>
             </div>
-            
+
             <div class="footer">
                 <p>Generated automatically by GitHub Actions</p>
                 <p>Coverage reports updated on every push to main branch</p>
             </div>
-            
+
             <script>
                 // Update stats from coverage data if available
                 document.addEventListener('DOMContentLoaded', function() {
@@ -168,7 +168,7 @@ jobs:
         </body>
         </html>
         EOF
-        
+
         # Copy the original coverage report as the detailed view
         if [ -f htmlcov/index.html ]; then
             cp htmlcov/index.html public/coverage.html
@@ -202,6 +202,6 @@ jobs:
         except:
             print('0')
         ")
-        
+
         echo "Coverage: ${COVERAGE}%"
         echo "Pages URL: ${{ steps.deployment.outputs.page_url }}"

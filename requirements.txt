@@ -1,11 +1,11 @@
+black>=22.0
+Django>=4.2
+flake8>=4.0
+isort>=5.10
 # Production Requirements
 Jinja2>=3.0
-Django>=4.2
-requests>=2.25
+mypy>=0.950
 
 # Development Requirements
 pytest>=7.0
-black>=22.0
-flake8>=4.0
-mypy>=0.950
-isort>=5.10
+requests>=2.25
