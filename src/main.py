@@ -16,8 +16,8 @@ class ServerManager:
         self.tcp_servers: List[socket.socket] = []
         self.server_threads: List[threading.Thread] = []
         self.running = False
-        self.http_port = 8000
-        self.tcp_ports = [9001, 9002, 9003, 9004]
+        self.http_port = 3000
+        self.tcp_ports = [8226, 8228, 7003, 43300]
 
     def start_http_server(self) -> None:
         """Start HTTP server in a separate thread."""
