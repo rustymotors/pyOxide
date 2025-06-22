@@ -1,10 +1,9 @@
-"""Models for pyOxide admin interface."""
+"""Django models for pyOxide admin interface."""
 
 from django.db import models
-from django.contrib.auth.models import User
 
 
-class ServerLog(models.Model):
+class ServerStatus(models.Model):
     """Log entries for server operations."""
 
     timestamp = models.DateTimeField(auto_now_add=True)

@@ -3,8 +3,8 @@
 import os
 import sys
 import io
-from typing import Any, Dict, List, Tuple, Optional, Callable
-from urllib.parse import parse_qs, unquote
+from typing import Any, Dict, List, Tuple, Callable
+from urllib.parse import unquote
 
 import django
 from django.core.wsgi import get_wsgi_application

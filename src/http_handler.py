@@ -105,9 +105,9 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         endpoints = [
             {"method": "GET", "path": "/", "description": "This page"},
             {
-                "method": "GET", 
-                "path": "/test", 
-                "description": "🧪 **Interactive test page for all routes**"
+                "method": "GET",
+                "path": "/test",
+                "description": "🧪 **Interactive test page for all routes**",
             },
             {
                 "method": "GET",
@@ -308,11 +308,11 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             self.send_response(status_code)
             for header_name, header_value in response_headers.items():
                 self.send_header(header_name, header_value)
-            
+
             # Ensure Content-Length is set
-            if 'Content-Length' not in response_headers:
-                self.send_header('Content-Length', str(len(response_body)))
-            
+            if "Content-Length" not in response_headers:
+                self.send_header("Content-Length", str(len(response_body)))
+
             self.end_headers()
             self.wfile.write(response_body)
 

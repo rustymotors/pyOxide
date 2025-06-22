@@ -2,11 +2,10 @@
 
 import json
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from typing import Any, Dict
+from typing import Any
 
 
 def api_info(request: Any) -> JsonResponse:
@@ -89,7 +88,17 @@ def user_management(request: Any) -> JsonResponse:
 
 
 def dashboard(request: Any) -> HttpResponse:
-    """Render the admin dashboard."""
+    """Render the admin dashboard using Jinja2 template."""
+    from jinja2 import Environment, FileSystemLoader
+    import os
+
+    # Set up Jinja2 environment
+    template_dir = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "templates"
+    )
+    env = Environment(loader=FileSystemLoader(template_dir))
+    template = env.get_template("django_dashboard.html")
+
     context = {
         "total_users": User.objects.count(),
         "active_users": User.objects.filter(is_active=True).count(),
@@ -97,42 +106,5 @@ def dashboard(request: Any) -> HttpResponse:
         "title": "pyOxide Admin Dashboard",
     }
 
-    # For now, return a simple HTML response
-    # Later we can create a proper template
-    html_content = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>{context['title']}</title>
-        <style>
-            body {{ font-family: Arial, sans-serif; margin: 40px; }}
-            .dashboard {{ background: #f5f5f5; padding: 20px; border-radius: 10px; }}
-            .stat {{ display: inline-block; margin: 10px; padding: 15px; 
-                    background: white; border-radius: 5px; min-width: 150px; }}
-            .stat h3 {{ margin: 0; color: #333; }}
-            .stat p {{ margin: 5px 0 0 0; font-size: 24px; font-weight: bold; color: #007cba; }}
-        </style>
-    </head>
-    <body>
-        <h1>{context['title']}</h1>
-        <div class="dashboard">
-            <div class="stat">
-                <h3>Total Users</h3>
-                <p>{context['total_users']}</p>
-            </div>
-            <div class="stat">
-                <h3>Active Users</h3>
-                <p>{context['active_users']}</p>
-            </div>
-            <div class="stat">
-                <h3>Staff Users</h3>
-                <p>{context['staff_users']}</p>
-            </div>
-        </div>
-        <p><a href="/admin/">Go to Django Admin Interface</a></p>
-        <p><a href="/">Back to pyOxide Home</a></p>
-    </body>
-    </html>
-    """
-
+    html_content = template.render(context)
     return HttpResponse(html_content)
