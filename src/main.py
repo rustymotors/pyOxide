@@ -211,9 +211,10 @@ def main() -> None:
                 server_manager.start_servers()
             elif user_input == "status":
                 status = server_manager.get_status()
-                print(f"\nServer Status:")
+                print("\nServer Status:")
                 print(f"  Overall running: {status['running']}")
-                print(f"  HTTP server (port 8000): {status['http_server']}")
+                http_status = status["http_server"]
+                print(f"  HTTP server (port {server_manager.http_port}): {http_status}")
                 print("  TCP servers:")
                 for port, running in status["tcp_servers"].items():
                     print(f"    Port {port}: {running}")
@@ -223,9 +224,11 @@ def main() -> None:
             elif user_input == "":
                 continue  # Skip empty input
             else:
-                print(
-                    f"Unknown command: '{user_input}'. Type 'help' for available commands."
+                msg = (
+                    f"Unknown command: '{user_input}'. "
+                    "Type 'help' for available commands."
                 )
+                print(msg)
 
     except KeyboardInterrupt:
         print("\n\nReceived keyboard interrupt. Goodbye!")
