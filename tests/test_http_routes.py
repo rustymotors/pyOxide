@@ -212,7 +212,7 @@ class TestHTTPRoutes:
 
         # Check that template variables were rendered
         assert "Running" in response_body  # status
-        assert "0.1.0" in response_body  # version
+        assert "0.1.1" in response_body  # version
 
         # Check that endpoints were rendered
         assert "GET /" in response_body

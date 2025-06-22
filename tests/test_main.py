@@ -9,7 +9,12 @@ def test_hello_world() -> None:
     server_manager = ServerManager()
     command_handler = CommandHandler(server_manager)
     result = command_handler.get_hello_message()
-    assert result == "Hello, World from pyOxide!"
+
+    # Check that the message contains the expected elements
+    assert "pyOxide v0.1.1" in result
+    assert "A Python HTTP Server with Django Integration" in result
+    assert "Server ready!" in result
+    assert "http://localhost:3000/test" in result
     assert isinstance(result, str)
 
 

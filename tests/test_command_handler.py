@@ -26,7 +26,9 @@ def test_get_hello_message() -> None:
     handler = CommandHandler(server_manager)
 
     message = handler.get_hello_message()
-    assert message == "Hello, World from pyOxide!"
+    assert "pyOxide v0.1.1" in message
+    assert "🚀 Server ready!" in message
+    assert "http://localhost:3000/test" in message
 
 
 @patch("sys.stdout", new_callable=StringIO)
@@ -39,9 +41,10 @@ def test_show_help(mock_stdout: StringIO) -> None:
     output = mock_stdout.getvalue()
 
     assert "Available commands:" in output
-    assert "help   - Show this help message" in output
-    assert "hello  - Display greeting" in output
-    assert "quit   - Exit the application" in output
+    assert "help    - Show this help message" in output
+    assert "hello   - Display greeting" in output
+    assert "license - Show license information" in output
+    assert "quit    - Exit the application" in output
 
 
 @patch("sys.stdout", new_callable=StringIO)
@@ -53,7 +56,10 @@ def test_show_hello(mock_stdout: StringIO) -> None:
     handler.show_hello()
     output = mock_stdout.getvalue()
 
-    assert "Hello, World from pyOxide!" in output
+    assert "pyOxide v0.1.1" in output
+    assert "Copyright (C) 2025 rustymotors" in output
+    assert "ABSOLUTELY NO WARRANTY" in output
+    assert "Type 'license' for details" in output
 
 
 @patch("sys.stdout", new_callable=StringIO)
@@ -65,9 +71,26 @@ def test_show_info(mock_stdout: StringIO) -> None:
     handler.show_info()
     output = mock_stdout.getvalue()
 
-    assert "pyOxide - A modern Python project template" in output
-    assert "Version: 0.1.0" in output
+    assert "pyOxide - A modern Python HTTP server with Django integration" in output
+    assert "Version: 0.1.1" in output
+    assert "License: GPL v3.0" in output
     assert "Built with love and modern Python practices! 🐍" in output
+
+
+@patch("sys.stdout", new_callable=StringIO)
+def test_show_license(mock_stdout: StringIO) -> None:
+    """Test showing license information."""
+    server_manager = MagicMock()
+    handler = CommandHandler(server_manager)
+
+    handler.show_license()
+    output = mock_stdout.getvalue()
+
+    assert "LICENSE INFORMATION" in output
+    assert "GNU General Public License" in output
+    assert "Copyright (C) 2025 rustymotors" in output
+    assert "https://www.gnu.org/licenses/" in output
+    assert "https://github.com/rustymotors/pyOxide" in output
 
 
 def test_start_servers() -> None:
@@ -141,7 +164,9 @@ def test_handle_command_valid(mock_stdout: StringIO) -> None:
 
     result = handler.handle_command("hello")
     assert result is True
-    assert "Hello, World from pyOxide!" in mock_stdout.getvalue()
+    output = mock_stdout.getvalue()
+    assert "pyOxide v0.1.1" in output
+    assert "Copyright (C) 2025 rustymotors" in output
 
     handler.handle_command("start")
     server_manager.start_servers.assert_called_once()

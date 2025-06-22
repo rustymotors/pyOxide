@@ -61,6 +61,7 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             "/health": self.route_health,
             "/AuthLogin": self.route_auth_login,
             "/test": self.route_test_pages,
+            "/license": self.route_license,
         }
 
         self.post_routes: Dict[str, Callable[[], None]] = {
@@ -132,6 +133,11 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             },
             {
                 "method": "GET",
+                "path": "/license",
+                "description": "📄 GPL v3.0 license information",
+            },
+            {
+                "method": "GET",
                 "path": "/status",
                 "description": "Server status information",
             },
@@ -175,7 +181,7 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         html_content = template.render(
             status="Running",
             timestamp=time.strftime("%Y-%m-%d %H:%M:%S"),
-            version="0.1.0",
+            version="0.1.1",
             endpoints=endpoints,
         )
 
@@ -264,6 +270,12 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
     def route_test_pages(self) -> None:
         """Handle test pages route (GET /test)."""
         template = self.jinja_env.get_template("test_pages.html")
+        html_content = template.render()
+        self._send_html_response(html_content)
+
+    def route_license(self) -> None:
+        """Handle license route (GET /license) - GPL v3.0 compliance."""
+        template = self.jinja_env.get_template("license.html")
         html_content = template.render()
         self._send_html_response(html_content)
 

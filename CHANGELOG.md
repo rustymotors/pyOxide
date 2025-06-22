@@ -7,9 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **GPL v3.0 Compliance Features**
+  - `license` CLI command for displaying GPL license information
+  - `/license` HTTP endpoint with dedicated Jinja2 template
+  - GPL license headers in all Python source files
+  - Copyright notices in CLI and web interfaces
+
 ### Changed
-- **License updated from MIT to GPL v3.0** - All source files now include GPL license headers
-- **Project metadata updated** - pyproject.toml and documentation reflect GPL v3.0 licensing
+- **License Migration from MIT to GPL v3.0**
+  - Updated LICENSE file to GPL v3.0
+  - Updated project metadata in pyproject.toml (license field and classifier)
+  - Updated README.md badge and license section
+- **Enhanced CLI Interface**
+  - Updated `hello` command to display GPL compliance notice
+  - Updated help messages to include new `license` command
+  - Enhanced project info display with GPL v3.0 license
+- **Template Updates**
+  - Added `license.html` template for web license display
+  - Updated `home.html` and `test_pages.html` to link to license page
+  - Added copyright notices to all templates
+
+### Fixed
+- **Test Suite Improvements**
+  - Fixed version mismatch in HTTP routes test (0.1.0 → 0.1.1)
+  - Updated hello world test to match new formatted banner message
+  - All 38 tests now passing
+- **Code Quality**
+  - Fixed line length issues in GPL license text display
+  - All pre-commit hooks now passing (Black, isort, flake8, mypy, bandit, pytest)
+  - Maintained 62.52% test coverage
 
 ## [0.1.1] - 2025-06-22
 

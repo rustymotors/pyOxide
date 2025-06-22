@@ -5,7 +5,7 @@
 {% block content %}
 <div class="info">
     <p><strong>Welcome to pyOxide!</strong></p>
-    <p>A modern Python project template with HTTP and TCP server capabilities.</p>
+    <p>A modern Python HTTP server with Django integration, featuring modular architecture and best practices.</p>
     <p><strong>Server Status:</strong> {{ status }}</p>
     <p><strong>Started:</strong> {{ timestamp }}</p>
     <p><strong>Version:</strong> {{ version }}</p>
@@ -16,5 +16,12 @@
     {% for endpoint in endpoints %}
     <div class="endpoint">{{ endpoint.method }} {{ endpoint.path }} - {{ endpoint.description }}</div>
     {% endfor %}
+</div>
+
+<div class="footer-info">
+    <p><strong>Copyright (C) 2025 rustymotors</strong></p>
+    <p>Licensed under <a href="/license">GPL v3.0</a> |
+       <a href="https://github.com/rustymotors/pyOxide" target="_blank">Source Code</a></p>
+    <p><em>This is free software, and you are welcome to redistribute it under certain conditions.</em></p>
 </div>
 {% endblock %}

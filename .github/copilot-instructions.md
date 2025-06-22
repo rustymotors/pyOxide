@@ -55,6 +55,7 @@ This is a Python project using modern development practices. When working on thi
 - **Include GPL license header** in all new Python source files (see License Compliance section)
 - **Update copyright years** when making substantial changes to existing files
 - **Maintain GPL compliance** when adding new dependencies or external code
+- **ALWAYS update CHANGELOG.md** for any code changes (see Documentation and Changelog section)
 
 ## HTML/CSS Templates
 - **NEVER mix HTML/CSS directly in Python code**
@@ -117,3 +118,13 @@ This is a Python project using modern development practices. When working on thi
 - **Static files**: Verify CSS/JS loading (`curl -I http://localhost:3000/static/admin/css/base.css`)
 - **Django admin**: Test with credentials admin/admin123
 - **NEVER rely on VS Code Simple Browser** for Django pages (limited functionality)
+
+## Documentation and Changelog
+- **ALWAYS update CHANGELOG.md** when making changes to the codebase
+- **Follow Keep a Changelog format** with proper sections (Added, Changed, Fixed, etc.)
+- **Document all user-facing changes** including new features, bug fixes, and breaking changes
+- **Update changelog entries** in the `[Unreleased]` section during development
+- **Include both technical and user-impact descriptions** in changelog entries
+- **Group related changes** under clear headings (e.g., "GPL v3.0 Compliance Features")
+- **Reference specific files/components** when documenting technical changes
+- **Update copyright years** in changelog when making substantial changes

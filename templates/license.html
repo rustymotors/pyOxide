@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}License Information - pyOxide{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>📄 License Information</h1>
+        <p class="subtitle">GPL v3.0 License Details</p>
+    </div>
+
+    <div class="license-section">
+        <h2>Copyright Notice</h2>
+        <div class="info-box">
+            <p><strong>pyOxide</strong> - A Python HTTP server with Django integration</p>
+            <p><strong>Copyright (C) 2025 rustymotors</strong></p>
+        </div>
+    </div>
+
+    <div class="license-section">
+        <h2>License Summary</h2>
+        <div class="info-box">
+            <p>This program is <strong>free software</strong>: you can redistribute it and/or modify
+            it under the terms of the <strong>GNU General Public License</strong> as published by
+            the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.</p>
+
+            <p>This program is distributed in the hope that it will be useful,
+            but WITHOUT ANY WARRANTY; without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+            GNU General Public License for more details.</p>
+        </div>
+    </div>
+
+    <div class="license-section">
+        <h2>Your Rights</h2>
+        <div class="info-box">
+            <p>Under GPL v3.0, you have the right to:</p>
+            <ul>
+                <li>✅ <strong>Use</strong> the software for any purpose</li>
+                <li>✅ <strong>Study</strong> how the program works and modify it</li>
+                <li>✅ <strong>Redistribute</strong> copies to help others</li>
+                <li>✅ <strong>Distribute</strong> your modified versions</li>
+            </ul>
+            <p><em>All derivative works must also be licensed under GPL v3.0.</em></p>
+        </div>
+    </div>
+
+    <div class="license-section">
+        <h2>Source Code & License</h2>
+        <div class="info-box">
+            <p><strong>Complete License Text:</strong>
+               See the <a href="https://github.com/rustymotors/pyOxide/blob/main/LICENSE" target="_blank">LICENSE</a> file</p>
+            <p><strong>Source Code:</strong>
+               <a href="https://github.com/rustymotors/pyOxide" target="_blank">https://github.com/rustymotors/pyOxide</a></p>
+            <p><strong>GPL v3.0 Full Text:</strong>
+               <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">https://www.gnu.org/licenses/gpl-3.0.html</a></p>
+        </div>
+    </div>
+
+    <div class="license-section">
+        <h2>Command Line Access</h2>
+        <div class="info-box">
+            <p>You can also view license information from the command line interface:</p>
+            <pre><code>license</code></pre>
+            <p><em>Type the command while the server is running.</em></p>
+        </div>
+    </div>
+
+    <div class="back-link">
+        <a href="/">← Back to Home</a>
+    </div>
+</div>
+
+<style>
+.license-section {
+    margin: 2rem 0;
+}
+
+.license-section h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.info-box {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.info-box ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.info-box li {
+    margin: 0.5rem 0;
+}
+
+.info-box a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.info-box a:hover {
+    text-decoration: underline;
+}
+
+.info-box pre {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+    font-family: 'Courier New', monospace;
+}
+
+.back-link {
+    text-align: center;
+    margin: 3rem 0 1rem 0;
+}
+
+.back-link a {
+    background: #3498db;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.back-link a:hover {
+    background: #2980b9;
+}
+</style>
+{% endblock %}
