@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}pyOxide Server - Home{% endblock %}
+
+{% block content %}
+<div class="info">
+    <p><strong>Welcome to pyOxide!</strong></p>
+    <p>A modern Python project template with HTTP and TCP server capabilities.</p>
+    <p><strong>Server Status:</strong> {{ status }}</p>
+    <p><strong>Started:</strong> {{ timestamp }}</p>
+    <p><strong>Version:</strong> {{ version }}</p>
+</div>
+
+<div class="endpoints">
+    <h3>Available Endpoints:</h3>
+    {% for endpoint in endpoints %}
+    <div class="endpoint">{{ endpoint.method }} {{ endpoint.path }} - {{ endpoint.description }}</div>
+    {% endfor %}
+</div>
+{% endblock %}

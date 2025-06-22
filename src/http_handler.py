@@ -1,10 +1,13 @@
 """HTTP request handling module for pyOxide application."""
 
 import json
+import os
 import time
 from http.server import BaseHTTPRequestHandler
 from typing import Any, Dict
 from urllib.parse import urlparse
+
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 class PyOxideHTTPHandler(BaseHTTPRequestHandler):
@@ -12,6 +15,14 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the HTTP handler."""
+        # Set up Jinja2 environment
+        template_dir = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "templates"
+        )
+        self.jinja_env = Environment(
+            loader=FileSystemLoader(template_dir),
+            autoescape=select_autoescape(["html", "xml"]),
+        )
         super().__init__(*args, **kwargs)
 
     def do_GET(self) -> None:
@@ -42,42 +53,38 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
 
     def _handle_root(self) -> None:
         """Handle root path requests."""
-        html_content = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>pyOxide Server</title>
-            <style>
-                body {{ font-family: Arial, sans-serif; margin: 40px; }}
-                .header {{ color: #2c3e50; }}
-                .info {{ background: #ecf0f1; padding: 20px; border-radius: 5px; }}
-                .endpoints {{ margin-top: 20px; }}
-                .endpoint {{
-                    margin: 10px 0; padding: 5px; background: #3498db;
-                    color: white; border-radius: 3px;
-                }}
-            </style>
-        </head>
-        <body>
-            <h1 class="header">🐍 pyOxide HTTP Server</h1>
-            <div class="info">
-                <p><strong>Welcome to pyOxide!</strong></p>
-                <p>A modern Python project template with HTTP and TCP server
-                capabilities.</p>
-                <p><strong>Server Status:</strong> Running</p>
-                <p><strong>Started:</strong> {time.strftime("%Y-%m-%d %H:%M:%S")}</p>
-            </div>
-            <div class="endpoints">
-                <h3>Available Endpoints:</h3>
-                <div class="endpoint">GET / - This page</div>
-                <div class="endpoint">GET /status - Server status information</div>
-                <div class="endpoint">GET /health - Health check endpoint</div>
-                <div class="endpoint">GET /api/info - JSON API information</div>
-                <div class="endpoint">POST /api/echo - Echo back JSON data</div>
-            </div>
-        </body>
-        </html>
-        """
+        template = self.jinja_env.get_template("home.html")
+
+        endpoints = [
+            {"method": "GET", "path": "/", "description": "This page"},
+            {
+                "method": "GET",
+                "path": "/status",
+                "description": "Server status information",
+            },
+            {
+                "method": "GET",
+                "path": "/health",
+                "description": "Health check endpoint",
+            },
+            {
+                "method": "GET",
+                "path": "/api/info",
+                "description": "JSON API information",
+            },
+            {
+                "method": "POST",
+                "path": "/api/echo",
+                "description": "Echo back JSON data",
+            },
+        ]
+
+        html_content = template.render(
+            status="Running",
+            timestamp=time.strftime("%Y-%m-%d %H:%M:%S"),
+            version="0.1.0",
+            endpoints=endpoints,
+        )
 
         self._send_html_response(html_content)
 
@@ -152,26 +159,8 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
 
     def _handle_not_found(self) -> None:
         """Handle 404 not found responses."""
-        error_html = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>404 - Not Found</title>
-            <style>
-                body {{
-                    font-family: Arial, sans-serif; margin: 40px;
-                    text-align: center;
-                }}
-                .error {{ color: #e74c3c; }}
-            </style>
-        </head>
-        <body>
-            <h1 class="error">404 - Page Not Found</h1>
-            <p>The requested path was not found on this server.</p>
-            <p><a href="/">Return to home page</a></p>
-        </body>
-        </html>
-        """
+        template = self.jinja_env.get_template("404.html")
+        error_html = template.render(requested_path=self.path)
         self._send_html_response(error_html, status_code=404)
 
     def _handle_method_not_allowed(self) -> None:

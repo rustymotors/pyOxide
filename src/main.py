@@ -19,7 +19,15 @@ def main() -> None:
     print("  ✓ Type checking with MyPy")
     print("  ✓ testing with pytest")
     print("  ✓ VS Code integration")
+    print("  ✓ Jinja2 templating")
     print()
+
+    # Auto-start servers
+    print("🚀 Starting servers automatically...")
+    server_manager.start_servers()
+
+    # Show server status
+    command_handler.show_status()
 
     # Main loop - wait for user input
     try:
@@ -32,9 +40,13 @@ def main() -> None:
                 break
 
     except KeyboardInterrupt:
-        print("\n\nReceived keyboard interrupt. Goodbye!")
+        print("\n\nReceived keyboard interrupt. Stopping servers...")
+        server_manager.stop_servers()
+        print("Goodbye!")
     except EOFError:
-        print("\n\nEnd of input reached. Goodbye!")
+        print("\n\nEnd of input reached. Stopping servers...")
+        server_manager.stop_servers()
+        print("Goodbye!")
 
 
 if __name__ == "__main__":
