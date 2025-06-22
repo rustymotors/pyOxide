@@ -1,0 +1,21 @@
+# GitLeaks configuration for pyOxide
+# This file tells security scanners that certain files contain intentional test keys
+
+[[rules]]
+id = "generic-private-key"
+description = "Generic Private Key"
+regex = '''-----BEGIN[ A-Z]*PRIVATE KEY-----'''
+path = '''data/private_key\.pem'''
+allowlist = true
+
+[[rules]]
+id = "development-ssl-files"
+description = "Development SSL certificates and keys"
+regex = '''(BEGIN CERTIFICATE|BEGIN PRIVATE KEY|BEGIN PUBLIC KEY)'''
+paths = [
+    '''data/mcouniverse\.crt''',
+    '''data/private_key\.pem''',
+    '''data/pub\.key''',
+    '''data/mcouniverse\.cnf'''
+]
+allowlist = true
