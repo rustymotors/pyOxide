@@ -84,7 +84,7 @@ jobs:
         echo "::endgroup::"
 
     - name: Upload security reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: security-reports
@@ -146,7 +146,7 @@ jobs:
         echo "::endgroup::"
 
     - name: Upload HTML coverage report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: coverage-html-python${{ matrix.python-version }}
@@ -154,7 +154,7 @@ jobs:
         retention-days: 30
 
     - name: Upload XML coverage report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: coverage-xml-python${{ matrix.python-version }}
@@ -162,7 +162,7 @@ jobs:
         retention-days: 30
 
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: pytest-results-python${{ matrix.python-version }}
