@@ -24,8 +24,9 @@ class ServerManager:
     def start_http_server(self) -> None:
         """Start HTTP server in a separate thread."""
         try:
+            # nosec B104: Development server needs to bind to all interfaces
             self.http_server = HTTPServer(
-                ("0.0.0.0", self.http_port), PyOxideHTTPHandler
+                ("0.0.0.0", self.http_port), PyOxideHTTPHandler  # nosec
             )
             print(f"HTTP server starting on port {self.http_port}")
             self.http_server.serve_forever()
@@ -37,7 +38,8 @@ class ServerManager:
         try:
             server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            server_socket.bind(("0.0.0.0", port))
+            # nosec B104: Development TCP server needs to bind to all interfaces
+            server_socket.bind(("0.0.0.0", port))  # nosec
             server_socket.listen(5)
             self.tcp_servers.append(server_socket)
             print(f"TCP server starting on port {port}")
