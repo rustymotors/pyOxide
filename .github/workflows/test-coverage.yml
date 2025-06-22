@@ -38,6 +38,42 @@ jobs:
       run: |
         pytest --cov=src --cov-report=html --cov-report=xml --cov-report=term-missing --junitxml=pytest-results.xml
 
+    - name: Generate organizational coverage report
+      run: |
+        python -c "
+        import xml.etree.ElementTree as ET
+        import json
+        from datetime import datetime
+        
+        try:
+            tree = ET.parse('coverage.xml')
+            root = tree.getroot()
+            line_rate = float(root.get('line-rate', 0))
+            branch_rate = float(root.get('branch-rate', 0))
+            
+            coverage_data = {
+                'project': 'pyOxide',
+                'timestamp': datetime.now().isoformat(),
+                'overall': {
+                    'line_coverage': line_rate * 100,
+                    'branch_coverage': branch_rate * 100
+                },
+                'status': 'excellent' if line_rate >= 0.9 else 'good' if line_rate >= 0.75 else 'fair' if line_rate >= 0.5 else 'poor',
+                'python_version': '${{ matrix.python-version }}',
+                'reports': {
+                    'html': 'htmlcov/index.html',
+                    'xml': 'coverage.xml'
+                }
+            }
+            
+            with open('coverage-report.json', 'w') as f:
+                json.dump(coverage_data, f, indent=2)
+                
+            print(f'Coverage: {line_rate * 100:.1f}%')
+        except Exception as e:
+            print(f'Error: {e}')
+        "
+
     - name: Generate coverage status
       run: |
         python scripts/coverage_status.py > coverage-status.txt
@@ -81,6 +117,14 @@ jobs:
       with:
         name: coverage-status-${{ matrix.python-version }}
         path: coverage-status.txt
+        retention-days: 30
+
+    - name: Upload organizational coverage report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: coverage-org-report-${{ matrix.python-version }}
+        path: coverage-report.json
         retention-days: 30
 
     - name: Comment coverage on PR

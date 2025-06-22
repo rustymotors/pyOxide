@@ -4,6 +4,7 @@
 import xml.etree.ElementTree as ET
 import os
 
+
 def get_coverage_percentage():
     """Extract coverage percentage from coverage.xml file."""
     coverage_file = "coverage.xml"
@@ -44,6 +45,7 @@ def get_coverage_percentage():
     except Exception as e:
         print(f"❌ Error reading coverage.xml: {e}")
         return None
+
 
 if __name__ == "__main__":
     get_coverage_percentage()
