@@ -41,13 +41,26 @@ class DjangoWSGIIntegration:
         Returns:
             Tuple of (status_code, response_headers, response_body)
         """
+        environ = self._create_wsgi_environ(method, path, headers, body)
+
+        try:
+            return self._execute_wsgi_request(environ)
+        except Exception as e:
+            # Handle Django errors
+            error_body = f"Django Error: {str(e)}".encode()
+            return 500, {"Content-Type": "text/plain"}, error_body
+
+    def _create_wsgi_environ(
+        self, method: str, path: str, headers: Dict[str, str], body: bytes
+    ) -> Dict[str, Any]:
+        """Create WSGI environ dictionary from request parameters."""
         # Parse query string
         if "?" in path:
             path_info, query_string = path.split("?", 1)
         else:
             path_info, query_string = path, ""
 
-        # Prepare WSGI environ
+        # Prepare base WSGI environ
         environ = {
             "REQUEST_METHOD": method,
             "PATH_INFO": unquote(path_info),
@@ -67,6 +80,14 @@ class DjangoWSGIIntegration:
         }
 
         # Add HTTP headers to environ
+        self._add_headers_to_environ(environ, headers)
+
+        return environ
+
+    def _add_headers_to_environ(
+        self, environ: Dict[str, Any], headers: Dict[str, str]
+    ) -> None:
+        """Add HTTP headers to WSGI environ dictionary."""
         for header_name, header_value in headers.items():
             # Convert header name to CGI format
             key = "HTTP_" + header_name.upper().replace("-", "_")
@@ -78,6 +99,10 @@ class DjangoWSGIIntegration:
         if "user-agent" in headers:
             environ["HTTP_USER_AGENT"] = headers["user-agent"]
 
+    def _execute_wsgi_request(
+        self, environ: Dict[str, Any]
+    ) -> Tuple[int, Dict[str, str], bytes]:
+        """Execute WSGI request and return response."""
         # Capture response
         response_data: Dict[str, Any] = {"status": "200 OK", "headers": [], "body": []}
 
@@ -94,23 +119,24 @@ class DjangoWSGIIntegration:
             return write
 
         # Call Django WSGI application
-        try:
-            response_iter = self.application(environ, start_response)
+        response_iter = self.application(environ, start_response)
 
-            # Collect response body
-            for chunk in response_iter:
-                if chunk:
-                    response_data["body"].append(chunk)
+        # Collect response body
+        for chunk in response_iter:
+            if chunk:
+                response_data["body"].append(chunk)
 
-            # Close iterator if it has close method
-            if hasattr(response_iter, "close"):
-                response_iter.close()
+        # Close iterator if it has close method
+        if hasattr(response_iter, "close"):
+            response_iter.close()
 
-        except Exception as e:
-            # Handle Django errors
-            error_body = f"Django Error: {str(e)}".encode()
-            return 500, {"Content-Type": "text/plain"}, error_body
+        # Parse and return response
+        return self._parse_wsgi_response(response_data)
 
+    def _parse_wsgi_response(
+        self, response_data: Dict[str, Any]
+    ) -> Tuple[int, Dict[str, str], bytes]:
+        """Parse WSGI response data into HTTP response format."""
         # Parse status code
         status_code = int(response_data["status"].split(" ", 1)[0])
 
