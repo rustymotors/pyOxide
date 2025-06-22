@@ -201,3 +201,6 @@ tmp/
 
 # Project specific
 # Add any project-specific files or directories here
+
+# Security scanner reports
+bandit-report*.json
