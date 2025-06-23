@@ -121,8 +121,10 @@ This is a Python project using modern development practices. When working on thi
 
 ## Documentation and Changelog
 - **ALWAYS update CHANGELOG.md** when making changes to the codebase
+- **ALWAYS update FEATURES.md** when adding new features or capabilities
 - **Follow Keep a Changelog format** with proper sections (Added, Changed, Fixed, etc.)
 - **Document all user-facing changes** including new features, bug fixes, and breaking changes
+- **Update feature specification** with new endpoints, models, CLI commands, or capabilities
 - **Update changelog entries** in the `[Unreleased]` section during development
 - **Include both technical and user-impact descriptions** in changelog entries
 - **Group related changes** under clear headings (e.g., "GPL v3.0 Compliance Features")

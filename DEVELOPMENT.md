@@ -2,7 +2,14 @@
 
 This guide will help you set up a complete development environment for pyOxide with pre-commit hooks to catch issues before CI.
 
-## 🚀 Quick Setup
+## � Development Documentation
+
+- **[FEATURES.md](./FEATURES.md)** - Comprehensive feature specification and capabilities registry
+- **[CHANGELOG.md](./CHANGELOG.md)** - Version history and change documentation
+- **[README.md](./README.md)** - Project overview and user guide
+- **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - Command and endpoint reference
+
+## �🚀 Quick Setup
 
 ### 1. Initial Environment Setup
 
@@ -66,6 +73,23 @@ git commit -m "Your commit message"
 # 3. Push (CI will pass because pre-commit caught issues)
 git push
 ```
+
+### **Feature Development Workflow:**
+
+For any new features or significant changes:
+
+1. **Update FEATURES.md** - Document the new capability in the feature specification
+2. **Update CHANGELOG.md** - Add entry to the [Unreleased] section
+3. **Implement Changes** - Follow GPL compliance and coding standards
+4. **Write Tests** - Add comprehensive test coverage
+5. **Update Documentation** - Update README.md if user-facing changes
+6. **Run Quality Checks** - Ensure all pre-commit hooks pass
+
+**Required Documentation Updates:**
+- ✅ **FEATURES.md** - ALWAYS update for new features, endpoints, models, or CLI commands
+- ✅ **CHANGELOG.md** - ALWAYS update for any code changes
+- ✅ **README.md** - Update for user-facing changes
+- ✅ **GPL Headers** - Include in all new source files
 
 ### **If Pre-commit Hooks Fail:**
 
@@ -170,6 +194,61 @@ With pre-commit hooks properly set up:
 ✅ **Test Coverage workflow** will pass
 ✅ **CI/CD Pipeline** will complete successfully
 ✅ **No more CI failures** due to formatting issues
+
+## 🚀 Feature Development Workflow
+
+When adding new features to pyOxide, follow this systematic approach:
+
+### **1. Feature Planning & Documentation**
+```bash
+# 1. Update FEATURES.md with new feature specification
+# 2. Document expected endpoints, models, or CLI commands
+# 3. Update feature capability tables
+# 4. Plan implementation approach
+```
+
+### **2. Implementation Standards**
+- ✅ **GPL v3.0 Compliance** - Add license headers to all new Python files
+- ✅ **Modular Architecture** - Follow existing patterns (separate concerns)
+- ✅ **Type Safety** - Comprehensive type hints for all functions/methods
+- ✅ **Template System** - Use Jinja2 templates for HTML (no inline HTML in Python)
+- ✅ **Django Integration** - Work within embedded Django context
+
+### **3. Testing Requirements**
+```bash
+# Create comprehensive tests for new functionality
+# Naming: test_<feature>.py for new features
+# Ensure all existing tests continue to pass
+pytest tests/ -v
+pytest test_<new_feature>.py -v
+```
+
+### **4. Documentation Updates**
+- [ ] Update `FEATURES.md` with implementation details
+- [ ] Update `CHANGELOG.md` with detailed changes (under `[Unreleased]`)
+- [ ] Update `README.md` if user-facing changes
+- [ ] Add VS Code tasks if applicable (in `.vscode/tasks.json`)
+
+### **5. Quality Assurance Checklist**
+```bash
+# Run full quality checks before commit
+pre-commit run --all-files
+pytest tests/ --cov=src --cov-report=term-missing
+mypy src/
+```
+
+### **6. Commit Standards**
+```bash
+# Use descriptive commit messages with feature context
+git commit -m "feat: Add <feature> with <key capabilities>
+
+- Implementation details
+- Integration notes
+- Testing verification
+- Documentation updates
+
+All tests passing, GPL compliant, embedded Django working."
+```
 
 ## 🎯 Benefits
 
