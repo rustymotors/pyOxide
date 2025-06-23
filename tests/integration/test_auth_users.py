@@ -5,6 +5,8 @@ Tests user creation, password hashing, and authentication.
 """
 import os
 import sys
+from typing import Any
+from uuid import uuid4
 
 sys.path.insert(0, "src")
 
@@ -18,21 +20,25 @@ django.setup()
 from src.django_app.pyoxide_admin.models import AuthUsers
 
 
-def test_auth_users():
+def test_auth_users() -> None:
     """Test AuthUsers model functionality."""
     print("🧪 Testing AuthUsers model...")
 
-    # Clean up any existing test users
-    AuthUsers.objects.filter(username__in=["testuser1", "testuser2"]).delete()
+    # Generate unique usernames to avoid conflicts
+    username1 = f"testuser_{str(uuid4())[:8]}"
+    username2 = f"testuser_{str(uuid4())[:8]}"
 
-    # Test 1: Create a new user
+    # Clean up any existing test users
+    AuthUsers.objects.filter(username__in=[username1, username2]).delete()
+
+    # Test 1: Create a new user using create_user method
     print("\n1. Creating a new user...")
-    user = AuthUsers.objects.create_user(
-        username="testuser1", email="test@example.com", password="securepassword123"
+    user = AuthUsers.create_user(
+        username=username1, email="test@example.com", password="securepassword123"
     )
-    print(f"   ✓ Created user: {user.username} (ID: {user.id})")
+    print(f"   ✓ Created user: {user.username} (ID: {user.customer_id})")
     print(f"   ✓ Email: {user.email}")
-    print(f"   ✓ Password is hashed: {user.password[:20]}...")
+    print(f"   ✓ Password is hashed: {user.password_hash[:20]}...")
     print(f"   ✓ Is active: {user.is_active}")
     print(f"   ✓ Created at: {user.created_at}")
 
@@ -45,11 +51,11 @@ def test_auth_users():
 
     # Test 3: Create user with raw password (should be hashed automatically)
     print("\n3. Creating user with create() method...")
-    user2 = AuthUsers(username="testuser2", email="test2@example.com")
+    user2 = AuthUsers(username=username2, email="test2@example.com")
     user2.set_password("anotherpassword456")
     user2.save()
-    print(f"   ✓ Created user: {user2.username} (ID: {user2.id})")
-    print(f"   ✓ Password is hashed: {user2.password[:20]}...")
+    print(f"   ✓ Created user: {user2.username} (ID: {user2.customer_id})")
+    print(f"   ✓ Password is hashed: {user2.password_hash[:20]}...")
 
     # Test 4: Query users
     print("\n4. Querying users...")
@@ -62,14 +68,14 @@ def test_auth_users():
     print("\n5. Testing user updates...")
     user.email = "updated@example.com"
     user.save()
-    updated_user = AuthUsers.objects.get(id=user.id)
+    updated_user = AuthUsers.objects.get(customer_id=user.customer_id)
     print(f"   ✓ Updated email: {updated_user.email}")
 
     # Test 6: Test unique constraints
     print("\n6. Testing unique constraints...")
     try:
-        duplicate_user = AuthUsers.objects.create_user(
-            username="testuser1",  # Duplicate username
+        AuthUsers.create_user(
+            username=username1,  # Duplicate username
             email="different@example.com",
             password="password",
         )
@@ -78,9 +84,9 @@ def test_auth_users():
         print(f"   ✓ Duplicate username correctly rejected: {type(e).__name__}")
 
     try:
-        duplicate_email = AuthUsers.objects.create_user(
-            username="differentuser",
-            email="updated@example.com",  # Duplicate email
+        AuthUsers.create_user(
+            username=f"differentuser_{str(uuid4())[:8]}",
+            email="test@example.com",  # Duplicate email
             password="password",
         )
         print("   ❌ ERROR: Duplicate email should have been rejected!")
@@ -95,7 +101,7 @@ def test_auth_users():
 
     # Clean up
     print("\n🧹 Cleaning up test data...")
-    AuthUsers.objects.filter(username__in=["testuser1", "testuser2"]).delete()
+    AuthUsers.objects.filter(username__in=[username1, username2]).delete()
     print("   ✓ Test users deleted")
 
 

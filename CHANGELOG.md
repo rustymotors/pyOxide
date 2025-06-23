@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Project Structure Reorganization**
+  - Created logical directory structure for better maintainability and navigation
+  - `examples/` directory for demo scripts and usage examples (moved demo_adduser.py, test_adduser.py)
+  - `reports/` directory for generated reports (coverage, security scans, moved htmlcov, coverage.xml, bandit reports)
+  - `tests/integration/` directory for integration tests (moved auth, Django, and route tests from root)
+  - `data/` directory consolidation for database and data files (moved db.sqlite3)
+  - Added comprehensive README.md files for each new directory with usage guidelines
+  - Updated all configuration files (pyproject.toml, .vscode/tasks.json, .gitignore) for new paths
+  - Enhanced project structure documentation in FEATURES.md with organization principles
+  - Fixed example scripts to work from new locations with proper Python path handling
 - **Interactive User Creation (`adduser` CLI Command)**
   - New `adduser` command in the interactive CLI for creating authentication users
   - Interactive prompts for username, password, and optional email

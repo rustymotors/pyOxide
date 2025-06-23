@@ -31,7 +31,7 @@ class TestAuthLoginEndpoint:
     """Test suite for AuthLogin HTTP endpoint."""
 
     @pytest.fixture
-    def test_user(self):
+    def test_user(self) -> AuthUsers:
         """Create a test user for authentication tests."""
         # Clean up any existing user first
         try:
@@ -45,7 +45,7 @@ class TestAuthLoginEndpoint:
             username="authtest", password="authpass123", email="authtest@example.com"
         )
 
-    def test_get_or_create_session_creates_new(self, test_user):
+    def test_get_or_create_session_creates_new(self, test_user: AuthUsers) -> None:
         """Test that get_or_create_session creates new session when none exists."""
         # Ensure no existing sessions
         AuthSessions.objects.filter(customer_id=test_user).delete()
@@ -57,18 +57,18 @@ class TestAuthLoginEndpoint:
         assert session.is_active is True
         assert not session.is_expired()
 
-    def test_get_or_create_session_updates_existing(self, test_user):
+    def test_get_or_create_session_updates_existing(self, test_user: AuthUsers) -> None:
         """Test that get_or_create_session updates existing session with new ticket."""
         # Create initial session
         session1 = AuthSessions.get_or_create_session(test_user)
         initial_ticket = session1.ticket
-        initial_id = session1.id
+        initial_id = session1.pk
 
         # Create second session - should update existing
         session2 = AuthSessions.get_or_create_session(test_user)
 
         # Should be same session ID but different ticket
-        assert session2.id == initial_id
+        assert session2.pk == initial_id
         assert session2.ticket != initial_ticket
         assert len(session2.ticket) == 40
 
@@ -76,7 +76,7 @@ class TestAuthLoginEndpoint:
         session_count = AuthSessions.objects.filter(customer_id=test_user).count()
         assert session_count == 1
 
-    def test_multiple_session_updates(self, test_user):
+    def test_multiple_session_updates(self, test_user: AuthUsers) -> None:
         """Test multiple consecutive session updates."""
         tickets = []
         session_id = None
@@ -87,10 +87,10 @@ class TestAuthLoginEndpoint:
             tickets.append(session.ticket)
 
             if session_id is None:
-                session_id = session.id
+                session_id = session.pk
             else:
                 # Should always be the same session ID
-                assert session.id == session_id
+                assert session.pk == session_id
 
         # All tickets should be different
         assert len(set(tickets)) == 3
@@ -99,7 +99,7 @@ class TestAuthLoginEndpoint:
         session_count = AuthSessions.objects.filter(customer_id=test_user).count()
         assert session_count == 1
 
-    def test_session_expiration_reset(self, test_user):
+    def test_session_expiration_reset(self, test_user: AuthUsers) -> None:
         """Test that get_or_create_session resets expiration time."""
         from datetime import timedelta
 
@@ -112,10 +112,10 @@ class TestAuthLoginEndpoint:
 
         # Update session - should extend expiration
         session2 = AuthSessions.get_or_create_session(test_user)
-        assert session2.id == session1.id
+        assert session2.pk == session1.pk
         assert not session2.is_expired()
 
-    def test_session_reactivation(self, test_user):
+    def test_session_reactivation(self, test_user: AuthUsers) -> None:
         """Test that inactive sessions are reactivated."""
         # Create session and deactivate it
         session1 = AuthSessions.get_or_create_session(test_user)
@@ -124,5 +124,5 @@ class TestAuthLoginEndpoint:
 
         # Update session - should reactivate
         session2 = AuthSessions.get_or_create_session(test_user)
-        assert session2.id == session1.id
+        assert session2.pk == session1.pk
         assert session2.is_active is True

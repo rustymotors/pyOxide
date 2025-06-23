@@ -3,13 +3,15 @@
 
 from time import sleep
 
+import pytest
 import requests
 
 BASE_URL = "http://localhost:3000"
 
 
-def test_route(method: str, path: str, description: str) -> bool:
+def route_test_helper(method: str, path: str, description: str) -> bool:
     """Test a single route."""
+    response = None
     try:
         if method == "GET":
             response = requests.get(f"{BASE_URL}{path}", timeout=5)
@@ -18,11 +20,23 @@ def test_route(method: str, path: str, description: str) -> bool:
             test_data = {"test": "data", "route": path}
             response = requests.post(f"{BASE_URL}{path}", json=test_data, timeout=5)
 
-        print(f"✅ {method} {path} - Status: {response.status_code} - {description}")
-        return True
+        if response:
+            print(
+                f"✅ {method} {path} - Status: {response.status_code} - {description}"
+            )
+            return True
+        else:
+            print(f"❌ {method} {path} - Unsupported method - {description}")
+            return False
     except Exception as e:
         print(f"❌ {method} {path} - Error: {e} - {description}")
         return False
+
+
+@pytest.mark.skip(reason="Requires running server")
+def test_routes_with_server() -> None:
+    """Test all routes - requires server to be running."""
+    main()
 
 
 def main() -> None:
@@ -43,7 +57,7 @@ def main() -> None:
     total = len(routes)
 
     for method, path, description in routes:
-        if test_route(method, path, description):
+        if route_test_helper(method, path, description):
             passed += 1
         sleep(0.1)  # Small delay between requests
 

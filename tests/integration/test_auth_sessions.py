@@ -17,6 +17,7 @@
 
 import os
 from datetime import timedelta
+from uuid import uuid4
 
 import django
 import pytest
@@ -26,20 +27,31 @@ from django.utils import timezone
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "src.django_app.settings")
 django.setup()
 
+from typing import TYPE_CHECKING
+
 from src.django_app.pyoxide_admin.models import AuthSessions, AuthUsers
+
+if TYPE_CHECKING:
+    pass  # Can add type imports here if needed
 
 
 class TestAuthSessions:
     """Test suite for AuthSessions model."""
 
     @pytest.fixture
-    def test_user(self):
-        """Create a test user."""
+    def test_user(self) -> AuthUsers:
+        """Create a test user with unique username for each test."""
+        # Use UUID to ensure unique usernames across test runs
+        unique_username = f"testuser_{str(uuid4())[:8]}"
+        # Clean up any existing user with this username (shouldn't happen with UUID)
+        AuthUsers.objects.filter(username=unique_username).delete()
         return AuthUsers.create_user(
-            username="testuser", password="testpass123", email="test@example.com"
+            username=unique_username,
+            password="testpass123",
+            email=f"{unique_username}@example.com",
         )
 
-    def test_create_session(self, test_user):
+    def test_create_session(self, test_user: AuthUsers) -> None:
         """Test creating a new session."""
         session = AuthSessions.create_session(test_user)
 
@@ -48,7 +60,7 @@ class TestAuthSessions:
         assert session.is_active is True
         assert not session.is_expired()
 
-    def test_generate_ticket(self):
+    def test_generate_ticket(self) -> None:
         """Test ticket generation."""
         ticket1 = AuthSessions.generate_ticket()
         ticket2 = AuthSessions.generate_ticket()
@@ -60,7 +72,7 @@ class TestAuthSessions:
         int(ticket1, 16)  # Should not raise exception
         int(ticket2, 16)
 
-    def test_session_expiration(self, test_user):
+    def test_session_expiration(self, test_user: AuthUsers) -> None:
         """Test session expiration logic."""
         # Create expired session
         past_time = timezone.now() - timedelta(days=1)
@@ -68,7 +80,7 @@ class TestAuthSessions:
 
         assert session.is_expired() is True
 
-    def test_refresh_session(self, test_user):
+    def test_refresh_session(self, test_user: AuthUsers) -> None:
         """Test refreshing session expiration."""
         session = AuthSessions.create_session(test_user)
         original_expires = session.expires_at
@@ -78,7 +90,7 @@ class TestAuthSessions:
         assert session.expires_at > original_expires
         assert not session.is_expired()
 
-    def test_session_str_representation(self, test_user):
+    def test_session_str_representation(self, test_user: AuthUsers) -> None:
         """Test string representation of session."""
         session = AuthSessions.create_session(test_user)
         str_repr = str(session)
@@ -87,14 +99,14 @@ class TestAuthSessions:
         assert test_user.username in str_repr
         assert session.ticket[:8] in str_repr
 
-    def test_unique_ticket_constraint(self, test_user):
+    def test_unique_ticket_constraint(self, test_user: AuthUsers) -> None:
         """Test that tickets are unique."""
         session1 = AuthSessions.create_session(test_user)
         session2 = AuthSessions.create_session(test_user)
 
         assert session1.ticket != session2.ticket
 
-    def test_foreign_key_relationship(self, test_user):
+    def test_foreign_key_relationship(self, test_user: AuthUsers) -> None:
         """Test foreign key relationship with AuthUsers."""
         session = AuthSessions.create_session(test_user)
 
@@ -102,14 +114,14 @@ class TestAuthSessions:
         assert session.customer_id.username == test_user.username
         assert session.customer_id.customer_id == test_user.customer_id
 
-    def test_cascade_delete(self, test_user):
+    def test_cascade_delete(self, test_user: AuthUsers) -> None:
         """Test that sessions are deleted when user is deleted."""
         session = AuthSessions.create_session(test_user)
-        session_id = session.id
+        session_ticket = session.ticket  # Use ticket instead of id
 
         # Delete the user
         test_user.delete()
 
         # Session should also be deleted due to CASCADE
         with pytest.raises(AuthSessions.DoesNotExist):
-            AuthSessions.objects.get(id=session_id)
+            AuthSessions.objects.get(ticket=session_ticket)
