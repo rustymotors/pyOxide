@@ -2,10 +2,6 @@
 """Test script for the adduser command."""
 
 import os
-import sys
-
-# Add the parent directory to the Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import django
 
@@ -18,7 +14,7 @@ from src.django_app.pyoxide_admin.models import AuthUsers
 from src.server_manager import ServerManager
 
 
-def test_adduser():
+def test_adduser() -> None:
     """Test the adduser functionality."""
     # Create handler
     handler = CommandHandler(ServerManager())

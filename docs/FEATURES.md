@@ -633,10 +633,13 @@ pyOxide/
 ├── scripts/               # Utility scripts
 ├── services/              # Docker services
 └── docs/                  # Documentation
-    ├── FEATURES.md       # This file
-    ├── CHANGELOG.md      # Change history
-    ├── DEVELOPMENT.md    # Development guide
-    └── README.md         # Project overview
+    ├── README.md         # Documentation index
+    ├── FEATURES.md       # This file - feature specification
+    ├── QUICK_REFERENCE.md # Commands and API reference
+    └── development/      # Developer documentation
+        ├── DEVELOPMENT.md    # Development workflow
+        ├── TESTING.md        # Testing guide
+        └── ORG_PUBLISHING_GUIDE.md # Publishing guide
 ```
 
 ### Key Principles
