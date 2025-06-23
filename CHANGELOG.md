@@ -56,6 +56,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Feature development checklist for adding new capabilities
   - Integration with changelog requirements for documentation updates
 
+### Fixed
+- **CI/CD Pipeline Fixes**
+  - Fixed integration tests failing in CI with `ModuleNotFoundError: No module named 'src'`
+  - Added missing `requests` dependency to pyproject.toml for integration tests
+  - Updated all GitHub Actions workflows to properly set PYTHONPATH environment variable
+  - Fixed test execution in CI environments by ensuring Python can find the `src` module
+  - Resolved import path issues in ci-cd.yml, test-coverage.yml, and publish-coverage.yml
+  - All CI/CD workflows now run successfully with proper module discovery
+
 ### Enhanced
 - **Django Models Enhancement**
   - Improved type annotations and code clarity in Django models
