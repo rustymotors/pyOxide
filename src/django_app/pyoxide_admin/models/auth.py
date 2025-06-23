@@ -15,6 +15,7 @@
 
 """Authentication models for pyOxide."""
 
+import secrets
 from typing import Any
 
 from django.contrib.auth.hashers import check_password, make_password
@@ -69,3 +70,70 @@ class AuthUsers(models.Model):
         if not self.is_active:  # type: ignore[attr-defined]
             return False
         return self.check_password(password)
+
+
+class AuthSessions(models.Model):
+    """User session tracking with unique tickets."""
+
+    customer_id: Any = models.ForeignKey(
+        AuthUsers,
+        on_delete=models.CASCADE,
+        db_column="customer_id",
+        to_field="customer_id",
+    )
+    ticket: Any = models.CharField(max_length=40, unique=True)
+    created_at: Any = models.DateTimeField(auto_now_add=True)
+    updated_at: Any = models.DateTimeField(auto_now=True)
+    expires_at: Any = models.DateTimeField()
+    is_active: Any = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "auth_sessions"
+        verbose_name = "Authentication Session"
+        verbose_name_plural = "Authentication Sessions"
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        username = getattr(self.customer_id, "username", "Unknown")
+        return f"Session {self.ticket[:8]}... for {username}"
+
+    def save(self, *args: Any, **kwargs: Any) -> None:
+        """Generate unique ticket on creation."""
+        if not self.ticket:
+            self.ticket = self.generate_ticket()
+        super().save(*args, **kwargs)
+
+    @staticmethod
+    def generate_ticket() -> str:
+        """Generate a unique 40-character hex ticket."""
+        return secrets.token_hex(20)  # 20 bytes = 40 hex characters
+
+    @classmethod
+    def create_session(cls, user: AuthUsers, expires_at: Any = None) -> "AuthSessions":
+        """Create a new session for a user."""
+        from datetime import timedelta
+
+        from django.utils import timezone
+
+        if expires_at is None:
+            expires_at = timezone.now() + timedelta(days=30)  # 30-day default
+
+        session = cls(customer_id=user, expires_at=expires_at)
+        session.save()
+        return session
+
+    def is_expired(self) -> bool:
+        """Check if session is expired."""
+        from django.utils import timezone
+
+        return timezone.now() > self.expires_at  # type: ignore[attr-defined]
+
+    def refresh(self, days: int = 30) -> None:
+        """Refresh session expiration."""
+        from datetime import timedelta
+
+        from django.utils import timezone
+
+        self.expires_at = timezone.now() + timedelta(days=days)
+        self.updated_at = timezone.now()
+        self.save()

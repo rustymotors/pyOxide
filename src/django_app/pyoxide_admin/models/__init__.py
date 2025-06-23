@@ -16,12 +16,13 @@
 """Django models for pyOxide admin interface."""
 
 # Import all models to maintain compatibility
-from .auth import AuthUsers
+from .auth import AuthSessions, AuthUsers
 from .config import Configuration
 from .logging import APIRequest, ServerStatus
 
 __all__ = [
     "AuthUsers",
+    "AuthSessions",
     "Configuration",
     "APIRequest",
     "ServerStatus",

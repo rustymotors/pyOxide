@@ -4,7 +4,7 @@ from typing import Any
 
 from django.contrib import admin
 
-from .models import APIRequest, AuthUsers, Configuration, ServerStatus
+from .models import APIRequest, AuthSessions, AuthUsers, Configuration, ServerStatus
 
 
 @admin.register(ServerStatus)
@@ -101,3 +101,40 @@ class AuthUsersAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
             # For new users, set a default password (form should handle this)
             obj.set_password("temp_password_123")
         super().save_model(request, obj, form, change)
+
+
+@admin.register(AuthSessions)
+class AuthSessionsAdmin(admin.ModelAdmin):
+    """Admin interface for authentication sessions."""
+
+    list_display = (
+        "ticket_short",
+        "customer_username",
+        "created_at",
+        "expires_at",
+        "is_active",
+        "is_expired_display",
+    )
+    list_filter = ("is_active", "created_at", "expires_at")
+    search_fields = ("ticket", "customer_id__username")
+    readonly_fields = ("ticket", "created_at", "updated_at")
+    ordering = ("-created_at",)
+
+    def ticket_short(self, obj: Any) -> str:
+        """Display shortened ticket for readability."""
+        return f"{obj.ticket[:8]}...{obj.ticket[-4:]}"
+
+    ticket_short.short_description = "Ticket"  # type: ignore[attr-defined]
+
+    def customer_username(self, obj: Any) -> str:
+        """Display username from related AuthUsers."""
+        return getattr(obj.customer_id, "username", "Unknown")
+
+    customer_username.short_description = "Username"  # type: ignore[attr-defined]
+
+    def is_expired_display(self, obj: Any) -> bool:
+        """Display if session is expired."""
+        return obj.is_expired()
+
+    is_expired_display.short_description = "Expired"  # type: ignore[attr-defined]
+    is_expired_display.boolean = True  # type: ignore[attr-defined]
