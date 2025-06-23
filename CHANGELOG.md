@@ -85,6 +85,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added FEATURES.md to required documentation updates for any code changes
   - Integrated feature specification into VS Code development workflow
   - Created documentation requirements for endpoints, models, and CLI commands
+- **Documentation Organization**
+  - Moved all developer documentation to `docs/development/` directory for better organization
+  - Created comprehensive documentation index at `docs/README.md` with clear navigation
+  - Separated user-facing documentation (FEATURES.md, QUICK_REFERENCE.md) from developer guides
+  - Streamlined integration test README to focus on user information only
+  - Created dedicated testing documentation at `docs/development/TESTING.md`
+  - Updated all cross-references and links for new documentation structure
+  - Removed duplicate files and organized remaining demo scripts in examples directory
 
 ## [0.2.0] - 2025-06-22
 
