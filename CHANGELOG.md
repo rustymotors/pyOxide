@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Custom Authentication System**
+  - `AuthUsers` Django model with secure password handling
+  - Customer ID primary key, username, email, and status fields
+  - Secure password hashing using Django's `make_password`/`check_password`
+  - User creation, authentication, and password management methods
+  - Django admin integration for user management
+  - Database table: `auth_users` with proper indexing and constraints
+
+### Enhanced
+- **Django Models Enhancement**
+  - Improved type annotations and code clarity in Django models
+  - Added comprehensive docstrings following Google style
+  - Enhanced model methods with proper return types
+  - Better integration with embedded Django admin interface
+
 ## [0.2.0] - 2025-06-22
 
 ### Added
