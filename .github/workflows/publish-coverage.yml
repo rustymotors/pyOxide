@@ -44,6 +44,7 @@ jobs:
 
     - name: Run tests with coverage
       run: |
+        export PYTHONPATH="${PYTHONPATH}:$(pwd)"
         pytest --cov=src --cov-report=html --cov-report=xml
 
     - name: Generate coverage status and badge
