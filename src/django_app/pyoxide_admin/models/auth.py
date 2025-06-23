@@ -122,6 +122,33 @@ class AuthSessions(models.Model):
         session.save()
         return session
 
+    @classmethod
+    def get_or_create_session(
+        cls, user: AuthUsers, expires_at: Any = None
+    ) -> "AuthSessions":
+        """Get existing session for user or create/update one with new ticket."""
+        from datetime import timedelta
+
+        from django.utils import timezone
+
+        if expires_at is None:
+            expires_at = timezone.now() + timedelta(days=30)  # 30-day default
+
+        try:
+            # Try to get existing session for this customer
+            session = cls.objects.get(customer_id=user)
+            # Update existing session with new ticket and expiration
+            session.ticket = cls.generate_ticket()
+            session.expires_at = expires_at
+            session.is_active = True
+            session.save()
+            return session
+        except cls.DoesNotExist:
+            # No existing session, create new one
+            session = cls(customer_id=user, expires_at=expires_at)
+            session.save()
+            return session
+
     def is_expired(self) -> bool:
         """Check if session is expired."""
         from django.utils import timezone

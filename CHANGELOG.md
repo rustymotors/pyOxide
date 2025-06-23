@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Session refresh capability with configurable duration
   - Automatic session cleanup via CASCADE delete
   - Django admin integration with session management interface
+  - **Session update behavior**: If a session exists for a user, update it with a new ticket instead of creating duplicates
 
 ### Enhanced
 - **Django Models Enhancement**
@@ -30,6 +31,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added comprehensive docstrings following Google style
   - Enhanced model methods with proper return types
   - Better integration with embedded Django admin interface
+- **Authentication Endpoint Enhancement**
+  - Modified `/AuthLogin` endpoint to accept GET query parameters (`username`, `password`)
+  - Returns specific plain text responses for success/failure scenarios
+  - Success response: `Valid=TRUE\nTicket=${ticket}` with session ticket
+  - Failure response: `reasoncode=${code}\nreasontext=${text}\nreasonurl=${url}`
+  - Integrates with AuthUsers and AuthSessions models for secure authentication
 
 ### Changed
 - **Model Organization Refactor**

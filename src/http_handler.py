@@ -23,7 +23,7 @@ import os
 import time
 from http.server import BaseHTTPRequestHandler
 from typing import Any, Callable, Dict, Optional
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
@@ -263,9 +263,81 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
 
     def route_auth_login(self) -> None:
         """Handle authentication login route (GET /AuthLogin)."""
-        template = self.jinja_env.get_template("auth_login.html")
-        html_content = template.render(route_path="/AuthLogin")
-        self._send_html_response(html_content)
+        # Parse query parameters from the URL
+        parsed_url = urlparse(self.path)
+        query_params = parse_qs(parsed_url.query)
+
+        # Extract username and password from query parameters
+        username = query_params.get("username", [None])[0]
+        password = query_params.get("password", [None])[0]
+
+        # Check if both parameters are provided
+        if not username or not password:
+            # Return failure response for missing parameters
+            response_text = (
+                "reasoncode=1\n"
+                "reasontext=Missing username or password\n"
+                "reasonurl=\n"
+            )
+            self._send_plain_text_response(response_text)
+            return
+
+        try:
+            # Import Django models (after Django setup)
+            from src.django_app.pyoxide_admin.models import AuthSessions, AuthUsers
+
+            # Try to find user by username
+            try:
+                user = AuthUsers.objects.get(username=username)
+            except AuthUsers.DoesNotExist:
+                # User not found
+                response_text = (
+                    "reasoncode=2\n"
+                    "reasontext=Invalid username or password\n"
+                    "reasonurl=\n"
+                )
+                self._send_plain_text_response(response_text)
+                return
+
+            # Check if user is active and password is correct
+            if not user.is_active or not user.authenticate(password):
+                response_text = (
+                    "reasoncode=3\n"
+                    "reasontext=Invalid username or password\n"
+                    "reasonurl=\n"
+                )
+                self._send_plain_text_response(response_text)
+                return
+
+            # Authentication successful - get or update existing session
+            session = AuthSessions.get_or_create_session(user)
+
+            # Update last_login timestamp
+            from django.utils import timezone
+
+            user.last_login = timezone.now()
+            user.save()
+
+            # Return success response
+            response_text = f"Valid=TRUE\nTicket={session.ticket}\n"
+            self._send_plain_text_response(response_text)
+
+        except Exception as e:
+            # Handle any unexpected errors
+            response_text = (
+                "reasoncode=500\n"
+                f"reasontext=Internal server error: {str(e)}\n"
+                "reasonurl=\n"
+            )
+            self._send_plain_text_response(response_text)
+
+    def _send_plain_text_response(self, content: str) -> None:
+        """Send a plain text response."""
+        self.send_response(200)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.send_header("Content-Length", str(len(content.encode("utf-8"))))
+        self.end_headers()
+        self.wfile.write(content.encode("utf-8"))
 
     def route_test_pages(self) -> None:
         """Handle test pages route (GET /test)."""
