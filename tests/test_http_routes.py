@@ -5,6 +5,7 @@ from io import BytesIO
 from typing import Any, Dict, Optional
 from unittest.mock import Mock, patch
 
+from src._version import __version__
 from src.http_handler import PyOxideHTTPHandler
 
 
@@ -212,7 +213,7 @@ class TestHTTPRoutes:
 
         # Check that template variables were rendered
         assert "Running" in response_body  # status
-        assert "0.1.1" in response_body  # version
+        assert __version__ in response_body  # version
 
         # Check that endpoints were rendered
         assert "GET /" in response_body

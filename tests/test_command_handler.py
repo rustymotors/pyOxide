@@ -3,6 +3,7 @@
 from io import StringIO
 from unittest.mock import MagicMock, patch
 
+from src._version import __version__
 from src.command_handler import CommandHandler
 
 
@@ -26,7 +27,7 @@ def test_get_hello_message() -> None:
     handler = CommandHandler(server_manager)
 
     message = handler.get_hello_message()
-    assert "pyOxide v0.1.1" in message
+    assert f"pyOxide v{__version__}" in message
     assert "🚀 Server ready!" in message
     assert "http://localhost:3000/test" in message
 
@@ -56,7 +57,7 @@ def test_show_hello(mock_stdout: StringIO) -> None:
     handler.show_hello()
     output = mock_stdout.getvalue()
 
-    assert "pyOxide v0.1.1" in output
+    assert f"pyOxide v{__version__}" in output
     assert "Copyright (C) 2025 rustymotors" in output
     assert "ABSOLUTELY NO WARRANTY" in output
     assert "Type 'license' for details" in output
@@ -72,7 +73,7 @@ def test_show_info(mock_stdout: StringIO) -> None:
     output = mock_stdout.getvalue()
 
     assert "pyOxide - A modern Python HTTP server with Django integration" in output
-    assert "Version: 0.1.1" in output
+    assert "Version: 0.2.0" in output
     assert "License: GPL v3.0" in output
     assert "Built with love and modern Python practices! 🐍" in output
 
@@ -165,7 +166,7 @@ def test_handle_command_valid(mock_stdout: StringIO) -> None:
     result = handler.handle_command("hello")
     assert result is True
     output = mock_stdout.getvalue()
-    assert "pyOxide v0.1.1" in output
+    assert f"pyOxide v{__version__}" in output
     assert "Copyright (C) 2025 rustymotors" in output
 
     handler.handle_command("start")

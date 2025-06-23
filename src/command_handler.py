@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from typing import Callable, Dict
 
+from ._version import __version__
 from .server_manager import ServerManager
 
 
@@ -97,7 +98,7 @@ class CommandHandler:
     def show_info(self) -> None:
         """Show project information."""
         print("pyOxide - A modern Python HTTP server with Django integration")
-        print("Version: 0.1.1")
+        print(f"Version: {__version__}")
         print("License: GPL v3.0")
         print("Built with love and modern Python practices! 🐍")
 
@@ -164,9 +165,9 @@ class CommandHandler:
         Returns:
             str: A greeting message with copyright notice.
         """
-        return """
+        return f"""
 ╔══════════════════════════════════════════════════════════════╗
-║                         pyOxide v0.1.1                      ║
+║                         pyOxide v{__version__}                      ║
 ║        A Python HTTP Server with Django Integration         ║
 ╚══════════════════════════════════════════════════════════════╝
 

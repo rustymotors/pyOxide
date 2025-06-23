@@ -27,6 +27,7 @@ from urllib.parse import urlparse
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from ._version import __version__
 from .django_integration import DjangoWSGIIntegration
 
 
@@ -180,7 +181,7 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         html_content = template.render(
             status="Running",
             timestamp=time.strftime("%Y-%m-%d %H:%M:%S"),
-            version="0.1.1",
+            version=__version__,
             endpoints=endpoints,
         )
 

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-06-22
+
 ### Added
 - **GPL v3.0 Compliance Features**
   - `license` CLI command for displaying GPL license information
@@ -15,10 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Copyright notices in CLI and web interfaces
 
 ### Changed
-- **License Migration from MIT to GPL v3.0**
+- **BREAKING: License Migration from MIT to GPL v3.0**
   - Updated LICENSE file to GPL v3.0
   - Updated project metadata in pyproject.toml (license field and classifier)
   - Updated README.md badge and license section
+  - **Version bumped to 0.2.0 due to license change**
 - **Enhanced CLI Interface**
   - Updated `hello` command to display GPL compliance notice
   - Updated help messages to include new `license` command
@@ -30,13 +33,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - **Test Suite Improvements**
-  - Fixed version mismatch in HTTP routes test (0.1.0 → 0.1.1)
+  - Fixed version mismatch in HTTP routes test (0.1.0 → 0.2.0)
   - Updated hello world test to match new formatted banner message
   - All 38 tests now passing
 - **Code Quality**
   - Fixed line length issues in GPL license text display
   - All pre-commit hooks now passing (Black, isort, flake8, mypy, bandit, pytest)
-  - Maintained 62.52% test coverage
+  - Maintained 62.72% test coverage
+- **Python Best Practices**
+  - Removed unnecessary shebang lines from non-executable modules
+  - Only `main.py` retains shebang as it has executable entry point
+  - Follows proper Python module structure conventions
+- **Dynamic Version Management**
+  - Created `src/_version.py` as single source of truth for version
+  - Updated all code and tests to use dynamic version from `__version__`
+  - No more hardcoded version strings to update on version bumps
+  - Version automatically synced across CLI, web interface, and tests
 
 ## [0.1.1] - 2025-06-22
 
