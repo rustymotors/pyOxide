@@ -237,6 +237,9 @@ All templates extend `base.html` for consistent styling:
 Available through the command handler:
 
 ```bash
+# User management
+adduser  # Add a new authentication user interactively
+
 # Display help
 help
 
@@ -257,6 +260,93 @@ stop     # Stop all servers
 # Exit application
 quit
 ```
+
+### User Management with `adduser`
+
+The `adduser` command provides an interactive way to create new authentication users from the command line.
+
+#### Usage
+```bash
+# Start the pyOxide application
+python -m src.main
+
+# In the interactive CLI, run:
+adduser
+```
+
+#### Interactive Prompts
+The command will prompt for:
+1. **Username**: Unique identifier (required)
+2. **Password**: User password (required)
+3. **Email**: Email address (optional)
+
+#### Example Session
+```
+> adduser
+
+==================================================
+ADD NEW USER
+==================================================
+Enter username: johndoe
+Enter password: secretpassword123
+Enter email (optional): john@example.com
+✅ User 'johndoe' created successfully!
+   Customer ID: 5
+   Email: john@example.com
+   Created: 2025-06-23 12:34:26.796961+00:00
+   Active: True
+```
+
+#### Features
+- **Validation**: Checks for empty usernames/passwords
+- **Duplicate Prevention**: Prevents creating users with existing usernames
+- **Secure Password Hashing**: Uses Django's built-in password hashing
+- **Optional Email**: Email field is optional during creation
+- **Immediate Feedback**: Shows success/error messages with details
+- **Auto-Activation**: New users are automatically set to active status
+
+#### Error Handling
+```
+# Empty username
+❌ Username cannot be empty.
+
+# Duplicate username
+❌ User 'johndoe' already exists.
+
+# Empty password
+❌ Password cannot be empty.
+
+# Django not available
+❌ Django models not available. Make sure Django is properly set up.
+
+# Database error
+❌ Error creating user: [specific error message]
+```
+
+#### Alternative User Creation Methods
+Besides the CLI `adduser` command, users can also be created via:
+
+1. **Django Admin Interface** (`/admin/`)
+   - Web-based user management
+   - Full CRUD operations
+   - Advanced filtering and search
+
+2. **Django Shell** (programmatic)
+   ```python
+   from src.django_app.pyoxide_admin.models import AuthUsers
+   user = AuthUsers.create_user(
+       username="testuser",
+       password="password123",
+       email="test@example.com"
+   )
+   ```
+
+3. **Direct Model Creation** (advanced)
+   ```python
+   user = AuthUsers(username="testuser", email="test@example.com")
+   user.set_password("password123")
+   user.save()
+   ```
 
 ### Development Commands (VS Code Tasks)
 ```bash

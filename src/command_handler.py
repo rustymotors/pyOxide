@@ -35,6 +35,7 @@ class CommandHandler:
         """
         self.server_manager = server_manager
         self.commands: Dict[str, Callable[[], None]] = {
+            "adduser": self.add_user,
             "help": self.show_help,
             "hello": self.show_hello,
             "info": self.show_info,
@@ -47,6 +48,7 @@ class CommandHandler:
     def show_help(self) -> None:
         """Show available commands."""
         print("\nAvailable commands:")
+        print("  adduser - Add a new authentication user")
         print("  help    - Show this help message")
         print("  hello   - Display greeting")
         print("  info    - Show project information")
@@ -101,6 +103,56 @@ class CommandHandler:
         print(f"Version: {__version__}")
         print("License: GPL v3.0")
         print("Built with love and modern Python practices! 🐍")
+
+    def add_user(self) -> None:
+        """Add a new authentication user interactively."""
+        try:
+            # Import Django models (after Django setup)
+            from src.django_app.pyoxide_admin.models import AuthUsers
+
+            print("\n" + "=" * 50)
+            print("ADD NEW USER")
+            print("=" * 50)
+
+            # Get user input
+            username = input("Enter username: ").strip()
+            if not username:
+                print("❌ Username cannot be empty.")
+                return
+
+            # Check if username already exists
+            if AuthUsers.objects.filter(username=username).exists():
+                print(f"❌ User '{username}' already exists.")
+                return
+
+            # Get password (simple input for now - could enhance with getpass)
+            password = input("Enter password: ").strip()
+            if not password:
+                print("❌ Password cannot be empty.")
+                return
+
+            # Get optional email
+            email = input("Enter email (optional): ").strip()
+
+            # Create the user
+            user = AuthUsers.create_user(
+                username=username, password=password, email=email
+            )
+
+            print(f"✅ User '{username}' created successfully!")
+            print(f"   Customer ID: {user.customer_id}")
+            print(f"   Email: {user.email or 'Not provided'}")
+            print(f"   Created: {user.created_at}")
+            print(f"   Active: {user.is_active}")
+            print()
+
+        except ImportError:
+            print(
+                "❌ Django models not available. Make sure Django is properly set up."
+            )
+        except Exception as e:
+            print(f"❌ Error creating user: {str(e)}")
+        print()
 
     def start_servers(self) -> None:
         """Start all servers."""

@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Interactive User Creation (`adduser` CLI Command)**
+  - New `adduser` command in the interactive CLI for creating authentication users
+  - Interactive prompts for username, password, and optional email
+  - Input validation with clear error messages for empty fields and duplicate usernames
+  - Automatic user activation and immediate success feedback with user details
+  - Integration with existing `AuthUsers.create_user()` class method
+  - Enhanced CLI help text to include the new command
+  - Support for multiple user creation methods (CLI, Django admin, Django shell)
 - **Custom Authentication System**
   - `AuthUsers` Django model with secure password handling
   - Customer ID primary key, username, email, and status fields
