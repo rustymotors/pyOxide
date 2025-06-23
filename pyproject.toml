@@ -133,10 +133,10 @@ exclude_lines = [
 ]
 
 [tool.coverage.html]
-directory = "htmlcov"
+directory = "reports/htmlcov"
 
 [tool.coverage.xml]
-output = "coverage.xml"
+output = "reports/coverage.xml"
 
 [tool.bandit]
 # Bandit configuration for pyOxide security scanning

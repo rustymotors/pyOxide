@@ -2,7 +2,7 @@
 
 **Version:** 1.0.0
 **License:** GPL v3.0
-**Last Updated:** 2025-01-22
+**Last Updated:** 2025-06-23
 
 This document serves as the comprehensive feature specification for the pyOxide project. It details all current capabilities, endpoints, models, CLI commands, and technical specifications.
 
@@ -601,4 +601,55 @@ All changes should be documented in `CHANGELOG.md` and reflected in this specifi
 
 ---
 
-**Note**: This document serves as the single source of truth for pyOxide functionality. Keep it updated with all changes to maintain accurate project documentation.
+## Project Structure
+
+pyOxide follows a well-organized directory structure for maintainability and clarity:
+
+### Directory Layout
+```
+pyOxide/
+├── src/                    # Source code
+│   ├── django_app/        # Django application
+│   ├── command_handler.py # CLI command handling
+│   ├── http_handler.py    # HTTP request handling
+│   ├── server_manager.py  # Server lifecycle management
+│   └── main.py           # Application entry point
+├── tests/                 # Unit tests
+│   ├── integration/       # Integration tests
+│   ├── test_*.py         # Component tests
+│   └── conftest.py       # Test configuration
+├── examples/              # Example scripts and demos
+│   ├── demo_adduser.py   # CLI command demonstration
+│   ├── test_adduser.py   # User creation examples
+│   └── README.md         # Examples documentation
+├── templates/             # Jinja2 HTML templates
+├── data/                  # Data files and database
+│   ├── db.sqlite3        # SQLite database
+│   └── certificates/     # SSL certificates
+├── reports/               # Generated reports
+│   ├── htmlcov/          # HTML coverage reports
+│   ├── coverage.xml      # XML coverage reports
+│   └── bandit-report*.json # Security scan reports
+├── scripts/               # Utility scripts
+├── services/              # Docker services
+└── docs/                  # Documentation
+    ├── FEATURES.md       # This file
+    ├── CHANGELOG.md      # Change history
+    ├── DEVELOPMENT.md    # Development guide
+    └── README.md         # Project overview
+```
+
+### Key Principles
+- **Separation of Concerns**: Each directory has a specific purpose
+- **Clean Root**: Minimal files in project root for clarity
+- **Generated Files**: Reports and artifacts in dedicated directories
+- **Examples**: Demonstration scripts separate from tests
+- **Documentation**: All docs in one place or at root level
+
+### File Organization
+- **Source Code**: `src/` - All application code
+- **Tests**: `tests/` - Unit tests, `tests/integration/` - Integration tests
+- **Examples**: `examples/` - Demo scripts and usage examples
+- **Data**: `data/` - Database and configuration files
+- **Reports**: `reports/` - Generated coverage and security reports
+- **Templates**: `templates/` - Jinja2 HTML templates

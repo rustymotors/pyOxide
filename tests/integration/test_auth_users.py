@@ -9,13 +9,13 @@ import sys
 sys.path.insert(0, "src")
 
 # Setup Django before any imports
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_app.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "src.django_app.settings")
 
 import django
 
 django.setup()
 
-from django_app.pyoxide_admin.models import AuthUsers
+from src.django_app.pyoxide_admin.models import AuthUsers
 
 
 def test_auth_users():

@@ -91,7 +91,7 @@
 			"label": "Open Coverage HTML Report",
 			"type": "shell",
 			"command": "open",
-			"args": ["${workspaceFolder}/htmlcov/index.html"],
+			"args": ["${workspaceFolder}/reports/htmlcov/index.html"],
 			"group": "test",
 			"presentation": {
 				"echo": true,

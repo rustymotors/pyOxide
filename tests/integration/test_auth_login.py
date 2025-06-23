@@ -15,7 +15,14 @@
 
 """Tests for AuthLogin HTTP endpoint."""
 
+import os
+
+import django
 import pytest
+
+# Setup Django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "src.django_app.settings")
+django.setup()
 
 from src.django_app.pyoxide_admin.models import AuthSessions, AuthUsers
 

@@ -15,10 +15,16 @@
 
 """Tests for AuthSessions model."""
 
+import os
 from datetime import timedelta
 
+import django
 import pytest
 from django.utils import timezone
+
+# Setup Django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "src.django_app.settings")
+django.setup()
 
 from src.django_app.pyoxide_admin.models import AuthSessions, AuthUsers
 

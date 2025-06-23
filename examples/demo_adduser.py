@@ -5,6 +5,7 @@ Demonstration of the adduser command functionality.
 This script shows how to use the CLI adduser command and verifies the user creation.
 """
 
+import os
 import subprocess
 import sys
 
@@ -69,10 +70,10 @@ def demo_adduser_command() -> None:
     # Run the test script
     try:
         result = subprocess.run(
-            [sys.executable, "test_adduser.py"],
+            [sys.executable, "examples/test_adduser.py"],
             capture_output=True,
             text=True,
-            cwd="/data/Code/pyOxide",
+            cwd=os.path.dirname(os.path.dirname(__file__)),
         )
 
         if result.returncode == 0:
