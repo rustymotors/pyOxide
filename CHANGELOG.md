@@ -23,6 +23,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Enhanced model methods with proper return types
   - Better integration with embedded Django admin interface
 
+### Changed
+- **Model Organization Refactor**
+  - Split monolithic `models.py` into focused modules:
+    - `models/auth.py` - Authentication models (`AuthUsers`)
+    - `models/config.py` - Configuration models (`Configuration`)
+    - `models/logging.py` - Logging models (`ServerStatus`, `APIRequest`)
+    - `models/__init__.py` - Imports all models for compatibility
+  - Maintained backward compatibility through `__init__.py` imports
+  - Improved code organization for future model additions
+  - All existing imports continue to work without changes
+
 ## [0.2.0] - 2025-06-22
 
 ### Added
