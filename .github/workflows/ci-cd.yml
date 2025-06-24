@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ "**" ]  # Run on all branches for immediate feedback
   pull_request:
     branches: [ main, develop ]
   schedule:
