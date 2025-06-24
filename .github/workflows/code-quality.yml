@@ -5,6 +5,7 @@ on:
     branches: [ "**" ]  # Run on all branches for immediate feedback
   pull_request:
     branches: [ main, develop ]
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
   code-quality:
