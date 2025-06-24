@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **CI/CD Pipeline Fixes and Python 3.8 Compatibility**
+  - Added pytest-django dependency for proper Django test database setup
+  - Fixed Python 3.8 type annotation compatibility in admin.py (replaced `tuple[str, ...]` with `Any`)
+  - Created comprehensive pytest configuration with Django settings integration
+  - Added `@pytest.mark.django_db` markers to all integration tests for proper database access
+  - Fixed Django app setup in integration tests to use pytest-django fixtures instead of manual setup
+  - Enhanced test configuration in pyproject.toml with Django settings module specification
+  - All integration tests now pass with proper database table creation and migrations
+  - Improved test isolation and transaction handling for database tests
 - **Project Structure Reorganization**
   - Created logical directory structure for better maintainability and navigation
   - `examples/` directory for demo scripts and usage examples (moved demo_adduser.py, test_adduser.py)
@@ -57,6 +66,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Integration with changelog requirements for documentation updates
 
 ### Fixed
+- **CI/CD Pipeline Fixes and Python Cross-Version Compatibility**
+  - Fixed Django database errors in CI tests (`django.db.utils.OperationalError: no such table: auth_users`)
+  - Resolved Python 3.8 type annotation compatibility issues (`'type' object is not subscriptable`)
+  - Fixed Django app registry conflicts (`RuntimeError: populate() isn't reentrant`) in test collection
+  - Added proper pytest-django integration with database fixture configuration
+  - Fixed integration test setup to use pytest-django fixtures instead of manual Django setup
+  - Resolved Django test environment setup conflicts between pytest-django and manual setup
+  - All tests now pass across Python 3.8, 3.9, and 3.11 in CI environments
+  - Fixed transaction management issues in integration tests with proper database markers
 - **CI/CD Pipeline Fixes**
   - Fixed integration tests failing in CI with `ModuleNotFoundError: No module named 'src'`
   - Added missing `requests` dependency to pyproject.toml for integration tests
