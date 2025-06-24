@@ -130,3 +130,23 @@ This is a Python project using modern development practices. When working on thi
 - **Group related changes** under clear headings (e.g., "GPL v3.0 Compliance Features")
 - **Reference specific files/components** when documenting technical changes
 - **Update copyright years** in changelog when making substantial changes
+
+## Version Management and Release Process
+- **Version updates**: Update version in `src/_version.py` as single source of truth
+- **CHANGELOG management**: Move `[Unreleased]` section to `[X.Y.Z] - YYYY-MM-DD` when releasing
+- **Create new `[Unreleased]` section** with "*No changes yet.*" placeholder after version release
+- **Git tag creation**: ALWAYS create annotated tags after version bumps using consistent format:
+  ```bash
+  git tag -a v0.X.Y -m "Release v0.X.Y - Brief description of major changes"
+  ```
+- **Tag format consistency**: All tags must follow format: `"Release v0.X.Y - Description"`
+  - ✅ Good: `"Release v0.3.0 - Authentication System & CI/CD Fixes"`
+  - ❌ Bad: `"pyOxide v0.3.0 - Authentication System"` (inconsistent prefix)
+  - ❌ Bad: `"Release v0.1.1: Development improvements"` (colon instead of dash)
+- **Push tags to remote**: Use `git push --tags` to ensure GitHub shows all release tags
+- **Version bump criteria**:
+  - **Patch (0.0.X)**: Bug fixes, small improvements, CI/CD fixes
+  - **Minor (0.X.0)**: New features, significant enhancements, new endpoints/commands
+  - **Major (X.0.0)**: Breaking changes, major architecture changes, license changes
+- **Test updates**: Ensure tests use dynamic `__version__` imports, not hardcoded version strings
+- **Complete process**: Update version → Update changelog → Create tag → Push all changes and tags

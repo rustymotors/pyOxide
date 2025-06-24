@@ -290,6 +290,51 @@ GH_PAGER="" gh workflow list
 gh run list --limit 5 | cat
 ```
 
+## 🏷️ Version Management & Release Process
+
+### **Version Bumping Process**
+
+1. **Update Version**: Edit `src/_version.py` to new version number
+2. **Update CHANGELOG**: Move `[Unreleased]` to `[X.Y.Z] - YYYY-MM-DD` and create new `[Unreleased]` section
+3. **Test Updates**: Ensure tests use dynamic `__version__` imports (not hardcoded strings)
+4. **Commit Changes**: Stage and commit all version-related changes
+
+### **Git Tag Creation**
+
+**ALWAYS create annotated tags** after version bumps:
+
+```bash
+# Create annotated tag with consistent format
+git tag -a v0.X.Y -m "Release v0.X.Y - Brief description of major changes"
+
+# Push all tags to GitHub
+git push --tags
+```
+
+### **Tag Format Requirements**
+
+- **Format**: `"Release v0.X.Y - Description"`
+- **Use dashes, not colons**: `"Release v0.3.0 - Authentication System & CI/CD Fixes"` ✅
+- **Consistent prefix**: Always start with "Release" ✅
+- **Brief description**: Highlight major changes or focus area ✅
+
+### **Version Bump Criteria**
+
+- **Patch (0.0.X)**: Bug fixes, small improvements, CI/CD fixes
+- **Minor (0.X.0)**: New features, significant enhancements, new endpoints/commands
+- **Major (X.0.0)**: Breaking changes, major architecture changes, license changes
+
+### **Complete Release Checklist**
+
+1. ✅ Update `src/_version.py`
+2. ✅ Update `CHANGELOG.md` (move [Unreleased] to [X.Y.Z])
+3. ✅ Create new `[Unreleased]` section with "*No changes yet.*"
+4. ✅ Verify tests use dynamic `__version__` imports
+5. ✅ Commit all changes
+6. ✅ Create annotated tag: `git tag -a v0.X.Y -m "Release v0.X.Y - Description"`
+7. ✅ Push changes and tags: `git push && git push --tags`
+8. ✅ Verify GitHub shows the new release tag
+
 ---
 
 **Next Steps:** Run `pre-commit install` and start developing with confidence! 🚀
