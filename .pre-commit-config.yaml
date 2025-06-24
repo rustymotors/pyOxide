@@ -1,6 +1,6 @@
 # Pre-commit hooks configuration for pyOxide
+# Uses Hatch for consistency with development workflow
 # See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
 
 repos:
   # Built-in hooks
@@ -15,70 +15,54 @@ repos:
       - id: check-added-large-files
       - id: check-merge-conflict
       - id: debug-statements
-      - id: requirements-txt-fixer
 
-  # Black - Python code formatter
-  - repo: https://github.com/psf/black
-    rev: 24.4.2
-    hooks:
-      - id: black
-        language_version: python3
-        args: [--line-length=88]
-
-  # isort - Import sorting
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-        args: [--profile=black, --line-length=88]
-
-  # Flake8 - Python linting
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.0.0
-    hooks:
-      - id: flake8
-        exclude: ^(scripts/|test_.*\.py$)
-
-  # MyPy - Static type checking
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
-    hooks:
-      - id: mypy
-        additional_dependencies: [django-stubs, types-requests]
-        args: [--ignore-missing-imports]
-        exclude: ^(scripts/|test_.*\.py$)
-
-  # Bandit - Security linting
-  - repo: https://github.com/pycqa/bandit
-    rev: 1.7.8
-    hooks:
-      - id: bandit
-        args: [-r, src/, -f, json, -o, bandit-report.json]
-        pass_filenames: false
-
-  # Pytest - Run tests before commit
+  # Use Hatch for all Python code quality checks (unified with development workflow)
   - repo: local
     hooks:
-      - id: pytest
-        name: pytest
-        entry: .venv/bin/python -m pytest
+      # Format check (Black + isort)
+      - id: hatch-format-check
+        name: Code formatting check (Hatch)
+        entry: hatch run format-check
         language: system
         types: [python]
         pass_filenames: false
         always_run: true
-        args: [tests/, --tb=short]
 
-  # Coverage check - Ensure minimum coverage
-  - repo: local
-    hooks:
-      - id: coverage-check
-        name: coverage-check
-        entry: .venv/bin/python -m pytest --cov=src --cov-fail-under=20
+      # Linting (flake8)
+      - id: hatch-lint
+        name: Code linting (Hatch)
+        entry: hatch run lint
         language: system
         types: [python]
         pass_filenames: false
         always_run: true
-        args: [tests/, --tb=short]
+
+      # Type checking (MyPy)
+      - id: hatch-type-check
+        name: Type checking (Hatch)
+        entry: hatch run type-check
+        language: system
+        types: [python]
+        pass_filenames: false
+        always_run: true
+
+      # Security scanning (Bandit)
+      - id: hatch-security
+        name: Security scanning (Hatch)
+        entry: hatch run security
+        language: system
+        types: [python]
+        pass_filenames: false
+        always_run: true
+
+      # Tests with coverage
+      - id: hatch-test-cov
+        name: Tests with coverage (Hatch)
+        entry: hatch run test-cov
+        language: system
+        types: [python]
+        pass_filenames: false
+        always_run: true
 
 default_language_version:
   python: python3

@@ -9,6 +9,39 @@ This guide will help you set up a complete development environment for pyOxide w
 - **[README.md](./README.md)** - Project overview and user guide
 - **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - Command and endpoint reference
 
+## 🔒 GitHub Flow & Branch Protection
+
+**⚠️ IMPORTANT**: As of June 24, 2025, this project uses **GitHub Flow** with branch protection rules:
+
+### **Workflow Requirements:**
+- 🚫 **No direct commits to `main`** - All changes must go through Pull Requests
+- 🌿 **Feature branches required** - Create a new branch for each feature/fix
+- ✅ **CI checks must pass** - All tests, linting, and quality checks must pass
+- 👥 **Code review required** - At least one approval needed before merge
+- 🔄 **Branch must be up-to-date** - Merge latest `main` before PR approval
+
+### **Development Process:**
+1. **Create feature branch**: `git checkout -b feature/motor-city-parser`
+2. **Make changes**: Implement features with tests and documentation
+3. **Push branch**: `git push origin feature/motor-city-parser`
+4. **Open Pull Request**: Use GitHub UI to create PR to `main`
+5. **Pass CI checks**: Ensure all workflows pass (tests, linting, type checking)
+6. **Code review**: Request review and address feedback
+7. **Merge**: Squash and merge after approval
+
+### **Branch Naming Convention:**
+- `feature/description` - New features (e.g., `feature/motor-city-parser`)
+- `fix/description` - Bug fixes (e.g., `fix/tcp-connection-leak`)
+- `docs/description` - Documentation updates (e.g., `docs/api-reference`)
+- `refactor/description` - Code refactoring (e.g., `refactor/shard-manager`)
+
+**Why Branch Protection?**
+- Prevents accidental direct pushes to main
+- Ensures all code passes CI before merging
+- Maintains code quality through review process
+- Provides audit trail of all changes
+- Enables safe rollbacks if needed
+
 ## �🚀 Quick Setup
 
 ### 1. Initial Environment Setup

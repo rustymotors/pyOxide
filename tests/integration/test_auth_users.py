@@ -8,9 +8,10 @@ from uuid import uuid4
 
 import pytest
 
+# Add src to path for imports (must be before Django imports)
 sys.path.insert(0, "src")
 
-from src.django_app.pyoxide_admin.models import AuthUsers
+from src.django_app.pyoxide_admin.models import AuthUsers  # noqa: E402
 
 
 @pytest.mark.django_db(transaction=True)

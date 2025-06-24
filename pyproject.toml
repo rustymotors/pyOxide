@@ -50,6 +50,9 @@ Homepage = "https://github.com/rustymotors/pyoxide"
 Repository = "https://github.com/rustymotors/pyoxide"
 Issues = "https://github.com/rustymotors/pyoxide/issues"
 
+[project.scripts]
+pyoxide = "src.main:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
@@ -166,3 +169,60 @@ exclude_dirs = [
 confidence = "MEDIUM"
 
 # Severity levels: LOW, MEDIUM, HIGH
+
+[tool.hatch.envs.default]
+dependencies = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-django>=4.5",
+    "coverage[toml]>=7.0",
+    "black>=22.0",
+    "flake8>=4.0",
+    "flake8-pyproject>=1.2",
+    "mypy>=0.950",
+    "isort>=5.10",
+    "django-stubs>=4.2",
+    "django-stubs[compatible-mypy]>=4.2",
+    "types-requests>=2.28",
+    "pre-commit>=3.0",
+    "bandit[toml]>=1.7",
+]
+
+[tool.hatch.envs.default.scripts]
+# Test commands (with proper PYTHONPATH)
+test = "python -m pytest {args}"
+test-cov = "python -m pytest --cov=src --cov-report=html:reports/htmlcov --cov-report=xml:reports/coverage.xml --cov-report=term-missing {args}"
+test-verbose = "python -m pytest --cov=src --cov-report=html:reports/htmlcov --cov-report=xml:reports/coverage.xml --cov-report=term-missing --verbose {args}"
+
+# Code quality commands
+format = [
+    "python -m isort src tests",
+    "python -m black src tests",
+]
+format-check = [
+    "python -m isort --check-only src tests",
+    "python -m black --check src tests",
+]
+lint = "python -m flake8 src tests"
+type-check = "python -m mypy src"
+security = [
+    "python -m bandit -r src -f json -o bandit-report.json || true",
+]
+
+# Combined commands
+check = [
+    "format-check",
+    "lint",
+    "type-check",
+    "security",
+]
+ci = [
+    "check",
+    "test-cov",
+]
+
+# Development commands
+install-hooks = "python -m pre_commit install"
+run-hooks = "python -m pre_commit run --all-files"
+server = "python -m src.main"
+coverage-report = "python scripts/coverage_status.py"

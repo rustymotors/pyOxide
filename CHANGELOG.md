@@ -24,6 +24,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Verified correct formatting for all byte values (0x00-0xFF) with proper length validation
   - Includes ASCII representation alongside hex dump for debugging convenience
 
+### Changed
+- **Development Workflow - GitHub Flow Implementation**
+  - Implemented branch protection rules for main branch (effective June 24, 2025)
+  - All future changes require feature branches and Pull Requests with CI approval
+  - No direct commits to main branch allowed - ensures code quality and review process
+  - Updated development documentation with GitHub Flow workflow and branch naming conventions
+
 *No other changes yet.*
 
 ## [0.3.0] - 2025-06-23
