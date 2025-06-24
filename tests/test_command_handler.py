@@ -73,7 +73,7 @@ def test_show_info(mock_stdout: StringIO) -> None:
     output = mock_stdout.getvalue()
 
     assert "pyOxide - A modern Python HTTP server with Django integration" in output
-    assert "Version: 0.2.0" in output
+    assert f"Version: {__version__}" in output
     assert "License: GPL v3.0" in output
     assert "Built with love and modern Python practices! 🐍" in output
 
