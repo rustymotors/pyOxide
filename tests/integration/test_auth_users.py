@@ -6,12 +6,12 @@ Tests user creation, password hashing, and authentication.
 import sys
 from uuid import uuid4
 
-# Add src to path for imports
-sys.path.insert(0, "src")
-
 import pytest
 
-from src.django_app.pyoxide_admin.models import AuthUsers
+# Add src to path for imports (must be before Django imports)
+sys.path.insert(0, "src")
+
+from src.django_app.pyoxide_admin.models import AuthUsers  # noqa: E402
 
 
 @pytest.mark.django_db(transaction=True)
