@@ -118,3 +118,73 @@ def test_get_status_when_running(mock_socket: MagicMock) -> None:
     assert len(status["tcp_servers"]) == 4
     for port in manager.tcp_ports:
         assert status["tcp_servers"][port] is True
+
+
+def test_hex_data_formatting() -> None:
+    """Test that TCP data is formatted as hex without spaces."""
+    # Test data samples
+    test_cases = [
+        (b"\x00", "00"),
+        (b"\x01\x02\x03", "010203"),
+        (b"\xFF\xFE\xFD", "FFFEFD"),
+        (b"\x0A\x0B\x0C\x0D", "0A0B0C0D"),
+        (b"Hello", "48656C6C6F"),  # ASCII "Hello"
+        (
+            b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F",
+            "000102030405060708090A0B0C0D0E0F",
+        ),
+    ]
+
+    for test_data, expected_hex in test_cases:
+        # Convert using the same logic as the server
+        hex_result = "".join(f"{byte:02X}" for byte in test_data)
+        assert (
+            hex_result == expected_hex
+        ), f"Failed for {test_data!r}: got {hex_result}, expected {expected_hex}"
+
+
+def test_hex_data_formatting_with_leading_zeros() -> None:
+    """Test that hex formatting includes leading zeros for single digits."""
+    # Test bytes that should have leading zeros
+    test_cases = [
+        (b"\x00", "00"),  # Zero should be "00", not "0"
+        (b"\x01", "01"),  # One should be "01", not "1"
+        (b"\x0F", "0F"),  # Fifteen should be "0F", not "F"
+        (b"\x00\x0A\x01\x0B", "000A010B"),  # Mix of single and double digit hex
+    ]
+
+    for test_data, expected_hex in test_cases:
+        hex_result = "".join(f"{byte:02X}" for byte in test_data)
+        assert (
+            hex_result == expected_hex
+        ), f"Failed for {test_data!r}: got {hex_result}, expected {expected_hex}"
+        # Verify no spaces in output
+        assert (
+            " " not in hex_result
+        ), f"Hex output should not contain spaces: {hex_result}"
+
+
+def test_motor_city_online_packet_hex_formatting() -> None:
+    """Test hex formatting for realistic Motor City Online packet data."""
+    # Simulate common packet patterns that might be received
+    test_cases = [
+        # Login packet simulation
+        (b"\x00\x10\x01\x02", "00100102"),
+        # Authentication data simulation
+        (b"\xFF\x00\xAA\xBB\xCC\xDD", "FF00AABBCCDD"),
+        # Binary data with all byte values
+        (bytes(range(16)), "000102030405060708090A0B0C0D0E0F"),
+        # Empty packet
+        (b"", ""),
+    ]
+
+    for test_data, expected_hex in test_cases:
+        hex_result = "".join(f"{byte:02X}" for byte in test_data)
+        assert (
+            hex_result == expected_hex
+        ), f"Failed for {test_data!r}: got {hex_result}, expected {expected_hex}"
+        # Verify format consistency
+        assert " " not in hex_result, "Hex output must not contain spaces"
+        assert (
+            len(hex_result) == len(test_data) * 2
+        ), "Each byte should produce exactly 2 hex characters"

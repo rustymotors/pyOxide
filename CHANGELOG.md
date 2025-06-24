@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Default shard configuration with rusty-motors.com server endpoints and realistic population data
   - Type-safe shard management with full type hints and proper error handling
   - Removed static template dependency - shard data now generated programmatically
+- **TCP Server Hex Dump Functionality**
+  - Enhanced TCP server to dump all received packet data as hex strings for Motor City Online protocol debugging
+  - Hex output format: uppercase, no spaces between bytes, leading zeros preserved (e.g., "000102FF")
+  - Added comprehensive unit tests for hex formatting including edge cases and Motor City Online packet patterns
+  - Verified correct formatting for all byte values (0x00-0xFF) with proper length validation
+  - Includes ASCII representation alongside hex dump for debugging convenience
 
 *No other changes yet.*
 

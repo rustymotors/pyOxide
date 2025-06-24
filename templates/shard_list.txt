@@ -1,0 +1,47 @@
+[Motor City Main]
+Description=Primary Motor City Online server
+ShardId=1
+LoginServerIP=127.0.0.1
+LoginServerPort=8226
+LobbyServerIP=127.0.0.1
+LobbyServerPort=7003
+MCOTSServerIP=127.0.0.1
+StatusId=1
+Status_Reason=Online
+ServerGroup_Name=Production
+Population=150
+MaxPersonasPerUser=5
+DiagnosticServerHost=127.0.0.1
+DiagnosticServerPort=9000
+
+[Motor City Test]
+Description=Test server for Motor City Online
+ShardId=2
+LoginServerIP=127.0.0.1
+LoginServerPort=8227
+LobbyServerIP=127.0.0.1
+LobbyServerPort=7004
+MCOTSServerIP=127.0.0.1
+StatusId=1
+Status_Reason=Online
+ServerGroup_Name=Testing
+Population=25
+MaxPersonasPerUser=10
+DiagnosticServerHost=127.0.0.1
+DiagnosticServerPort=9001
+
+[Motor City Dev]
+Description=Development server for Motor City Online
+ShardId=3
+LoginServerIP=127.0.0.1
+LoginServerPort=8228
+LobbyServerIP=127.0.0.1
+LobbyServerPort=7005
+MCOTSServerIP=127.0.0.1
+StatusId=2
+Status_Reason=Maintenance
+ServerGroup_Name=Development
+Population=0
+MaxPersonasPerUser=20
+DiagnosticServerHost=127.0.0.1
+DiagnosticServerPort=9002

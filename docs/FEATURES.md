@@ -24,7 +24,8 @@ pyOxide is a modern Python HTTP server with embedded Django integration, featuri
 
 ### 1. Server Management (`src/server_manager.py`)
 - **HTTP Server**: Manages HTTP server lifecycle on port 3000
-- **TCP Server**: Manages TCP server lifecycle on port 8226
+- **TCP Server**: Manages TCP server lifecycle on ports 8226, 8228, 7003, 43300
+- **Protocol Debugging**: Hex dump all received TCP data for Motor City Online protocol analysis
 - **Status Tracking**: Real-time server status monitoring
 - **Auto-Start**: Servers start automatically on application launch
 
@@ -700,3 +701,20 @@ DiagnosticServerPort=80
 - `update_shard_status(shard_id, status_id, reason)` - Update server status
 - `get_online_shards()` - Get all available shards
 - `get_total_population()` - Get total player count
+
+## TCP Protocol Debugging System
+- **Purpose**: Debug Motor City Online client-server communication protocols
+- **TCP Ports**: 8226 (login), 8228, 7003 (lobby), 43300 (custom)
+- **Hex Dump Format**: Uppercase hex, no spaces, leading zeros preserved
+- **Output Example**: `b"\x00\x01\xFF"` → `"0001FF"`
+- **Client Tracking**: Individual connection handling with address logging
+- **Data Echo**: Received data echoed back to client for testing
+- **ASCII View**: Printable ASCII characters shown alongside hex for readability
+
+**Console Output Format:**
+```
+[TCP:8226] Client 192.168.1.100:54321 connected
+[TCP:8226] RX from 192.168.1.100:54321 (4 bytes): 0001FF00
+[TCP:8226] ASCII: ...
+[TCP:8226] TX to 192.168.1.100:54321 (4 bytes): 0001FF00
+```

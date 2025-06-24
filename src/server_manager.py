@@ -22,7 +22,7 @@ import socket
 import threading
 import time
 from http.server import HTTPServer
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 from .http_handler import PyOxideHTTPHandler
 
@@ -68,10 +68,15 @@ class ServerManager:
                     client_socket, address = server_socket.accept()
                     print(f"TCP connection from {address} on port {port}")
 
-                    # Send a welcome message
-                    message = f"Welcome to TCP server on port {port}!\n"
-                    client_socket.send(message.encode())
-                    client_socket.close()
+                    # Handle client in a separate thread
+                    client_thread = threading.Thread(
+                        target=self._handle_tcp_client,
+                        args=(client_socket, address, port),
+                        daemon=True,
+                        name=f"TCP-Client-{address[0]}:{address[1]}-{port}",
+                    )
+                    client_thread.start()
+
                 except socket.timeout:
                     continue
                 except Exception as e:
@@ -80,6 +85,66 @@ class ServerManager:
                     break
         except Exception as e:
             print(f"Failed to start TCP server on port {port}: {e}")
+
+    def _handle_tcp_client(
+        self, client_socket: socket.socket, address: Tuple[str, int], port: int
+    ) -> None:
+        """Handle individual TCP client connections with hex data dumping."""
+        try:
+            client_socket.settimeout(30.0)  # 30 second timeout for client operations
+            print(f"[TCP:{port}] Client {address[0]}:{address[1]} connected")
+
+            while self.running:
+                try:
+                    # Receive data from client
+                    data = client_socket.recv(4096)
+
+                    if not data:
+                        print(
+                            f"[TCP:{port}] Client {address[0]}:{address[1]} "
+                            f"disconnected"
+                        )
+                        break
+
+                    # Convert data to hex string with leading zeros (no spaces)
+                    hex_data = "".join(f"{byte:02X}" for byte in data)
+
+                    # Print hex dump with metadata
+                    print(
+                        f"[TCP:{port}] RX from {address[0]}:{address[1]} "
+                        f"({len(data)} bytes): {hex_data}"
+                    )
+
+                    # For debugging, also show as ASCII (printable chars only)
+                    ascii_data = "".join(
+                        chr(b) if 32 <= b <= 126 else "." for b in data
+                    )
+                    print(f"[TCP:{port}] ASCII: {ascii_data}")
+
+                    # Echo the data back to client (for testing)
+                    client_socket.send(data)
+                    print(
+                        f"[TCP:{port}] TX to {address[0]}:{address[1]} "
+                        f"({len(data)} bytes): {hex_data}"
+                    )
+
+                except socket.timeout:
+                    # Client timeout - check if server is still running
+                    continue
+                except Exception as e:
+                    print(f"[TCP:{port}] Client {address[0]}:{address[1]} error: {e}")
+                    break
+
+        except Exception as e:
+            print(f"[TCP:{port}] Client handler error: {e}")
+        finally:
+            try:
+                client_socket.close()
+                print(
+                    f"[TCP:{port}] Client {address[0]}:{address[1]} connection closed"
+                )
+            except Exception:
+                pass
 
     def start_servers(self) -> bool:
         """Start all servers in separate threads."""
