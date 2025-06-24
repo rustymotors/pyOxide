@@ -47,7 +47,7 @@ jobs:
         from datetime import datetime
 
         try:
-            tree = ET.parse('coverage.xml')
+            tree = ET.parse('reports/coverage.xml')
             root = tree.getroot()
             line_rate = float(root.get('line-rate', 0))
             branch_rate = float(root.get('branch-rate', 0))
@@ -62,8 +62,8 @@ jobs:
                 'status': 'excellent' if line_rate >= 0.9 else 'good' if line_rate >= 0.75 else 'fair' if line_rate >= 0.5 else 'poor',
                 'python_version': '${{ matrix.python-version }}',
                 'reports': {
-                    'html': 'htmlcov/index.html',
-                    'xml': 'coverage.xml'
+                    'html': 'reports/htmlcov/index.html',
+                    'xml': 'reports/coverage.xml'
                 }
             }
 
@@ -93,7 +93,7 @@ jobs:
       if: always()
       with:
         name: coverage-html-${{ matrix.python-version }}
-        path: htmlcov/
+        path: reports/htmlcov/
         retention-days: 30
 
     - name: Upload XML coverage report

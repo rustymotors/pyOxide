@@ -55,7 +55,7 @@ jobs:
     - name: Create Pages content
       run: |
         mkdir -p public
-        cp -r htmlcov/* public/
+        cp -r reports/htmlcov/* public/
 
         # Create index page with project info
         cat > public/index.html << 'EOF'
@@ -171,8 +171,8 @@ jobs:
         EOF
 
         # Copy the original coverage report as the detailed view
-        if [ -f htmlcov/index.html ]; then
-            cp htmlcov/index.html public/coverage.html
+        if [ -f reports/htmlcov/index.html ]; then
+            cp reports/htmlcov/index.html public/coverage.html
             # Update the main index to link to coverage.html instead
             sed -i 's|href="./index.html"|href="./coverage.html"|g' public/index.html
         fi

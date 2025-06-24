@@ -151,7 +151,7 @@ jobs:
       if: always()
       with:
         name: coverage-html-python${{ matrix.python-version }}
-        path: htmlcov/
+        path: reports/htmlcov/
         retention-days: 30
 
     - name: Upload XML coverage report
