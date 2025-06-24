@@ -3,23 +3,17 @@
 Test script for AuthUsers model functionality.
 Tests user creation, password hashing, and authentication.
 """
-import os
 import sys
-from typing import Any
 from uuid import uuid4
 
+import pytest
+
 sys.path.insert(0, "src")
-
-# Setup Django before any imports
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "src.django_app.settings")
-
-import django
-
-django.setup()
 
 from src.django_app.pyoxide_admin.models import AuthUsers
 
 
+@pytest.mark.django_db(transaction=True)
 def test_auth_users() -> None:
     """Test AuthUsers model functionality."""
     print("🧪 Testing AuthUsers model...")

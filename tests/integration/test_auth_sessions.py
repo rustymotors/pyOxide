@@ -15,19 +15,12 @@
 
 """Tests for AuthSessions model."""
 
-import os
 from datetime import timedelta
+from typing import TYPE_CHECKING
 from uuid import uuid4
 
-import django
 import pytest
 from django.utils import timezone
-
-# Setup Django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "src.django_app.settings")
-django.setup()
-
-from typing import TYPE_CHECKING
 
 from src.django_app.pyoxide_admin.models import AuthSessions, AuthUsers
 
@@ -35,7 +28,10 @@ if TYPE_CHECKING:
     pass  # Can add type imports here if needed
 
 
-class TestAuthSessions:
+@pytest.mark.django_db
+class TestAuthSessionsModel:
+    """Test suite for AuthSessions model."""
+
     """Test suite for AuthSessions model."""
 
     @pytest.fixture

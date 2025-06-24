@@ -88,7 +88,7 @@ class AuthUsersAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         "last_login",
     )
 
-    def get_readonly_fields(self, request: Any, obj: Any = None) -> tuple[str, ...]:
+    def get_readonly_fields(self, request: Any, obj: Any = None) -> Any:
         """Make password_hash always readonly - use set_password method instead."""
         if obj:  # Editing existing user
             return self.readonly_fields
