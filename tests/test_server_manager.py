@@ -126,11 +126,11 @@ def test_hex_data_formatting() -> None:
     test_cases = [
         (b"\x00", "00"),
         (b"\x01\x02\x03", "010203"),
-        (b"\xFF\xFE\xFD", "FFFEFD"),
-        (b"\x0A\x0B\x0C\x0D", "0A0B0C0D"),
+        (b"\xff\xfe\xfd", "FFFEFD"),
+        (b"\x0a\x0b\x0c\x0d", "0A0B0C0D"),
         (b"Hello", "48656C6C6F"),  # ASCII "Hello"
         (
-            b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F",
+            b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f",
             "000102030405060708090A0B0C0D0E0F",
         ),
     ]
@@ -149,8 +149,8 @@ def test_hex_data_formatting_with_leading_zeros() -> None:
     test_cases = [
         (b"\x00", "00"),  # Zero should be "00", not "0"
         (b"\x01", "01"),  # One should be "01", not "1"
-        (b"\x0F", "0F"),  # Fifteen should be "0F", not "F"
-        (b"\x00\x0A\x01\x0B", "000A010B"),  # Mix of single and double digit hex
+        (b"\x0f", "0F"),  # Fifteen should be "0F", not "F"
+        (b"\x00\x0a\x01\x0b", "000A010B"),  # Mix of single and double digit hex
     ]
 
     for test_data, expected_hex in test_cases:
@@ -171,7 +171,7 @@ def test_motor_city_online_packet_hex_formatting() -> None:
         # Login packet simulation
         (b"\x00\x10\x01\x02", "00100102"),
         # Authentication data simulation
-        (b"\xFF\x00\xAA\xBB\xCC\xDD", "FF00AABBCCDD"),
+        (b"\xff\x00\xaa\xbb\xcc\xdd", "FF00AABBCCDD"),
         # Binary data with all byte values
         (bytes(range(16)), "000102030405060708090A0B0C0D0E0F"),
         # Empty packet
