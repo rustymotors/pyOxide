@@ -81,7 +81,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated all GitHub Actions workflows to properly set PYTHONPATH environment variable
   - Fixed test execution in CI environments by ensuring Python can find the `src` module
   - Resolved import path issues in ci-cd.yml, test-coverage.yml, and publish-coverage.yml
-  - All CI/CD workflows now run successfully with proper module discovery
+  - Fixed coverage artifact paths in all workflows to use `reports/htmlcov/` and `reports/coverage.xml`
+  - Fixed coverage publishing workflow failures due to path mismatches after project reorganization
+  - Removed `reports/` directory from version control (contains generated files like coverage reports)
+  - Updated .gitignore to ignore entire `reports/` directory instead of individual files
+  - All CI/CD workflows now run successfully with proper module discovery and coverage reporting
 
 ### Enhanced
 - **Django Models Enhancement**
