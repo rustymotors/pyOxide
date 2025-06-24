@@ -46,7 +46,14 @@ Interactive CLI with commands:
 - **Static File Serving**: CSS, JavaScript, and image assets
 - **JSON API**: RESTful endpoints for status and data
 
-### 4. Django Integration (`src/django_integration.py`)
+### 4. Shard Management (`src/shard_manager.py`)
+- **Shard Class**: Dataclass with all Motor City Online required fields
+- **ShardManager**: Dynamic shard management with add/remove/update operations
+- **INI Format Output**: Proper Motor City Online format with exact field names
+- **Real-time Updates**: Population, status, and configuration changes
+- **Type Safety**: Full type hints and validation
+
+### 5. Django Integration (`src/django_integration.py`)
 - **WSGI Application**: Embedded Django app
 - **Admin Interface**: Full Django admin at `/admin/`
 - **Custom Models**: Authentication, configuration, and logging
@@ -67,6 +74,7 @@ Interactive CLI with commands:
 | `/health` | GET | Health check endpoint | JSON |
 | `/api/info` | GET | API information and capabilities | JSON |
 | `/AuthLogin` | GET | Authentication login (query params) | Plain Text |
+| `/ShardList/` | GET | **Motor City Online game shard list** | Plain Text (INI) |
 | `/api/echo` | POST | Echo back JSON data | JSON |
 
 ### Django Routes (Embedded)
@@ -656,3 +664,39 @@ pyOxide/
 - **Data**: `data/` - Database and configuration files
 - **Reports**: `reports/` - Generated coverage and security reports
 - **Templates**: `templates/` - Jinja2 HTML templates
+
+---
+
+## Motor City Online Shard System
+- **Endpoint**: `/ShardList/` (case-sensitive, trailing slash required)
+- **Method**: GET
+- **Response Format**: Plain text in Motor City Online INI format
+- **Purpose**: Game client shard discovery and server selection
+- **Real-time Generation**: Shard data generated dynamically via ShardManager
+
+**Shard Data Structure:**
+```ini
+[Shard Name]
+Description=Server description
+ShardId=1
+LoginServerIP=rusty-motors.com
+LoginServerPort=8226
+LobbyServerIP=rusty-motors.com
+LobbyServerPort=7003
+MCOTSServerIP=rusty-motors.com
+StatusId=0
+Status_Reason=
+ServerGroup_Name=Group-1
+Population=150
+MaxPersonasPerUser=5
+DiagnosticServerHost=rusty-motors.com
+DiagnosticServerPort=80
+```
+
+**ShardManager Operations:**
+- `add_shard(shard)` - Add new shard
+- `remove_shard(shard_id)` - Remove shard by ID
+- `update_shard_population(shard_id, population)` - Update player count
+- `update_shard_status(shard_id, status_id, reason)` - Update server status
+- `get_online_shards()` - Get all available shards
+- `get_total_population()` - Get total player count

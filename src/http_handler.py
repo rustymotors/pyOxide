@@ -29,6 +29,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from ._version import __version__
 from .django_integration import DjangoWSGIIntegration
+from .shard_manager import ShardManager
 
 
 class PyOxideHTTPHandler(BaseHTTPRequestHandler):
@@ -53,6 +54,9 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             print(f"Warning: Django integration failed: {e}")
             self.django_integration = None
 
+        # Initialize shard manager
+        self.shard_manager = ShardManager()
+
         # Define route mappings
         self.get_routes: Dict[str, Callable[[], None]] = {
             "/": self.route_home,
@@ -62,6 +66,7 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             "/AuthLogin": self.route_auth_login,
             "/test": self.route_test_pages,
             "/license": self.route_license,
+            "/ShardList/": self.route_shard_list,
         }
 
         self.post_routes: Dict[str, Callable[[], None]] = {
@@ -155,6 +160,11 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
                 "method": "GET",
                 "path": "/AuthLogin",
                 "description": "Authentication login page",
+            },
+            {
+                "method": "GET",
+                "path": "/ShardList/",
+                "description": "🎮 Game shard list (plaintext)",
             },
             {
                 "method": "GET",
@@ -351,6 +361,11 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         html_content = template.render()
         self._send_html_response(html_content)
 
+    def route_shard_list(self) -> None:
+        """Handle shard list route (GET /ShardList/) - Game shard list in plaintext."""
+        shard_content = self.shard_manager.generate_shard_list()
+        self._send_plaintext_response(shard_content)
+
     def route_not_found(self) -> None:
         """Handle 404 not found route."""
         template = self.jinja_env.get_template("404.html")
@@ -432,3 +447,11 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
     def version_string(self) -> str:
         """Return server version string."""
         return "pyOxide/0.1.0"
+
+    def _send_plaintext_response(self, content: str, status_code: int = 200) -> None:
+        """Send plaintext response."""
+        self.send_response(status_code)
+        self.send_header("Content-type", "text/plain")
+        self.send_header("Content-length", str(len(content.encode())))
+        self.end_headers()
+        self.wfile.write(content.encode())

@@ -7,7 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-*No changes yet.*
+### Added
+- **Motor City Online Shard Management System**
+  - Added `/ShardList/` endpoint (case-sensitive, trailing slash required) for game client shard discovery
+  - Created `Shard` dataclass with all Motor City Online required fields (name, description, id, server IPs/ports, status, population, etc.)
+  - Implemented `ShardManager` class for dynamic shard management with methods to add, remove, and update shards
+  - Added proper Motor City Online INI format output with exact field names and case inconsistencies as required by game client
+  - Integrated shard manager into HTTP handler for real-time shard list generation
+  - Default shard configuration with rusty-motors.com server endpoints and realistic population data
+  - Type-safe shard management with full type hints and proper error handling
+  - Removed static template dependency - shard data now generated programmatically
+
+*No other changes yet.*
 
 ## [0.3.0] - 2025-06-23
 
