@@ -28,6 +28,16 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 ```
 
+## 🔒 Development Workflow Notice
+
+**⚠️ Important**: This project uses **GitHub Flow** with branch protection (effective June 24, 2025):
+- No direct commits to `main` branch
+- All changes require feature branches and Pull Requests
+- CI checks must pass before merge
+- Code review required
+
+**For contributors**: See [WORKFLOW_NOTICE.md](WORKFLOW_NOTICE.md) and [docs/development/DEVELOPMENT.md](docs/development/DEVELOPMENT.md) for full workflow details.
+
 2. **Run the application:**
 ```bash
 python -m src.main
