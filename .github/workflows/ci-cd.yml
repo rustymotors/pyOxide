@@ -194,20 +194,6 @@ jobs:
       run: |
         hatch run coverage-report
 
-    - name: Comment coverage on PR
-      if: github.event_name == 'pull_request' && hashFiles('coverage.xml') != '' && hashFiles('pytest-results.xml') != ''
-      uses: MishaKav/pytest-coverage-comment@main
-      with:
-        pytest-xml-coverage-path: ./coverage.xml
-        junitxml-path: ./pytest-results.xml
-        title: "📊 Coverage Report"
-        badge-title: "Coverage"
-        hide-badge: false
-        hide-report: false
-        create-new-comment: false
-        hide-comment: false
-        report-only-changed-files: true
-
   # Job 4: Build Summary
   build-summary:
     name: Build Summary
