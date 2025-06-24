@@ -27,6 +27,7 @@ Implement a comprehensive TCP packet parser to support two distinct custom binar
 - Add packet validation and checksum verification
 - Create packet builder utilities for testing
 - Document packet formats with clear specifications
+- **Use protocol specification template**: Fill out `docs/PROTOCOL_SPEC_TEMPLATE.md` for each protocol
 
 ### Files to Create/Modify
 - `src/packet_parser.py` - Main parser implementation

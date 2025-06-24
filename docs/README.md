@@ -13,6 +13,10 @@ Welcome to the pyOxide documentation. This directory contains comprehensive guid
 - **[Testing Guide](development/TESTING.md)** - Comprehensive testing documentation and best practices
 - **[Publishing Guide](development/ORG_PUBLISHING_GUIDE.md)** - Organization and publishing workflows
 
+## 📋 Templates and Specifications
+
+- **[Protocol Specification Template](PROTOCOL_SPEC_TEMPLATE.md)** - Template for documenting binary protocol packet structures
+
 ## 📁 Documentation Organization
 
 ```
@@ -20,6 +24,7 @@ docs/
 ├── README.md                     # This file - documentation index
 ├── FEATURES.md                   # User-facing feature documentation
 ├── QUICK_REFERENCE.md           # Quick reference for users
+├── PROTOCOL_SPEC_TEMPLATE.md    # Template for protocol specifications
 └── development/                  # Developer-focused documentation
     ├── DEVELOPMENT.md           # Development setup and workflow
     ├── TESTING.md              # Testing guides and best practices
