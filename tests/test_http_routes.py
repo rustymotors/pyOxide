@@ -98,7 +98,7 @@ class TestHTTPRoutes:
 
         api_info = self.get_response_json()
         assert api_info["name"] == "pyOxide API"
-        assert api_info["version"] == "0.1.0"
+        assert api_info["version"] == __version__
         assert api_info["description"] == "Modern Python project API"
         assert "features" in api_info
         assert len(api_info["features"]) == 4

@@ -632,7 +632,7 @@ class NPSPacketParser:
         long_sequences = re.findall(r"[0-9A-F]{32,}", hex_str)
 
         for i, seq in enumerate(long_sequences):
-            patterns[f"hex_sequence_{i+1}"] = seq
+            patterns[f"hex_sequence_{i + 1}"] = seq
 
         return patterns
 

@@ -2,6 +2,7 @@
 
 from unittest.mock import patch
 
+from src._version import __version__
 from src.http_handler import PyOxideHTTPHandler
 
 
@@ -11,7 +12,7 @@ def test_version_string() -> None:
     with patch.object(PyOxideHTTPHandler, "__init__", return_value=None):
         handler = PyOxideHTTPHandler.__new__(PyOxideHTTPHandler)
         version = handler.version_string()
-        assert "pyOxide/0.1.0" == version
+        assert f"pyOxide/{__version__}" == version
 
 
 def test_http_handler_class_exists() -> None:
