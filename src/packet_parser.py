@@ -221,9 +221,10 @@ class NPSPacketParser:
             ):
                 payload = packet_bytes[payload_start : payload_start + payload_length]
             else:
-                payload = (
-                    packet_bytes[payload_start:-4] if len(packet_bytes) > 16 else b""
-                )
+                # For packets without proper length or short packets, extract
+                # everything except checksum
+                payload_end = -4 if len(packet_bytes) > 16 else len(packet_bytes)
+                payload = packet_bytes[payload_start:payload_end]
 
             # Extract checksum (last 4 bytes)
             checksum = None
@@ -264,7 +265,10 @@ class NPSPacketParser:
 
                 # Check if this looks like v1 format
                 # Version should be 0x0101 and length should match length_checksum
-                if version == 0x0101 and length == length_checksum:
+                has_correct_version = version == 0x0101
+                lengths_match = length == length_checksum
+
+                if has_correct_version and lengths_match:
                     return NPSPacketHeader(
                         format_version="v1",
                         msg_id=msg_id,
@@ -275,7 +279,7 @@ class NPSPacketParser:
                     )
 
                 # If version is 0x0101 but lengths don't match, still might be v1
-                elif version == 0x0101:
+                elif has_correct_version:
                     self.logger.warning(
                         f"v1 format detected but length mismatch: "
                         f"{length} != {length_checksum}"

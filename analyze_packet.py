@@ -206,8 +206,6 @@ Examples:
     group.add_argument('-f', '--file', help='File containing hex data')
     group.add_argument('--sample', action='store_true', help='Use sample packet for testing')
 
-    parser.add_argument('--json', action='store_true', help='Output in JSON format')
-
     args = parser.parse_args()
 
     if args.sample:
