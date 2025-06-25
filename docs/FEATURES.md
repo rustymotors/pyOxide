@@ -29,6 +29,16 @@ pyOxide is a modern Python HTTP server with embedded Django integration, featuri
 - **Status Tracking**: Real-time server status monitoring
 - **Auto-Start**: Servers start automatically on application launch
 
+### 2. NPS Packet Analysis (`src/packet_parser.py`)
+- **Packet Parsing**: Parse Network Protocol Server packets from hex data
+- **Header Analysis**: Extract magic number, message type, flags, sequence, and length
+- **Message Type Recognition**: Support for LOGIN_REQUEST, LOGIN_RESPONSE, HEARTBEAT, etc.
+- **Payload Analysis**: String extraction and hex pattern recognition from packet payloads
+- **CLI Tool**: Interactive command-line packet analysis tool (`analyze_packet.py`)
+- **Checksum Validation**: Extract and verify packet checksums
+- **Large Packet Support**: Handle packets of varying sizes efficiently
+- **Error Handling**: Robust parsing with graceful handling of malformed packets
+
 ### 2. Command Handler (`src/command_handler.py`)
 Interactive CLI with commands:
 - `help` - Show available commands
@@ -241,6 +251,21 @@ All templates extend `base.html` for consistent styling:
 ---
 
 ## CLI Commands
+
+### NPS Packet Analysis
+```bash
+# Analyze packet from hex string
+python analyze_packet.py -s "0501014401010000..."
+
+# Analyze packet from file
+python analyze_packet.py -f packet_data.txt
+
+# Analyze built-in sample packet
+python analyze_packet.py --sample
+
+# Output analysis in JSON format
+python analyze_packet.py --sample --json
+```
 
 ### Interactive Commands
 Available through the command handler:

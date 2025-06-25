@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **NPS Packet Analysis System**
+  - Added `NPSPacketParser` class for parsing Network Protocol Server packets received on port 8226
+  - Created structured packet format with header parsing (magic number, message type, flags, sequence, length)
+  - Implemented payload analysis with string extraction and hex pattern recognition
+  - Added support for multiple message types (LOGIN_REQUEST, LOGIN_RESPONSE, HEARTBEAT, etc.)
+  - Created command-line tool `analyze_packet.py` for interactive packet analysis
+  - Added comprehensive test suite with 100% test coverage for packet parsing functionality
+  - Created detailed documentation in `docs/PACKET_ANALYSIS.md` with packet structure and usage examples
+  - Integrated GPL v3.0 license headers in all new packet analysis modules
 - **Motor City Online Shard Management System**
   - Added `/ShardList/` endpoint (case-sensitive, trailing slash required) for game client shard discovery
   - Created `Shard` dataclass with all Motor City Online required fields (name, description, id, server IPs/ports, status, population, etc.)
