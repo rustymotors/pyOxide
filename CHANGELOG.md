@@ -7,7 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+*No changes yet.*
+
+## [0.4.0] - 2025-06-25
+
 ### Added
+- **Session Key Decryption System**: Complete implementation of RSA session key decryption for NPS LOGIN_REQUEST packets
+  - RSA private key loading and management in `src/session_key_decryptor.py`
+  - Support for both OAEP and PKCS1v15 padding schemes
+  - Automatic session key extraction from parsed packet data
+  - Session key validation and entropy checking
+  - Integration with existing NPS packet parser
+  - Comprehensive test suite with real packet data validation
+- **Enhanced Packet Analysis**: Session key data is now extracted and labeled in packet parser output
+- **Protocol Compliance**: Full support for Motor City Online session key encryption protocol
 - **NPS Packet Analysis System**
   - Added `NPSPacketParser` class for parsing Network Protocol Server packets received on port 8226
   - Created structured packet format with header parsing (magic number, message type, flags, sequence, length)

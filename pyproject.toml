@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "pyoxide"
-version = "0.2.0"
+dynamic = ["version"]
 description = "A Python project created with pyOxide"
 authors = [
     {name = "rustymotors", email = "rustymotors@github.com"},
@@ -27,6 +27,7 @@ dependencies = [
     "django>=4.2",
     "jinja2>=3.1",
     "requests>=2.28",
+    "cryptography>=3.4",
 ]
 
 [project.optional-dependencies]
@@ -53,8 +54,11 @@ Issues = "https://github.com/rustymotors/pyoxide/issues"
 [project.scripts]
 pyoxide = "src.main:main"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.hatch.version]
+path = "src/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
 
 [tool.black]
 line-length = 88
@@ -186,6 +190,7 @@ dependencies = [
     "types-requests>=2.28",
     "pre-commit>=3.0",
     "bandit[toml]>=1.7",
+    "autopep8>=2.0",
 ]
 
 [tool.hatch.envs.default.scripts]
@@ -202,6 +207,11 @@ format = [
 format-check = [
     "python -m isort --check-only src tests",
     "python -m black --check src tests",
+]
+fix = [
+    "python -m autopep8 --in-place --aggressive --aggressive --max-line-length=88 --recursive src tests",
+    "python -m isort src tests",
+    "python -m black src tests",
 ]
 lint = "python -m flake8 src tests"
 type-check = "python -m mypy src"

@@ -203,7 +203,7 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
             "server": "pyOxide HTTP Server",
             "status": "running",
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "version": "0.1.0",
+            "version": __version__,
             "endpoints": [
                 {"method": "GET", "path": "/", "description": "Main page"},
                 {"method": "GET", "path": "/status", "description": "Server status"},
@@ -240,7 +240,7 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
         """Handle API info route (/api/info)."""
         api_info: Dict[str, Any] = {
             "name": "pyOxide API",
-            "version": "0.1.0",
+            "version": __version__,
             "description": "Modern Python project API",
             "features": [
                 "HTTP server management",
@@ -446,7 +446,7 @@ class PyOxideHTTPHandler(BaseHTTPRequestHandler):
 
     def version_string(self) -> str:
         """Return server version string."""
-        return "pyOxide/0.1.0"
+        return f"pyOxide/{__version__}"
 
     def _send_plaintext_response(self, content: str, status_code: int = 200) -> None:
         """Send plaintext response."""
