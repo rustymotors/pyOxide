@@ -216,8 +216,8 @@ class SessionKeyDecryptor:
                     if len(decrypted) >= 2 + session_key_length:
                         session_key = decrypted[2 : 2 + session_key_length]
                         self.logger.info(
-                            f"Extracted {
-                                len(session_key)} byte session key (no expiration)"
+                            f"Extracted {len(session_key)} byte session key "
+                            "(no expiration)"
                         )
                         return session_key
                     else:
@@ -345,8 +345,8 @@ class SessionKeyDecryptor:
 
                     if len(full_data) != 256:
                         self.logger.error(
-                            f"Expected 256 bytes after hex conversion, got {
-                                len(full_data)}"
+                            f"Expected 256 bytes after hex conversion, got "
+                            f"{len(full_data)}"
                         )
                         return None
 
@@ -422,8 +422,7 @@ class SessionKeyDecryptor:
 
                         if len(encrypted_data) == 128:
                             self.logger.info(
-                                f"Found potential Field2 at offset {
-                                    i // 2}"
+                                f"Found potential Field2 at offset {i // 2}"
                             )
                             self.logger.debug(f"Field2 hex: {potential_field2}")
 
@@ -480,8 +479,8 @@ class SessionKeyDecryptor:
             encrypted_session_key = packet_payload[session_key_start:session_key_end]
 
             self.logger.info(
-                f"Extracted encrypted session key from container ({
-                    len(encrypted_session_key)} bytes)"
+                f"Extracted encrypted session key from container "
+                f"({len(encrypted_session_key)} bytes)"
             )
 
             # If this is exactly 128 bytes, try direct decryption
@@ -527,8 +526,8 @@ class SessionKeyDecryptor:
         # Basic validation - MCO session keys should be 16-32 bytes (flexible range)
         if len(session_key) < 16 or len(session_key) > 32:
             self.logger.warning(
-                f"Session key length {
-                    len(session_key)} outside expected range 16-32 bytes"
+                f"Session key length {len(session_key)} outside expected range "
+                "16-32 bytes"
             )
             return False
 
