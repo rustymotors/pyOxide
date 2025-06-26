@@ -134,8 +134,8 @@ class SessionKeyDecryptor:
                     )
 
                     self.logger.info(
-                        f"Successfully decrypted with PKCS1v15 padding ({
-                            len(decrypted)} bytes)"
+                        f"Successfully decrypted with PKCS1v15 padding "
+                        f"({len(decrypted)} bytes)"
                     )
                     return self._parse_decrypted_session_key(decrypted)
 
